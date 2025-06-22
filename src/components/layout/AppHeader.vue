@@ -3,18 +3,12 @@
   <header class="header">
     <!-- Контейнер навигации с зеленым фоном -->
     <div class="nav-container">
-      <!-- Логотип и название -->
+      <!-- Логотип в левом углу -->
       <div class="logo-section">
-        <!-- Повернутый квадрат с розовым фоном -->
-        <div class="logo-square"></div>
-        <!-- Название организации -->
-        <h1 class="logo-text">Открытые<br/>Перспективы</h1>
+        <LogoOPIcon class="logo-icon" />
       </div>
       
-      <!-- Пустое пространство для баланса -->
-      <div class="spacer"></div>
-      
-      <!-- Навигационное меню -->
+      <!-- Навигационное меню по центру -->
       <nav class="nav-menu">
         <a href="#contacts" class="nav-link">Контакты</a>
         <a href="#projects" class="nav-link">Проекты</a>
@@ -26,7 +20,19 @@
       <!-- Поисковая строка -->
       <div class="search-container">
         <div class="search-input">
-          <span class="search-placeholder">Поиск</span>
+          <input 
+            type="text" 
+            class="search-field" 
+            placeholder="Поиск"
+            @focus="onSearchFocus"
+            @blur="onSearchBlur"
+            v-model="searchQuery"
+          />
+          <button class="search-button" @click="performSearch">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -34,9 +40,35 @@
 </template>
 
 <script>
+import LogoOPIcon from '@/components/icons/LogoOPIcon.vue'
+
 export default {
   name: 'AppHeader',
-  // Компонент не требует дополнительной логики
+  components: {
+    LogoOPIcon
+  },
+  data() {
+    return {
+      searchQuery: '',
+      isSearchFocused: false
+    }
+  },
+  methods: {
+    onSearchFocus() {
+      this.isSearchFocused = true
+    },
+    onSearchBlur() {
+      this.isSearchFocused = false
+    },
+    performSearch() {
+      if (this.searchQuery.trim()) {
+        // Здесь можно добавить логику поиска
+        console.log('Поиск:', this.searchQuery)
+        // Например, эмит события для родительского компонента
+        this.$emit('search', this.searchQuery)
+      }
+    }
+  }
 }
 </script>
 
@@ -50,45 +82,39 @@ export default {
 
 .nav-container {
   // Основной контейнер навигации
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 2.25rem; // space-x-9
-  padding: 0 7rem 0.75rem 7rem; // px-28 py-3
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 0 3rem 0.75rem 3rem;
   width: $container-width;
   height: $container-height;
   background-color: $primary-green;
 }
 
 .logo-section {
-  // Секция с логотипом и названием
-  display: inline-flex;
-  flex-direction: column;
-  gap: 24rem; // space-y-96
-  align-items: flex-end;
-  justify-content: center;
-  flex: 1;
-  padding-bottom: 0.75rem; // pb-3
+  // Секция с логотипом в левом углу
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
 }
 
-.logo-square {
-  // Повернутый квадрат логотипа
-  transform: rotate(-90deg);
-  width: 5rem; // w-20
-  height: 5rem; // h-20
-  background-color: $primary-pink;
-  opacity: 0.5; // bg-opacity-50
-  border: 4px solid transparent; // border-4
-  border-radius: $border-radius-lg; // rounded-lg
-}
-
-.logo-text {
-  // Текст названия организации
-  width: 8rem; // w-32
-  font-size: $text-xl;
-  font-weight: 500; // font-medium
-  color: $white;
-  line-height: 1.5;
+.logo-icon {
+  // Логотип OP
+  width: 180px;
+  height: auto;
+  max-height: 60px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .spacer {
@@ -101,53 +127,124 @@ export default {
 }
 
 .nav-menu {
-  // Навигационное меню
+  // Навигационное меню по центру
   display: flex;
-  gap: 0.5rem; // space-x-2
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 404px;
-  height: 26px;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0%;
+  min-width: 0;
 }
 
 .nav-link {
   // Ссылки в навигации
-  font-size: $text-base;
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
   line-height: $leading-relaxed;
   color: $white;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: $border-radius-md;
+  transition: all 0.3s ease;
+  position: relative;
+  white-space: nowrap;
   
   &:hover {
-    opacity: 0.8;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: $white;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+  
+  &:hover::after {
+    width: 80%;
   }
 }
 
 .search-container {
   // Контейнер поисковой строки
-  width: 16.666667%; // w-1/6
-  height: 2.5rem; // h-10
+  flex-shrink: 0;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 .search-input {
   // Поле поиска
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  flex: 1;
-  height: 100%;
-  padding: 0.625rem 8rem 0.5rem 1rem; // pt-2.5 pb-2 pl-4 pr-32
-  border: 2px solid $white; // border-2
-  border-radius: $border-radius-full; // rounded-full
+  justify-content: space-between;
+  width: 280px;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: $border-radius-full;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  
+  &:focus-within {
+    border-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  }
 }
 
-.search-placeholder {
-  // Плейсхолдер поиска
-  opacity: $opacity-40;
-  font-size: $text-base;
-  font-weight: 500; // font-medium
-  line-height: $leading-snug;
+.search-field {
+  // Поле ввода поиска
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
   color: $white;
+  font-size: $text-base;
+  font-weight: 500;
+  
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    transition: opacity 0.3s ease;
+  }
+  
+  &:focus::placeholder {
+    opacity: 0;
+  }
+}
+
+.search-button {
+  // Кнопка поиска
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: $border-radius-sm;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    color: $white;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 // Адаптивность для планшетов
@@ -167,6 +264,10 @@ export default {
     width: auto;
     min-width: 200px;
   }
+  
+  .logo-icon {
+    width: 140px;
+  }
 }
 
 // Адаптивность для мобильных устройств
@@ -179,9 +280,9 @@ export default {
   }
   
   .logo-section {
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
+    order: -1; // Перемещаем логотип в начало на мобильных
+    margin-left: 0;
+    margin-bottom: 1rem;
   }
   
   .spacer {
@@ -196,10 +297,16 @@ export default {
   
   .search-container {
     width: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
   }
   
   .search-input {
     width: 100%;
+  }
+  
+  .logo-icon {
+    width: 120px;
   }
 }
 
@@ -209,12 +316,12 @@ export default {
     padding: 0.5rem;
   }
   
-  .logo-text {
-    font-size: $text-lg;
+  .nav-link {
+    font-size: clamp(0.7rem, 4vw, 0.95rem);
   }
   
-  .nav-link {
-    font-size: $text-sm;
+  .logo-icon {
+    width: 100px;
   }
 }
 </style> 

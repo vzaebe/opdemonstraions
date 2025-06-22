@@ -13,90 +13,64 @@
       
       <!-- Сетка логотипов партнеров -->
       <div class="partners-grid">
-        <!-- Партнер 1 - правый нижний -->
-        <div class="partner-card partner-card-1">
+        <!-- Партнер 1 - Akzent -->
+        <div class="partner-card">
           <div class="partner-logo-container">
             <img 
               class="partner-logo" 
-              src="@/assets/images/placeholder.svg"
-              alt="Партнер 1"
+              src="@/assets/images/partners/akzent.svg"
+              alt="Akzent"
             />
           </div>
         </div>
         
-        <!-- Партнер 2 - центр нижний -->
-        <div class="partner-card partner-card-2">
+        <!-- Партнер 2 - COG -->
+        <div class="partner-card">
           <div class="partner-logo-container">
             <img 
               class="partner-logo" 
-              src="@/assets/images/placeholder.svg"
-              alt="Партнер 2"
+              src="@/assets/images/partners/cog.svg"
+              alt="COG"
             />
           </div>
         </div>
         
-        <!-- Партнер 3 - левый нижний -->
-        <div class="partner-card partner-card-3">
+        <!-- Партнер 3 - МСС (текст) -->
+        <div class="partner-card">
+          <div class="partner-logo-container partner-text-container">
+            <span class="partner-text">МСС</span>
+          </div>
+        </div>
+        
+        <!-- Партнер 4 - ПКБ МГТУ -->
+        <div class="partner-card">
           <div class="partner-logo-container">
             <img 
               class="partner-logo" 
-              src="@/assets/images/placeholder.svg"
-              alt="Партнер 3"
+              src="@/assets/images/partners/pkbmstu.svg"
+              alt="ПКБ МГТУ"
             />
           </div>
         </div>
         
-        <!-- Партнер 4 - левый нижний -->
-        <div class="partner-card partner-card-4">
+        <!-- Партнер 5 - Simtech -->
+        <div class="partner-card">
           <div class="partner-logo-container">
             <img 
               class="partner-logo" 
-              src="@/assets/images/placeholder.svg"
-              alt="Партнер 4"
+              src="@/assets/images/partners/simtech.svg"
+              alt="Simtech"
             />
           </div>
         </div>
         
-        <!-- Партнер 5 - правый верхний -->
-        <div class="partner-card partner-card-5">
+        <!-- Партнер 6 - Techencon -->
+        <div class="partner-card">
           <div class="partner-logo-container">
             <img 
               class="partner-logo" 
-              src="@/assets/images/placeholder.svg"
-              alt="Партнер 5"
-            />
-          </div>
-        </div>
-        
-        <!-- Партнер 6 - центр верхний -->
-        <div class="partner-card partner-card-6">
-          <div class="partner-logo-container">
-            <img 
-              class="partner-logo" 
-              src="@/assets/images/placeholder.svg"
-              alt="Партнер 6"
-            />
-          </div>
-        </div>
-        
-        <!-- Партнер 7 - левый верхний -->
-        <div class="partner-card partner-card-7">
-          <div class="partner-logo-container">
-            <img 
-              class="partner-logo" 
-              src="@/assets/images/placeholder.svg"
-              alt="Партнер 7"
-            />
-          </div>
-        </div>
-        
-        <!-- Партнер 8 - левый верхний -->
-        <div class="partner-card partner-card-8">
-          <div class="partner-logo-container">
-            <img 
-              class="partner-logo" 
-              src="@/assets/images/placeholder.svg"
-              alt="Партнер 8"
+              src="@/assets/images/partners/techencon.svg"
+              alt="Techencon"
             />
           </div>
         </div>
@@ -114,37 +88,37 @@ export default {
 <style lang="scss" scoped>
 .partners-section {
   width: 100%;
-  height: 750px;
+  min-height: 800px;
   background-color: $primary-green;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  padding: 7rem 7rem 6rem 7rem;
-  gap: 3.5rem;
+  justify-content: center;
+  padding: 6rem 2rem;
 }
 
 .partners-container {
   width: 100%;
   max-width: $container-width;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
 }
 
 .partners-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  gap: 1.75rem;
-  width: 702px;
-  height: 137.20px;
-  margin: 0 auto;
+  text-align: center;
+  gap: 2rem;
+  max-width: 800px;
 }
 
 .partners-title {
   font-size: $text-5xl;
   font-weight: 700;
   line-height: $leading-10;
-  text-align: center;
   color: $white;
   margin: 0;
 }
@@ -154,40 +128,39 @@ export default {
   font-size: $text-lg;
   font-weight: 500;
   line-height: $leading-7;
-  text-align: center;
   color: $white;
-  width: 702px;
   margin: 0;
 }
 
 .partners-grid {
-  position: relative;
-  width: 1171px;
-  height: 350px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  width: 100%;
+  max-width: 1000px;
 }
 
 .partner-card {
-  position: absolute;
-  width: 16rem;
-  height: 10rem;
+  width: 100%;
+  height: 160px;
 }
 
 .partner-logo-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  width: 100%;
   height: 100%;
   border: 2px solid $white;
   border-radius: $border-radius;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: rgba(255, 255, 255, 0.1);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
   
   &:hover {
     transform: scale(1.05);
     background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -195,127 +168,96 @@ export default {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
-.partner-card-1 {
-  right: 0;
-  bottom: 0;
-  
-  .partner-logo-container {
-    align-items: flex-start;
-    justify-content: center;
-    padding: 2.75rem 3.5rem 4rem 3rem;
-  }
+.partner-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.partner-card-2 {
-  left: 600px;
-  top: 190px;
-  
-  .partner-logo-container {
-    align-items: center;
-    justify-content: flex-start;
-    padding: 3.5rem 5rem;
-  }
-}
-
-.partner-card-3 {
-  left: 300px;
-  top: 190px;
-  
-  .partner-logo-container {
-    align-items: center;
-    justify-content: flex-end;
-    padding: 4rem 3.5rem 4rem 4rem;
-  }
-}
-
-.partner-card-4 {
-  left: 0;
-  bottom: 0;
-  
-  .partner-logo-container {
-    align-items: center;
-    justify-content: flex-start;
-    padding: 2.5rem 6rem 2.25rem 6rem;
-  }
-}
-
-.partner-card-5 {
-  right: 0;
-  top: 0;
-  
-  .partner-logo-container {
-    align-items: center;
-    justify-content: center;
-    padding: 2.75rem 5rem 3rem 5rem;
-  }
-}
-
-.partner-card-6 {
-  left: 600px;
-  top: 0;
-  
-  .partner-logo-container {
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 2.5rem 3.5rem 3rem;
-  }
-}
-
-.partner-card-7 {
-  left: 300px;
-  top: 0;
-  
-  .partner-logo-container {
-    align-items: center;
-    justify-content: center;
-    padding: 4rem 4rem 3.5rem 4rem;
-  }
-}
-
-.partner-card-8 {
-  left: 0;
-  top: 0;
-  
-  .partner-logo-container {
-    align-items: center;
-    justify-content: center;
-    padding: 3.5rem 5rem;
-  }
+.partner-text {
+  font-size: 3rem;
+  font-weight: 700;
+  color: $white;
+  text-align: center;
+  letter-spacing: 0.1em;
 }
 
 @media (max-width: $breakpoint-lg) {
   .partners-section {
-    height: auto;
-    padding: 4rem 1rem 3rem 1rem;
+    padding: 5rem 2rem;
+  }
+  
+  .partners-container {
+    gap: 3rem;
+  }
+  
+  .partners-header {
+    gap: 1.5rem;
+  }
+  
+  .partners-title {
+    font-size: $text-4xl;
+  }
+  
+  .partners-subtitle {
+    font-size: $text-base;
   }
   
   .partners-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    position: static;
-    width: 100%;
-    height: auto;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
   }
   
   .partner-card {
-    position: static;
-    width: 100%;
-    height: 120px;
+    height: 140px;
+  }
+  
+  .partner-text {
+    font-size: 2.5rem;
   }
 }
 
 @media (max-width: $breakpoint-md) {
+  .partners-section {
+    padding: 4rem 1rem;
+  }
+  
+  .partners-container {
+    gap: 2.5rem;
+  }
+  
   .partners-grid {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .partner-card {
+    height: 120px;
+  }
+  
+  .partner-logo-container {
+    padding: 1rem;
+  }
+  
+  .partner-text {
+    font-size: 2rem;
   }
 }
 
 @media (max-width: $breakpoint-sm) {
   .partners-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .partner-card {
+    height: 100px;
+  }
+  
+  .partner-text {
+    font-size: 1.8rem;
   }
 }
 </style> 

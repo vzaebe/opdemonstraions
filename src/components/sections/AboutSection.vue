@@ -1,22 +1,22 @@
 <template>
   <section class="about-section">
     <div class="about-background">
-      <img src="@/assets/images/hero.svg" alt="Фон" />
+      <div class="overlay"></div>
       <div class="about-content">
         <h2 class="about-title">Больше, чем АНО</h2>
         <div class="about-features">
           <div class="feature">
-            <span class="feature-icon">🌍</span>
+            <HtmlFileIcon class="feature-icon smaller-icon" />
             <h3>Решения для всех</h3>
             <p>Разрабатываем открытые решения для обеспечения адаптации</p>
           </div>
           <div class="feature">
-            <span class="feature-icon">💼</span>
+            <CircleIcon class="feature-icon" />
             <h3>Только реальное дело</h3>
             <p>Мы нацелены на работу в самых стабильных и важных отраслях российской экономики</p>
           </div>
           <div class="feature">
-            <span class="feature-icon">🎯</span>
+            <TgIcon class="feature-icon smaller-icon" />
             <h3>Главное результат</h3>
             <p>Наша задача качественно улучшить ситуацию с профориентацией в области инженерии</p>
           </div>
@@ -30,8 +30,17 @@
 </template>
 
 <script>
+import HtmlFileIcon from '@/components/icons/HtmlFileIcon.vue'
+import CircleIcon from '@/components/icons/CircleIcon.vue'
+import TgIcon from '@/components/icons/TgIcon.vue'
+
 export default {
-  name: 'AboutSection'
+  name: 'AboutSection',
+  components: {
+    HtmlFileIcon,
+    CircleIcon,
+    TgIcon
+  }
 }
 </script>
 
@@ -39,7 +48,6 @@ export default {
 .about-section {
   width: 100%;
   height: 910px;
-  background-color: $primary-green;
   position: relative;
 }
 
@@ -47,12 +55,21 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  background-image: url('@/assets/png/airplane.png');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00737A;
+  opacity: 0.7;
 }
 
 .about-content {
@@ -72,6 +89,7 @@ export default {
   font-weight: 700;
   color: $white;
   margin: 0;
+  text-align: left;
 }
 
 .about-features {
@@ -86,9 +104,10 @@ export default {
   position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
-  align-items: center;
+  gap: 0.75rem;
+  align-items: flex-start;
   color: $white;
+  text-align: left;
   
   &:nth-child(1) {
     left: 0;
@@ -113,15 +132,19 @@ export default {
 }
 
 .feature-icon {
-  font-size: $text-4xl;
-  line-height: $leading-9;
-  text-align: center;
+  width: 48px;
+  height: 48px;
+}
+
+.smaller-icon {
+  width: 32px;
+  height: 32px;
 }
 
 .feature h3 {
   font-size: $text-xl;
   font-weight: 500;
-  line-height: $leading-loose;
+  line-height: $leading-relaxed;
   margin: 0;
 }
 
@@ -152,6 +175,7 @@ export default {
     color: $white;
     width: 437px;
     margin: 0;
+    text-align: left;
   }
 }
 

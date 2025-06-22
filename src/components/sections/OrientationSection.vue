@@ -11,10 +11,10 @@
       <!-- Изображение с кнопкой воспроизведения -->
       <div class="orientation-image-container">
         <div class="image-wrapper">
-          <!-- Заглушка для основного изображения -->
+          <!-- Основное изображение -->
           <img 
             class="orientation-image" 
-            src="@/assets/images/placeholder.svg"
+            src="@/assets/png/goodGuy.png"
             alt="Профориентация"
           />
         </div>
@@ -32,7 +32,11 @@
         <!-- Блок "Наши рекомендации" -->
         <div class="service-block">
           <div class="service-icon">
-            <span class="icon">📋</span>
+            <img 
+              src="@/assets/png/ourRecomendations.png" 
+              alt="Наши рекомендации"
+              class="service-image"
+            />
           </div>
           <div class="service-content">
             <h3 class="service-title">Наши рекомендации</h3>
@@ -45,7 +49,11 @@
         <!-- Блок "Разработка ПО" -->
         <div class="service-block">
           <div class="service-icon">
-            <span class="icon">💻</span>
+            <img 
+              src="@/assets/png/software.png" 
+              alt="Разработка ПО"
+              class="service-image"
+            />
           </div>
           <div class="service-content">
             <h3 class="service-title">Разработка ПО</h3>
@@ -74,139 +82,173 @@ export default {
 .orientation-section {
   position: relative;
   width: 100%;
-  height: 1020px;
+  height: 1200px;
   background-color: $primary-green;
+  padding: 0 2rem;
 }
 
 .orientation-content {
   position: relative;
   width: 100%;
   height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .orientation-title {
   position: absolute;
-  left: 347px;
-  top: 96px;
+  left: 50%;
+  top: 120px;
+  transform: translateX(-50%);
   font-size: $text-5xl;
   font-weight: 700;
   line-height: $leading-10;
   text-align: center;
   color: $white;
-  width: 707px;
+  width: 800px;
   margin: 0;
 }
 
 .orientation-image-container {
   position: absolute;
-  left: 315px;
-  top: 214px;
-  width: 828px;
-  height: 600px;
+  left: 50%;
+  top: 280px;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 650px;
 }
 
 .image-wrapper {
   position: relative;
-  width: 828px;
-  height: 600px;
+  width: 900px;
+  height: 650px;
 }
 
 .orientation-image {
   position: absolute;
-  left: 71px;
+  left: 50%;
   top: 0;
-  width: 629px;
-  height: 535px;
-  border-radius: $border-radius-lg;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 580px;
+  border-radius: $border-radius-xl;
   object-fit: cover;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .play-button-overlay {
   position: absolute;
-  left: 350px;
-  top: 221px;
-  width: 4rem;
-  height: 4rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 6rem;
+  height: 6rem;
 }
 
 .play-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  width: 100%;
   height: 100%;
-  padding: 1.75rem 1.5rem 1.5rem 1.75rem;
   background-color: $primary-yellow;
   border: none;
-  border-radius: $border-radius-full;
+  border-radius: 50%;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.15);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 }
 
 .play-icon {
-  flex: 1;
-  height: 100%;
-  font-size: $text-xl;
-  text-align: center;
+  font-size: $text-3xl;
   color: $white;
   line-height: 1;
+  margin-left: 0.5rem;
 }
 
 .services-blocks {
   position: absolute;
-  left: 255px;
-  top: 777px;
-  display: inline-flex;
-  gap: 3.5rem;
+  left: 50%;
+  top: 950px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6rem;
   align-items: center;
-  justify-content: flex-end;
-  width: 938px;
-  height: 117px;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  height: 180px;
 }
 
 .service-block {
   display: flex;
-  gap: 2rem;
-  align-items: center;
-  justify-content: flex-end;
-  width: 445px;
-  height: 117px;
-}
-
-.service-icon {
-  width: 11rem;
-  height: 7rem;
-  display: flex;
+  gap: 3rem;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: $border-radius;
+  width: 520px;
+  height: 180px;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: $border-radius-xl;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.4s ease;
   
-  .icon {
-    font-size: $text-xl;
-    color: $white;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
   }
 }
 
-.service-content {
-  display: inline-flex;
-  flex-direction: column;
-  gap: 0.625rem;
+.service-icon {
+  width: 14rem;
+  height: 10rem;
+  display: flex;
   align-items: center;
-  justify-content: flex-end;
-  width: 15rem;
-  height: 7rem;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: $border-radius-xl;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.service-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: $border-radius-lg;
+  transition: transform 0.3s ease;
+}
+
+.service-block:hover .service-image {
+  transform: scale(1.05);
+}
+
+.service-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
 }
 
 .service-title {
-  width: 13rem;
-  font-size: $text-sm;
+  font-size: $text-base;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   line-height: $leading-relaxed;
   color: $white;
   text-transform: uppercase;
@@ -214,12 +256,12 @@ export default {
 }
 
 .service-description {
-  opacity: $opacity-70;
-  width: 100%;
-  font-size: $text-base;
+  opacity: 0.85;
+  font-size: $text-sm;
   line-height: $leading-relaxed;
   color: $white;
   margin: 0;
+  max-width: 100%;
 }
 
 // Адаптивность
@@ -232,24 +274,42 @@ export default {
   .orientation-title {
     position: static;
     width: 100%;
-    margin-bottom: 3rem;
+    transform: none;
+    margin-bottom: 4rem;
   }
   
   .orientation-image-container {
     position: static;
     width: 100%;
-    margin-bottom: 3rem;
+    max-width: 600px;
+    transform: none;
+    margin: 0 auto 4rem;
+  }
+  
+  .image-wrapper {
+    width: 100%;
+    height: auto;
+  }
+  
+  .orientation-image {
+    position: relative;
+    width: 100%;
+    height: auto;
+    transform: none;
+    left: 0;
   }
   
   .services-blocks {
     position: static;
     width: 100%;
     flex-direction: column;
-    gap: 2rem;
+    gap: 3rem;
+    transform: none;
   }
   
   .service-block {
     width: 100%;
+    max-width: 500px;
     justify-content: center;
   }
 }
@@ -262,6 +322,26 @@ export default {
   .service-block {
     flex-direction: column;
     text-align: center;
+    height: auto;
+    padding: 2rem 1.5rem;
+  }
+  
+  .service-content {
+    align-items: center;
+  }
+  
+  .play-button-overlay {
+    width: 5rem;
+    height: 5rem;
+  }
+  
+  .play-icon {
+    font-size: $text-2xl;
+  }
+  
+  .service-icon {
+    width: 12rem;
+    height: 8rem;
   }
 }
 </style> 

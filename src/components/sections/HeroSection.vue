@@ -1,16 +1,6 @@
 <template>
   <!-- Секция героя с фоновым изображением -->
   <section class="hero-section">
-    <!-- Фоновое изображение -->
-    <div class="hero-background">
-      <!-- Заглушка для фонового изображения -->
-      <img 
-        class="hero-bg-image" 
-        src="@/assets/images/hero.svg" 
-        alt="Фоновое изображение"
-      />
-    </div>
-    
     <!-- Основной контент секции -->
     <div class="hero-content">
       <!-- Главный заголовок -->
@@ -25,6 +15,13 @@
         <button class="play-button" @click="handlePlayClick">
           <span class="play-icon">▶</span>
         </button>
+      </div>
+      
+      <!-- Дополнительная надпись -->
+      <div class="hero-caption-container">
+        <p class="hero-caption">
+          Узнайте больше о наших возможностях
+        </p>
       </div>
     </div>
   </section>
@@ -46,208 +43,123 @@ export default {
 <style lang="scss" scoped>
 @use "sass:color";
 @use '@/assets/styles/variables.scss' as *;
+
 .hero-section {
   position: relative;
   width: 100%;
-  height: 800px;
-  background-color: $primary-indigo;
-  overflow: hidden;
-}
+  height: 100vh;
+  background-image: url('@/assets/images/VideoInFuture.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-.hero-background {
-  // Контейнер для фонового изображения
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1; // Размещаем под контентом
-}
-
-.hero-bg-image {
-  // Фоновое изображение
-  width: 100%;
-  height: 100%;
-  object-fit: cover; // Растягиваем изображение на весь контейнер
-  object-position: center; // Центрируем изображение
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
 }
 
 .hero-content {
-  // Контейнер для основного контента
   position: relative;
-  z-index: 2; // Размещаем поверх фона
-  width: 100%;
-  height: 100%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: $white;
+  padding: 0 1rem;
 }
 
 .hero-title-container {
-  // Контейнер для заголовка
-  position: absolute;
-  left: 285px;
-  top: 167px;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 14rem; // space-y-56
-  align-items: center;
-  justify-content: flex-end;
-  width: 830.01px;
-  height: 512px;
+  margin-bottom: 2rem;
 }
 
 .hero-title {
-  // Главный заголовок секции
-  font-size: $text-6xl;
-  font-weight: 700; // font-bold
-  line-height: $leading-10;
-  text-align: center;
-  color: $white;
-  width: 830.01px;
-  height: 211px;
-  margin: 0;
+  font-size: $text-5xl;
+  font-weight: 700;
+  line-height: $leading-tight;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .play-button-container {
-  // Контейнер для кнопки воспроизведения
-  position: absolute;
-  left: 665px;
-  top: 464px;
-  width: 4rem; // w-16
-  height: 4rem; // h-16
+  margin-bottom: 2rem;
 }
 
 .play-button {
-  // Кнопка воспроизведения
+  width: 5rem;
+  height: 5rem;
+  border-radius: $border-radius-full;
+  background-color: rgba(220, 38, 38, 0.8);
+  border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  height: 100%;
-  padding: 1.75rem 1.5rem 1.5rem 1.75rem; // pt-7 pb-6 pl-7 pr-6
-  background-color: $primary-red;
-  border: none;
-  border-radius: $border-radius-full; // rounded-full
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
   &:hover {
-    transform: scale(1.05);
-    background-color: color.adjust($primary-red, $lightness: -10%);
-  }
-  
-  &:active {
-    transform: scale(0.95);
+    background-color: rgba(220, 38, 38, 1);
+    transform: scale(1.1);
   }
 }
 
 .play-icon {
-  // Иконка воспроизведения
-  flex: 1;
-  height: 100%;
-  font-size: $text-xl;
-  text-align: center;
+  font-size: $text-2xl;
   color: $white;
   line-height: 1;
+  margin-left: 0.25rem;
 }
 
-// Адаптивность для больших экранов
-@media (max-width: $breakpoint-xl) {
-  .hero-title-container {
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 830px;
-  }
-  
-  .hero-title {
-    width: 100%;
-    font-size: $text-5xl;
-  }
-  
-  .play-button-container {
-    left: 50%;
-    transform: translateX(-50%);
-  }
+.hero-caption {
+  font-size: $text-lg;
+  font-weight: 400;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-// Адаптивность для планшетов
-@media (max-width: $breakpoint-lg) {
-  .hero-section {
-    height: 600px;
-  }
-  
-  .hero-title-container {
-    top: 100px;
-    width: 95%;
-  }
-  
+// Адаптивность
+@media (max-width: $breakpoint-md) {
   .hero-title {
     font-size: $text-4xl;
-    height: auto;
   }
-  
-  .play-button-container {
-    top: 350px;
+
+  .play-button {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .play-icon {
+    font-size: $text-xl;
+  }
+
+  .hero-caption {
+    font-size: $text-base;
   }
 }
 
-// Адаптивность для мобильных устройств
-@media (max-width: $breakpoint-md) {
-  .hero-section {
-    height: 500px;
-  }
-  
-  .hero-title-container {
-    top: 50px;
-    width: 100%;
-    padding: 0 1rem;
-  }
-  
+@media (max-width: $breakpoint-sm) {
   .hero-title {
     font-size: $text-3xl;
-    line-height: 1.3;
   }
-  
-  .play-button-container {
-    top: 300px;
-  }
-  
+
   .play-button {
-    width: 3rem;
-    height: 3rem;
-    padding: 1rem;
+    width: 4rem;
+    height: 4rem;
   }
-  
+
   .play-icon {
     font-size: $text-lg;
-  }
-}
-
-// Адаптивность для маленьких экранов
-@media (max-width: $breakpoint-sm) {
-  .hero-section {
-    height: 400px;
-  }
-  
-  .hero-title-container {
-    top: 30px;
-  }
-  
-  .hero-title {
-    font-size: $text-2xl;
-  }
-  
-  .play-button-container {
-    top: 250px;
-  }
-  
-  .play-button {
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 0.75rem;
-  }
-  
-  .play-icon {
-    font-size: $text-base;
   }
 }
 </style> 
