@@ -1,7 +1,7 @@
 {
   "name": "opland",
   "version": "0.0.0",
-  "private": false,
+  "private": "false",
   "type": "module",
   "scripts": {
     "dev": "vite",
