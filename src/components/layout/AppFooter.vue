@@ -1,231 +1,303 @@
 <template>
-  <footer class="app-footer">
-    <div class="footer-container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3 class="footer-title">Открытые Перспективы</h3>
-          <p class="footer-description">
+  <footer class="footer">
+    <div class="footer__container">
+      <div class="footer__grid">
+        <!-- Company Info -->
+        <div class="footer__section footer__section--main">
+          <h2 class="footer__title">Открытые Перспективы</h2>
+          <p class="footer__description">
             Создаём инклюзивное будущее для всех через образование и технологии
           </p>
-          <div class="footer-social">
-            <a href="#" class="social-link">
-              <img src="@/assets/images/icon.svg" alt="Telegram" />
-            </a>
-            <a href="#" class="social-link">
-              <img src="@/assets/images/icon.svg" alt="VK" />
-            </a>
-            <a href="#" class="social-link">
-              <img src="@/assets/images/icon.svg" alt="YouTube" />
+          <div class="footer__social">
+            <a 
+              v-for="(link, index) in socialLinks" 
+              :key="index"
+              :href="link.url" 
+              :aria-label="link.name"
+              class="footer__social-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img :src="link.icon" :alt="link.name" />
             </a>
           </div>
         </div>
-        <div class="footer-section">
-          <h4 class="footer-subtitle">Проекты</h4>
-          <ul class="footer-links">
-            <li><a href="#">Перевод науки на РЖЯ</a></li>
-            <li><a href="#">Инклюзивные лекции</a></li>
-            <li><a href="#">Летние интенсивы</a></li>
-            <li><a href="#">База знаний</a></li>
+
+        <!-- Projects -->
+        <div class="footer__section">
+          <h3 class="footer__subtitle">Проекты</h3>
+          <ul class="footer__list">
+            <li v-for="(link, index) in projectLinks" :key="index">
+              <a :href="link.url" class="footer__link">{{ link.text }}</a>
+            </li>
           </ul>
         </div>
-        <div class="footer-section">
-          <h4 class="footer-subtitle">Поддержка</h4>
-          <ul class="footer-links">
-            <li><a href="#">Волонтёрство</a></li>
-            <li><a href="#">Партнёрство</a></li>
-            <li><a href="#">Пожертвования</a></li>
-            <li><a href="#">Контакты</a></li>
+
+        <!-- Support -->
+        <div class="footer__section">
+          <h3 class="footer__subtitle">Поддержка</h3>
+          <ul class="footer__list">
+            <li v-for="(link, index) in supportLinks" :key="index">
+              <a :href="link.url" class="footer__link">{{ link.text }}</a>
+            </li>
           </ul>
         </div>
-        <div class="footer-section">
-          <h4 class="footer-subtitle">Контакты</h4>
-          <div class="footer-contact">
-            <p>Email: info@opland.ru</p>
-            <p>Телефон: +7 (495) 123-45-67</p>
-            <p>Адрес: г. Москва, ул. Примерная, д. 123</p>
-          </div>
+
+        <!-- Contact -->
+        <div class="footer__section">
+          <h3 class="footer__subtitle">Контакты</h3>
+          <address class="footer__contact">
+            <p v-for="(contact, index) in contactInfo" :key="index">
+              {{ contact.label }}: <a v-if="contact.isLink" :href="contact.url" class="footer__link">{{ contact.value }}</a>
+              <span v-else>{{ contact.value }}</span>
+            </p>
+          </address>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p class="copyright">
-          © 2024 Открытые Перспективы. Все права защищены.
+
+      <!-- Bottom Section -->
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          © {{ currentYear }} Открытые Перспективы. Все права защищены.
         </p>
-        <div class="footer-legal">
-          <a href="#">Политика конфиденциальности</a>
-          <a href="#">Условия использования</a>
+        <div class="footer__legal">
+          <a 
+            v-for="(link, index) in legalLinks" 
+            :key="index"
+            :href="link.url" 
+            class="footer__link"
+          >
+            {{ link.text }}
+          </a>
         </div>
       </div>
     </div>
   </footer>
 </template>
 
-<script>
-export default {
-  name: 'AppFooter'
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
+import TelegramIcon from '@/assets/images/tg.svg'
+import VKIcon from '@/assets/images/icon.svg'
+import YouTubeIcon from '@/assets/images/icon.svg'
+
+interface Link {
+  text: string
+  url: string
 }
+
+interface SocialLink {
+  name: string
+  url: string
+  icon: string
+}
+
+interface ContactInfo {
+  label: string
+  value: string
+  url?: string
+  isLink: boolean
+}
+
+export default defineComponent({
+  name: 'AppFooter',
+  
+  setup() {
+    const currentYear = computed(() => new Date().getFullYear())
+
+    const socialLinks: SocialLink[] = [
+      { name: 'Telegram', url: 'https://t.me/openperspectives', icon: TelegramIcon },
+      { name: 'VK', url: 'https://vk.com/openperspectives', icon: VKIcon },
+      { name: 'YouTube', url: 'https://youtube.com/@openperspectives', icon: YouTubeIcon }
+    ]
+
+    const projectLinks: Link[] = [
+      { text: 'Перевод науки на РЖЯ', url: '#' },
+      { text: 'Инклюзивные лекции', url: '#' },
+      { text: 'Летние интенсивы', url: '#' },
+      { text: 'База знаний', url: '#' }
+    ]
+
+    const supportLinks: Link[] = [
+      { text: 'Волонтёрство', url: '#' },
+      { text: 'Партнёрство', url: '#' },
+      { text: 'Пожертвования', url: '#' },
+      { text: 'Контакты', url: '#' }
+    ]
+
+    const contactInfo: ContactInfo[] = [
+      { label: 'Email', value: 'info@opland.ru', url: 'mailto:info@opland.ru', isLink: true },
+      { label: 'Телефон', value: '+7 (495) 123-45-67', url: 'tel:+74951234567', isLink: true },
+      { label: 'Адрес', value: 'г. Москва, ул. Примерная, д. 123', isLink: false }
+    ]
+
+    const legalLinks: Link[] = [
+      { text: 'Политика конфиденциальности', url: '#' },
+      { text: 'Условия использования', url: '#' }
+    ]
+
+    return {
+      currentYear,
+      socialLinks,
+      projectLinks,
+      supportLinks,
+      contactInfo,
+      legalLinks
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>
-.app-footer {
+.footer {
   width: 100%;
-  background-color: $gray-900;
-  color: $white;
-  padding: 4rem 2rem 2rem 2rem;
-}
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: var(--spacing-16) var(--spacing-4);
 
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 3rem;
-  margin-bottom: 3rem;
-}
-
-.footer-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.footer-title {
-  font-size: $text-xl;
-  font-weight: 700;
-  color: $primary-green;
-  margin: 0;
-}
-
-.footer-description {
-  font-size: $text-sm;
-  line-height: $leading-relaxed;
-  color: $gray-300;
-  margin: 0;
-}
-
-.footer-social {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
-}
-
-.social-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: $gray-800;
-  border-radius: $border-radius-md;
-  transition: background-color 0.2s ease;
-  
-  &:hover {
-    background-color: $primary-green;
+  &__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-4);
   }
-  
-  img {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-}
 
-.footer-subtitle {
-  font-size: $text-base;
-  font-weight: 600;
-  color: $white;
-  margin: 0;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  
-  li a {
-    font-size: $text-sm;
-    color: $gray-300;
-    text-decoration: none;
-    transition: color 0.2s ease;
-    
-    &:hover {
-      color: $primary-green;
-    }
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-12);
+    margin-bottom: var(--spacing-12);
   }
-}
 
-.footer-contact {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  
-  p {
-    font-size: $text-sm;
-    color: $gray-300;
-    margin: 0;
-  }
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 2rem;
-  border-top: 1px solid $gray-800;
-  
-  .copyright {
-    font-size: $text-sm;
-    color: $gray-400;
-    margin: 0;
-  }
-  
-  .footer-legal {
+  &__section {
     display: flex;
-    gap: 2rem;
-    
-    a {
-      font-size: $text-sm;
-      color: $gray-400;
-      text-decoration: none;
-      transition: color 0.2s ease;
+    flex-direction: column;
+    gap: var(--spacing-5);
+
+    &--main {
+      grid-column: 1 / -1;
       
-      &:hover {
-        color: $primary-green;
+      @media (min-width: 1024px) {
+        grid-column: auto;
       }
     }
   }
-}
 
-@media (max-width: $breakpoint-lg) {
-  .footer-content {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
+  &__title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-white);
+    margin: 0;
   }
-  
-  .footer-bottom {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-}
 
-@media (max-width: $breakpoint-md) {
-  .footer-content {
-    grid-template-columns: 1fr;
-    text-align: center;
+  &__subtitle {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-white);
+    margin: 0;
   }
-  
-  .footer-social {
+
+  &__description {
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--color-white);
+    opacity: 0.9;
+    margin: 0;
+    max-width: 35ch;
+  }
+
+  &__social {
+    display: flex;
+    gap: var(--spacing-4);
+    margin-top: var(--spacing-2);
+  }
+
+  &__social-link {
+    display: flex;
+    align-items: center;
     justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-secondary);
+      transform: translateY(-2px);
+    }
+
+    img {
+      width: 1.25rem;
+      height: 1.25rem;
+      filter: brightness(0) invert(1);
+    }
   }
-  
-  .footer-legal {
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--spacing-3);
+  }
+
+  &__link {
+    color: var(--color-white);
+    opacity: 0.9;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: var(--text-sm);
+
+    &:hover {
+      opacity: 1;
+      color: var(--color-secondary);
+    }
+  }
+
+  &__contact {
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+
+    p {
+      margin: 0;
+      font-size: var(--text-sm);
+      color: var(--color-white);
+      opacity: 0.9;
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-8);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: var(--spacing-4);
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  &__copyright {
+    font-size: var(--text-sm);
+    color: var(--color-white);
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  &__legal {
+    display: flex;
+    gap: var(--spacing-8);
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: var(--spacing-3);
+    }
   }
 }
 </style> 

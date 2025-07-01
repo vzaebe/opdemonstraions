@@ -83,7 +83,7 @@ export default {
   position: relative;
   width: 100%;
   height: 1200px;
-  background-color: $primary-green;
+  background-color: $primary-teal;
   padding: 0 2rem;
 }
 

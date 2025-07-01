@@ -15,17 +15,19 @@
           <label>Пароль</label>
           <input type="password" placeholder="Ваш пароль" />
         </div>
-        <button type="submit" class="submit-button">Зайти</button>
-        <p class="form-note">При регистрации вы соглашаетесь с нашими правилами</p>
+        <div class="form-actions">
+          <button type="submit" class="submit-button">Зайти</button>
+          <p class="form-note">При регистрации вы соглашаетесь с нашими правилами</p>
+        </div>
       </form>
     </div>
     <div class="registration-image">
-      <img src="@/assets/images/placeholder.svg" alt="Регистрация" />
+      <img src="@/assets/png/openurfeatures.png" alt="Регистрация" />
     </div>
   </section>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'RegistrationSection'
 }
@@ -46,19 +48,19 @@ export default {
   left: 115px;
   top: 100px;
   width: 470px;
-  height: 471px;
+  height: auto;
   display: inline-flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 2.5rem;
   align-items: flex-start;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .registration-title {
   font-size: $text-5xl;
   font-weight: 700;
   line-height: $leading-10;
-  color: $primary-indigo;
+  color: $primary-teal;
   width: 470px;
   margin: 0;
 }
@@ -66,69 +68,76 @@ export default {
 .registration-form {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 1.5rem;
   width: 100%;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0.5rem;
   
   label {
     font-size: $text-sm;
     font-weight: 700;
     letter-spacing: 0.1em;
     line-height: $leading-relaxed;
-    color: $primary-indigo;
+    color: $primary-teal;
     text-transform: uppercase;
   }
   
   input {
-    width: 470px;
+    width: 100%;
     height: 60px;
-    padding: 1rem 20rem 1rem 1.5rem;
-    border: 2px solid $gray-200;
-    border-radius: $border-radius-full;
-    font-size: $text-xl;
+    padding: 1rem 1.5rem;
+    border: 1px solid $gray-200;
+    border-radius: $border-radius-lg;
+    font-size: $text-base;
     font-weight: 500;
     line-height: $leading-relaxed;
-    color: $gray-200;
+    color: $gray-500;
     
     &::placeholder {
-      color: $gray-200;
+      color: $gray-400;
     }
   }
 }
 
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
 .submit-button {
-  width: 13rem;
-  height: 4rem;
+  width: auto;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 5rem;
-  background-color: $primary-green;
+  padding: 1rem 2.5rem;
+  background-color: $primary-teal;
   border: none;
   border-radius: $border-radius-full;
   color: $white;
-  font-size: $text-lg;
-  font-weight: 500;
+  font-size: $text-base;
+  font-weight: 700;
   line-height: $leading-relaxed;
   cursor: pointer;
   transition: background-color 0.2s ease;
   
   &:hover {
-    background-color: color.adjust($primary-green, $lightness: -10%);
+    background-color: color.adjust($primary-teal, $lightness: -10%);
   }
 }
 
 .form-note {
   width: 15rem;
-  font-size: $text-base;
+  font-size: $text-sm;
   line-height: $leading-relaxed;
-  color: $gray-900;
-  opacity: $opacity-40;
+  color: $gray-500;
+  opacity: 1;
   margin: 0;
 }
 
@@ -143,7 +152,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: $border-radius-lg;
+    border-radius: $border-radius-lg 0 0 $border-radius-lg;
   }
 }
 
@@ -151,6 +160,7 @@ export default {
   .registration-section {
     height: auto;
     padding: 4rem 2rem;
+    flex-direction: column;
   }
   
   .registration-content {
@@ -158,6 +168,10 @@ export default {
     width: 100%;
     height: auto;
     margin-bottom: 3rem;
+    padding: 0;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
   }
   
   .registration-title {
@@ -168,11 +182,26 @@ export default {
   .form-group input {
     width: 100%;
   }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
   
   .registration-image {
     position: static;
     width: 100%;
     height: 400px;
+
+    img {
+      border-radius: $border-radius-lg;
+    }
   }
 }
 </style> 

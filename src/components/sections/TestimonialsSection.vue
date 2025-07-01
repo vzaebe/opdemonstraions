@@ -2,7 +2,7 @@
   <section class="testimonials-section">
     <div class="testimonials-container">
       <div class="testimonial">
-        <img class="testimonial-avatar" src="@/assets/images/avatar.svg" alt="Андрей Иванов" />
+        <img class="testimonial-avatar" src="@/assets/png/1face.png" alt="Андрей Иванов" />
         <div class="testimonial-content">
           <p class="testimonial-text">
             Я поступил в бауманку, не смотря на инвалидность по слуху. Всё благодаря команде открытых перспектив и их проектам в университете
@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="testimonial">
-        <img class="testimonial-avatar" src="@/assets/images/avatar.svg" alt="Алина Гришко" />
+        <img class="testimonial-avatar" src="@/assets/png/2face.png" alt="Алина Гришко" />
         <div class="testimonial-content">
           <p class="testimonial-text">
             Я из небольшого города из детского дома, Открытые Перспективы помогли мне поступить в Губкинский университет
@@ -33,7 +33,7 @@ export default {
 .testimonials-section {
   width: 100%;
   height: 430px;
-  background-color: $primary-green;
+  background-color: $primary-teal;
   display: inline-flex;
   gap: 2rem;
   align-items: flex-end;

@@ -77,7 +77,7 @@ export default {
   // Контейнер для всей навигации
   width: 100%;
   height: 100px;
-  background-color: $primary-green;
+  background-color: $primary-teal;
 }
 
 .nav-container {
@@ -89,7 +89,7 @@ export default {
   padding: 0 3rem 0.75rem 3rem;
   width: $container-width;
   height: $container-height;
-  background-color: $primary-green;
+  background-color: $primary-teal;
 }
 
 .logo-section {

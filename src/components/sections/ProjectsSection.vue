@@ -8,38 +8,42 @@
     </div>
     <div class="projects-grid">
       <div class="project-card">
-        <img class="project-image" src="@/assets/images/placeholder.svg" alt="Перевод науки на РЖЯ" />
+        <img class="project-image" src="@/assets/png/Projects/Photo.png" alt="Летние интенсивы в Бауманке" />
         <div class="project-content">
-          <h3>Перевод науки на РЖЯ</h3>
-          <p>Создание доступных научных материалов на русском жестовом языке</p>
+          <h3 class="project-title">Летние интенсивы в Бауманке</h3>
+          <p class="project-description">Три дня невероятного погружения в бауманскую атмосферу через диалоги и 3D печать</p>
+          <a href="#" class="project-link">Узнать больше о мероприятии</a>
         </div>
       </div>
       <div class="project-card">
-        <img class="project-image" src="@/assets/images/placeholder.svg" alt="Инклюзивные лекции" />
+        <img class="project-image" src="@/assets/png/Projects/Photo-1.png" alt="Грант Росмолодежи" />
         <div class="project-content">
-          <h3>Инклюзивные лекции</h3>
-          <p>Проведение образовательных мероприятий с переводом на РЖЯ</p>
+          <h3 class="project-title">Грант Росмолодежи</h3>
+          <p class="project-description">В 2024 году проект выиграл заявку. Было проведено 11 мероприятий, которые посетило около 400 человек</p>
+          <a href="#" class="project-link">Перейти к списку мероприятий и отчету</a>
         </div>
       </div>
       <div class="project-card">
-        <img class="project-image" src="@/assets/images/placeholder.svg" alt="Грант Росмолодёжи" />
+        <img class="project-image" src="@/assets/png/Projects/Photo-2.png" alt="Инклюзивные лекции" />
         <div class="project-content">
-          <h3>Грант Росмолодёжи</h3>
-          <p>Реализация проектов при поддержке Федерального агентства по делам молодёжи</p>
+          <h3 class="project-title">Инклюзивные лекции</h3>
+          <p class="project-description">Проводим лекции про интеграцию в реальный сектор, инновации и способы реализации</p>
+          <a href="#" class="project-link">Посмотреть лекции и материалы</a>
         </div>
       </div>
       <div class="project-card">
-        <img class="project-image" src="@/assets/images/placeholder.svg" alt="Летние интенсивы в Бауманке" />
+        <img class="project-image" src="@/assets/png/Projects/Photo-3.png" alt="Перевод науки на РЖЯ" />
         <div class="project-content">
-          <h3>Летние интенсивы в Бауманке</h3>
-          <p>Образовательные программы в МГТУ им. Н.Э. Баумана</p>
+          <h3 class="project-title">Перевод науки на РЖЯ</h3>
+          <p class="project-description">Делаем науку доступной с помощью переведения русского жестового языка</p>
+          <a href="#" class="project-link">Открыть перечень переводов</a>
         </div>
       </div>
     </div>
   </section>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'ProjectsSection'
 }
@@ -48,124 +52,91 @@ export default {
 <style lang="scss" scoped>
 .projects-section {
   width: 100%;
-  height: 1490px;
+  padding: 120px 135px;
   background-color: $white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  padding: 6rem 7rem;
-  gap: 6rem;
+  gap: 80px;
 }
 
 .projects-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  gap: 1.25rem;
-  width: 758px;
-  height: 136px;
+  gap: 20px;
+  max-width: 758px;
 }
 
 .projects-title {
-  font-size: $text-5xl;
+  color: $primary-teal;
+  font-size: 48px;
   font-weight: 700;
-  line-height: $leading-10;
-  text-align: center;
-  color: $primary-indigo;
+  line-height: 60px;
   margin: 0;
+  text-align: center;
 }
 
 .projects-subtitle {
-  font-size: $text-xl;
+  color: rgba($gray-900, 0.4);
+  font-size: 20px;
   font-weight: 500;
-  line-height: $leading-loose;
+  line-height: 32px;
   text-align: center;
-  color: $gray-900;
-  opacity: $opacity-40;
-  width: 758px;
   margin: 0;
 }
 
 .projects-grid {
-  position: relative;
-  width: 1170px;
-  height: 1070px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  max-width: 1170px;
 }
 
 .project-card {
-  position: absolute;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
   width: 570px;
-  height: 520px;
-  
-  &:nth-child(1) {
-    right: 0;
-    bottom: 0;
-  }
-  
-  &:nth-child(2) {
-    left: 0;
-    bottom: 0;
-  }
-  
-  &:nth-child(3) {
-    right: 0;
-    top: 0;
-  }
-  
-  &:nth-child(4) {
-    left: 0;
-    top: 0;
-  }
+  display: flex;
+  flex-direction: column;
 }
 
 .project-image {
-  width: 570px;
+  width: 100%;
   height: 330px;
-  border-radius: $border-radius-lg;
+  border-radius: 12px 12px 0 0;
   object-fit: cover;
 }
 
 .project-content {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 1.5rem 2rem 1.75rem 2rem;
+  padding: 24px 32px 28px;
   border: 2px solid $gray-200;
   border-top: none;
-  border-radius: 0 0 $border-radius-lg $border-radius-lg;
-  width: 570px;
-  height: 190px;
+  border-radius: 0 0 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .project-title {
-  font-size: $text-xl;
+  color: $primary-teal;
+  font-size: 20px;
   font-weight: 500;
-  line-height: $leading-loose;
-  color: $primary-indigo;
-  margin: 0 0 0.875rem 0;
+  line-height: 32px;
+  margin: 0;
 }
 
 .project-description {
-  font-size: $text-base;
-  line-height: $leading-relaxed;
-  color: $gray-900;
-  opacity: $opacity-40;
-  width: 456px;
-  margin: 0 0 0.875rem 0;
+  color: rgba($gray-900, 0.4);
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
 }
 
 .project-link {
-  font-size: $text-sm;
+  color: $primary-orange;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  line-height: $leading-relaxed;
-  color: $primary-green;
+  line-height: 24px;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
   text-decoration: none;
   
@@ -176,58 +147,48 @@ export default {
 
 @media (max-width: $breakpoint-lg) {
   .projects-section {
-    height: auto;
-    padding: 4rem 2rem;
-  }
-  
-  .projects-header {
-    width: 100%;
-    height: auto;
-    margin-bottom: 3rem;
-  }
-  
-  .projects-title {
-    font-size: $text-3xl;
-  }
-  
-  .projects-subtitle {
-    width: 100%;
+    padding: 64px 32px;
   }
   
   .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    position: static;
-    width: 100%;
-    height: auto;
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
   
   .project-card {
-    position: static;
     width: 100%;
-    height: auto;
   }
   
   .project-image {
-    width: 100%;
-    height: 200px;
+    height: 250px;
   }
   
   .project-content {
-    width: 100%;
-    height: auto;
-    padding: 1rem;
+    padding: 20px 24px;
   }
   
-  .project-description {
-    width: 100%;
+  .projects-title {
+    font-size: 36px;
+    line-height: 44px;
+  }
+  
+  .projects-subtitle {
+    font-size: 18px;
+    line-height: 28px;
   }
 }
 
 @media (max-width: $breakpoint-md) {
-  .projects-grid {
-    grid-template-columns: 1fr;
+  .projects-section {
+    padding: 48px 16px;
+  }
+  
+  .project-image {
+    height: 200px;
+  }
+  
+  .project-content {
+    padding: 16px 20px;
   }
 }
 </style> 

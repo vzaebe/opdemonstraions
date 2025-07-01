@@ -89,12 +89,35 @@ export default {
 .partners-section {
   width: 100%;
   min-height: 800px;
-  background-color: $primary-green;
+  background: linear-gradient(135deg, $primary-teal, $primary-mint);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(29, 233, 182, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 20%, rgba(24, 255, 255, 0.1) 0%, transparent 50%);
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-20px, -20px) rotate(1deg);
+  }
 }
 
 .partners-container {
@@ -154,13 +177,25 @@ export default {
   border: 2px solid $white;
   border-radius: $border-radius;
   padding: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
   
   &:hover {
-    transform: scale(1.05);
-    background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05) translateY(-5px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(29, 233, 182, 0.1));
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    border-color: $primary-cyan;
+  }
+
+  &:nth-child(odd):hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(203, 136, 22, 0.1));
+    border-color: $primary-orange;
+  }
+
+  &:nth-child(even):hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 82, 82, 0.1));
+    border-color: $primary-coral;
   }
 }
 

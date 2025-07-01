@@ -91,6 +91,24 @@ export default {
   font-weight: 700;
   line-height: $leading-tight;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, $white, $primary-cyan);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background: linear-gradient(135deg, $white, $primary-cyan);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  50% {
+    background: linear-gradient(135deg, $primary-cyan, $primary-mint);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
 }
 
 .play-button-container {
@@ -101,17 +119,35 @@ export default {
   width: 5rem;
   height: 5rem;
   border-radius: $border-radius-full;
-  background-color: rgba(220, 38, 38, 0.8);
+  background: linear-gradient(135deg, $primary-teal, $primary-mint);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+  }
 
   &:hover {
-    background-color: rgba(220, 38, 38, 1);
+    background: linear-gradient(135deg, $primary-mint, $primary-cyan);
     transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(29, 233, 182, 0.4);
+
+    &::before {
+      left: 100%;
+    }
   }
 }
 

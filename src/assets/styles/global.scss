@@ -19,7 +19,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  color: $gray-900;
+  color: $primary-teal;
   background-color: $white;
 }
 
@@ -688,8 +688,20 @@ body {
   border-color: $gray-200;
 }
 
-.border-indigo-600 {
-  border-color: #4f46e5;
+.border-primary {
+  border-color: $primary-teal;
+}
+
+.border-secondary {
+  border-color: $primary-orange;
+}
+
+.border-accent-mint {
+  border-color: $primary-mint;
+}
+
+.border-accent-coral {
+  border-color: $primary-coral;
 }
 
 .rounded {
@@ -722,11 +734,35 @@ body {
 
 // Утилитарные классы для фонов
 .bg-green-400 {
-  background-color: $primary-green;
+  background-color: $primary-teal;
 }
 
-.bg-indigo-900 {
-  background-color: $primary-indigo;
+.bg-primary {
+  background-color: $primary-teal;
+}
+
+.bg-secondary {
+  background-color: $primary-orange;
+}
+
+.bg-accent-mint {
+  background-color: $primary-mint;
+}
+
+.bg-accent-coral {
+  background-color: $primary-coral;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, $primary-teal, $primary-mint);
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(135deg, $primary-orange, $primary-yellow);
+}
+
+.bg-gradient-rainbow {
+  background: linear-gradient(90deg, $primary-teal, $primary-mint, $primary-cyan, $primary-coral, $primary-orange);
 }
 
 .bg-yellow-300 {
@@ -738,11 +774,11 @@ body {
 }
 
 .bg-red-600 {
-  background-color: $primary-red;
+  background-color: $primary-coral;
 }
 
 .bg-pink-900 {
-  background-color: $primary-pink;
+  background-color: $primary-coral;
 }
 
 .bg-gray-200 {
@@ -798,12 +834,24 @@ body {
   color: $white;
 }
 
-.text-indigo-900 {
-  color: $primary-indigo;
+.text-primary {
+  color: $primary-teal;
+}
+
+.text-secondary {
+  color: $primary-orange;
+}
+
+.text-accent-mint {
+  color: $primary-mint;
+}
+
+.text-accent-coral {
+  color: $primary-coral;
 }
 
 .text-green-400 {
-  color: $primary-green;
+  color: $primary-teal;
 }
 
 .text-yellow-600 {
@@ -811,7 +859,7 @@ body {
 }
 
 .text-red-600 {
-  color: $primary-red;
+  color: $primary-coral;
 }
 
 .text-gray-900 {
