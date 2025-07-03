@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 // Импортируем все компоненты секций
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
@@ -18,6 +18,8 @@ import SocialMediaSection from '@/components/sections/SocialMediaSection.vue'
 import TeamSection from '@/components/sections/TeamSection.vue'
 import ContactSection from '@/components/sections/ContactSection.vue'
 import SupportSection from '@/components/sections/SupportSection.vue'
+import CookieBanner from '@/components/CookieBanner.vue'
+import TelegramSection from '@/components/sections/TelegramSection.vue'
 
 export default {
   name: 'App',
@@ -37,9 +39,11 @@ export default {
     ServicesCardsSection,
     ProjectsSection,
     SocialMediaSection,
+    TelegramSection,
     TeamSection,
     ContactSection,
-    SupportSection
+    SupportSection,
+    CookieBanner
   }
 }
 </script>
@@ -49,58 +53,64 @@ export default {
   <div id="app">
     <!-- Компонент навигации -->
     <AppHeader />
-    
+
     <!-- Основной контент -->
     <main>
       <!-- Секция героя с фоновым изображением -->
       <HeroSection />
-      
+
       <!-- Секция с партнерами -->
       <PartnersSection />
-      
+
       <!-- Секция "Содействуем профориентации" -->
       <OrientationSection />
-      
+
       <!-- Секция с изображениями -->
       <GallerySection />
-      
+
       <!-- Секция "Больше, чем АНО" -->
       <AboutSection />
-      
+
       <!-- Секция "Что мы делаем?" -->
       <ServicesSection />
-      
+
       <!-- Секция "Наши преимущества" -->
       <AdvantagesSection />
-      
+
       <!-- Секция "Лучшее, что может человек" -->
       <BestSection />
-      
+
       <!-- Секция регистрации -->
       <RegistrationSection />
-      
+
       <!-- Секция отзывов -->
       <TestimonialsSection />
-      
+
       <!-- Секция карточек услуг -->
       <ServicesCardsSection />
-      
+
       <!-- Секция основных проектов -->
       <ProjectsSection />
-      
+
       <!-- Секция социальных сетей -->
       <SocialMediaSection />
-      
+
+      <!-- Секция подписки на Telegram-канал -->
+      <TelegramSection />
+
       <!-- Секция команды -->
       <TeamSection />
-      
+
       <!-- Секция контактов -->
       <ContactSection />
-      
+
       <!-- Секция поддержки -->
       <SupportSection />
+
+      <!-- Cookie consent banner -->
+      <CookieBanner />
     </main>
-    
+
     <!-- Футер -->
     <AppFooter />
   </div>

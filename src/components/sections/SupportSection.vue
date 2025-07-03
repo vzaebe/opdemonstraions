@@ -29,36 +29,14 @@
             <a href="#" class="support-link" @click.prevent="openModal('donate')">Сделать пожертвование</a>
           </div>
         </div>
-        <!-- Блок с отзывами по типу поддержки -->
+
+        <!-- Отзывы -->
         <div class="support-testimonials">
-          <div class="support-testimonial">
-            <img class="testimonial-avatar" src="@/assets/png/face/ivanova pic.png" alt="Мария Иванова" />
-            <div class="testimonial-content">
-              <span class="testimonial-role">Волонтёр</span>
-              <p class="testimonial-text">Быть частью команды — это вдохновляет! Я помогаю другим и развиваюсь сама.</p>
-              <p class="testimonial-author">Мария Иванова</p>
-              <span class="testimonial-icon">👐</span>
-            </div>
-          </div>
-          <div class="support-testimonial">
-            <img class="testimonial-avatar" src="@/assets/png/face/komarov pic.png" alt="Игорь Комаров" />
-            <div class="testimonial-content">
-              <span class="testimonial-role">Партнёр</span>
-              <p class="testimonial-text">Совместные проекты с вами — это вклад в будущее, которым мы гордимся.</p>
-              <p class="testimonial-author">Игорь Комаров</p>
-              <span class="testimonial-icon">🤝</span>
-            </div>
-          </div>
-          <div class="support-testimonial">
-            <img class="testimonial-avatar" src="@/assets/png/face/mironova pic.png" alt="Елена Миронова" />
-            <div class="testimonial-content">
-              <span class="testimonial-role">Донор</span>
-              <p class="testimonial-text">Я вижу реальные результаты своей поддержки. Это важно для меня!</p>
-              <p class="testimonial-author">Елена Миронова</p>
-              <span class="testimonial-icon">💸</span>
-            </div>
-          </div>
+          <transition name="testimonial-slide" mode="out-in">
+            <TestimonialCard :key="currentSlide" :testimonial="testimonials[currentSlide]" />
+          </transition>
         </div>
+
         <!-- Модальное окно -->
         <teleport to="body">
           <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
@@ -77,25 +55,74 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue'
+import TestimonialCard from '../TestimonialCard.vue'
+import ivanovaPic from '../../assets/png/face/ivanova pic.png'
+import komarovPic from '../../assets/png/face/komarov pic.png'
+import mironovaPic from '../../assets/png/face/mironova pic.png'
+
+export default defineComponent({
   name: 'SupportSection',
+  components: { TestimonialCard },
   data() {
     return {
       showModal: false,
-      modalType: null as string | null
+      modalType: null as string | null,
+      currentSlide: 0,
+      slideInterval: null as number | null,
+      testimonials: [
+        {
+          avatar: ivanovaPic,
+          role: 'Волонтёр',
+          text: 'Быть частью команды — это вдохновляет! Я помогаю другим и развиваюсь сама.',
+          author: 'Алла Гурнова',
+          icon: '👐'
+        },
+        {
+          avatar: komarovPic,
+          role: 'Партнёр',
+          text: 'Совместные проекты с вами — это вклад в будущее, которым мы гордимся.',
+          author: 'Евгений Баранов',
+          icon: '🤝'
+        },
+        {
+          avatar: mironovaPic,
+          role: 'Донор',
+          text: 'Я вижу реальные результаты своей поддержки. Это важно для меня!',
+          author: 'Елена Долина',
+          icon: '💸'
+        }
+      ]
     }
+  },
+  mounted() {
+    this.startAutoSlide()
+  },
+  beforeUnmount() {
+    this.stopAutoSlide()
   },
   methods: {
     openModal(type: string) {
-      this.modalType = type;
-      this.showModal = true;
+      this.modalType = type
+      this.showModal = true
     },
     closeModal() {
-      this.showModal = false;
-      this.modalType = null;
+      this.showModal = false
+      this.modalType = null
+    },
+    startAutoSlide() {
+      this.slideInterval = window.setInterval(() => {
+        this.currentSlide = (this.currentSlide + 1) % this.testimonials.length
+      }, 5000)
+    },
+    stopAutoSlide() {
+      if (this.slideInterval) {
+        clearInterval(this.slideInterval)
+        this.slideInterval = null
+      }
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -239,10 +266,10 @@ export default {
 
 .support-testimonials {
   display: flex;
-  gap: 2rem;
   justify-content: center;
   margin-top: 2rem;
-  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
 }
 
 .support-testimonial {
@@ -257,21 +284,6 @@ export default {
   max-width: 320px;
   flex: 1 1 260px;
   position: relative;
-  animation: slideInFromLeft 3s ease-in-out infinite;
-}
-
-@keyframes slideInFromLeft {
-  0% { transform: translateX(-20px); opacity: 0.8; }
-  50% { transform: translateX(0); opacity: 1; }
-  100% { transform: translateX(20px); opacity: 0.8; }
-}
-
-.support-testimonial:nth-child(2) {
-  animation-delay: 1s;
-}
-
-.support-testimonial:nth-child(3) {
-  animation-delay: 2s;
 }
 
 .testimonial-avatar {
@@ -366,15 +378,15 @@ export default {
     min-height: auto;
     padding: 4rem 2rem;
   }
-  
+
   .support-content {
     gap: 2rem;
   }
-  
+
   .support-title {
     font-size: $text-3xl;
   }
-  
+
   .support-options {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
@@ -385,7 +397,7 @@ export default {
   .support-options {
     grid-template-columns: 1fr;
   }
-  
+
   .support-option {
     padding: 1.5rem;
   }
@@ -394,4 +406,20 @@ export default {
     align-items: center;
   }
 }
-</style> 
+
+/* Transition classes for the testimonial slider */
+.testimonial-slide-enter-active,
+.testimonial-slide-leave-active {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.testimonial-slide-enter-from,
+.testimonial-slide-leave-to {
+  opacity: 0;
+  transform: translateX(40px);
+}
+.testimonial-slide-enter-to,
+.testimonial-slide-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>

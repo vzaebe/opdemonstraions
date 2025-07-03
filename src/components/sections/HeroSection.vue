@@ -6,17 +6,17 @@
       <!-- Главный заголовок -->
       <div class="hero-title-container">
         <h2 class="hero-title">
-          Передовые способы интеграции в реальный сектор экономики России
+          Передовые способы интеграции молодежи в реальный сектор экономики России
         </h2>
       </div>
-      
+
       <!-- Кнопка воспроизведения -->
       <div class="play-button-container">
         <button class="play-button" @click="handlePlayClick">
           <span class="play-icon">▶</span>
         </button>
       </div>
-      
+
       <!-- Дополнительная надпись -->
       <div class="hero-caption-container">
         <p class="hero-caption">
@@ -47,7 +47,7 @@ export default {
 .hero-section {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 70vh;
   background-image: url('@/assets/images/VideoInFuture.jpg');
   background-attachment: fixed;
   background-position: center;
@@ -80,6 +80,7 @@ export default {
   text-align: center;
   color: $white;
   padding: 0 1rem;
+  max-width: 900px;
 }
 
 .hero-title-container {
@@ -90,25 +91,8 @@ export default {
   font-size: $text-5xl;
   font-weight: 700;
   line-height: $leading-tight;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  background: linear-gradient(135deg, $white, $primary-cyan);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0%, 100% {
-    background: linear-gradient(135deg, $white, $primary-cyan);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-  50% {
-    background: linear-gradient(135deg, $primary-cyan, $primary-mint);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
+  color: $primary-mint;
+  text-shadow: none;
 }
 
 .play-button-container {
@@ -198,4 +182,4 @@ export default {
     font-size: $text-lg;
   }
 }
-</style> 
+</style>

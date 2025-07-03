@@ -13,9 +13,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', 'Arial', sans-serif; // Limited to max three fonts
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
@@ -1025,24 +1023,24 @@ body {
   .lg\:hidden {
     display: none;
   }
-  
+
   .lg\:block {
     display: block;
   }
-  
+
   .lg\:flex {
     display: flex;
   }
-  
+
   .lg\:text-center {
     text-align: center;
   }
-  
+
   .lg\:px-4 {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   .lg\:py-8 {
     padding-top: 2rem;
     padding-bottom: 2rem;
@@ -1053,24 +1051,24 @@ body {
   .md\:hidden {
     display: none;
   }
-  
+
   .md\:block {
     display: block;
   }
-  
+
   .md\:flex {
     display: flex;
   }
-  
+
   .md\:text-center {
     text-align: center;
   }
-  
+
   .md\:px-4 {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   .md\:py-6 {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -1081,26 +1079,52 @@ body {
   .sm\:hidden {
     display: none;
   }
-  
+
   .sm\:block {
     display: block;
   }
-  
+
   .sm\:flex {
     display: flex;
   }
-  
+
   .sm\:text-center {
     text-align: center;
   }
-  
+
   .sm\:px-2 {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
-  
+
   .sm\:py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
-} 
+}
+
+/* -----------------------------------------------------------------
+   Unified hover / focus interaction for all interactive elements
+   -----------------------------------------------------------------*/
+
+// Apply a single, consistent hover effect across all clickable
+// elements to achieve a cohesive experience.
+
+a, button, .interactive-hover, .nav-link, .service-card, .project-card, .play-button, .footer__social-link, .service-block {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, box-shadow;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-2px) scale(1.015);
+    box-shadow: 0 4px 10px rgba($black, 0.08);
+  }
+}
+
+// Убираем тень для ссылок в верхнем меню и футере, чтобы не было эффекта «обводки»
+.nav-link:hover,
+.nav-link:focus-visible,
+.footer__link:hover,
+.footer__link:focus-visible {
+  box-shadow: none !important;
+}

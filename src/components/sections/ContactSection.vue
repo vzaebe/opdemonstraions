@@ -1,10 +1,10 @@
 <template>
   <section class="contact-section">
     <div class="map-container">
-      <iframe 
-        src="https://yandex.ru/map-widget/v1/?ll=37.620393%2C55.755814&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NzM0MjYyNhJR0KDQvtGB0YHQuNGPLCDQnNC-0YHQutCy0LAsINCS0LDRgNGI0LDQstGB0LrQvtC1INGI0L7RgdGB0LUsIDMzLCDRgdGC0YDQvtC10L3QuNC1IDEiCg2GeBZCFZeIX0I%2C&z=16" 
-        width="100%" 
-        height="250" 
+      <iframe
+        src="https://yandex.ru/map-widget/v1/?ll=37.622738%2C55.692389&pt=37.622738,55.692389,pm2rdm&z=16"
+        width="100%"
+        height="250"
         frameborder="0"
         style="border-radius: 16px;"
       ></iframe>
@@ -32,6 +32,7 @@
               <textarea id="message" v-model="form.message" placeholder="Оставьте своё сообщение"></textarea>
             </div>
             <button type="submit">ОТПРАВИТЬ</button>
+            <p class="consent-text">Нажимая на кнопку, вы даёте согласие на обработку своих персональных данных.</p>
           </form>
         </div>
 
@@ -44,17 +45,6 @@
             </div>
             <div class="contact-item">
               <a href="mailto:info@openperspectives.ru">info@openperspectives.ru</a>
-            </div>
-          </div>
-          <div class="social-links">
-            <h3>Наши социальные сети</h3>
-            <div class="social-grid">
-              <a href="#" target="_blank" rel="noopener">Facebook</a>
-              <a href="#" target="_blank" rel="noopener">Twitter</a>
-              <a href="#" target="_blank" rel="noopener">Dribbble</a>
-              <a href="#" target="_blank" rel="noopener">Behance</a>
-              <a href="#" target="_blank" rel="noopener">Pinterest</a>
-              <a href="#" target="_blank" rel="noopener">LinkedIn</a>
             </div>
           </div>
         </div>
@@ -272,30 +262,11 @@ button {
   }
 }
 
-.social-links {
-  h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1F2937;
-    margin-bottom: 1rem;
-  }
-
-  .social-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-
-    a {
-      color: var(--color-primary);
-      text-decoration: none;
-      font-size: 0.875rem;
-      transition: color 0.2s;
-
-      &:hover {
-        color: var(--color-primary);
-      }
-    }
-  }
+/* Consent text styling */
+.consent-text {
+  font-size: 0.75rem;
+  color: #6B7280;
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 1024px) {
@@ -334,4 +305,4 @@ button {
     padding: 1.5rem;
   }
 }
-</style> 
+</style>

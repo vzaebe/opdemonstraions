@@ -32,22 +32,21 @@ export default {
 <style lang="scss" scoped>
 .testimonials-section {
   width: 100%;
-  height: 430px;
+  min-height: 430px;
   background-color: $primary-teal;
-  display: inline-flex;
-  gap: 2rem;
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding: 7rem 13rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7rem 0;
 }
 
 .testimonials-container {
   display: flex;
   gap: 2rem;
-  align-items: flex-end;
-  justify-content: flex-end;
-  width: 970px;
-  height: 50px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
 }
 
 .testimonial {
@@ -97,18 +96,6 @@ export default {
 }
 
 @media (max-width: $breakpoint-lg) {
-  .testimonials-section {
-    height: auto;
-    padding: 4rem 2rem;
-  }
-  
-  .testimonials-container {
-    flex-direction: column;
-    width: 100%;
-    height: auto;
-    gap: 2rem;
-  }
-  
   .testimonial {
     width: 100%;
     height: auto;
@@ -122,4 +109,4 @@ export default {
     text-align: center;
   }
 }
-</style> 
+</style>

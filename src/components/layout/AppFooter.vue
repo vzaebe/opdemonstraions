@@ -6,13 +6,13 @@
         <div class="footer__section footer__section--main">
           <h2 class="footer__title">Открытые Перспективы</h2>
           <p class="footer__description">
-            Создаём инклюзивное будущее для всех через образование и технологии
+            Помогаем создавать будущее для всех через поддержку и технологии
           </p>
           <div class="footer__social">
-            <a 
-              v-for="(link, index) in socialLinks" 
+            <a
+              v-for="(link, index) in socialLinks"
               :key="index"
-              :href="link.url" 
+              :href="link.url"
               :aria-label="link.name"
               class="footer__social-link"
               target="_blank"
@@ -53,23 +53,32 @@
             </p>
           </address>
         </div>
+
+        <!-- Legal Links -->
+        <div class="footer__section">
+          <div class="footer__legal">
+            <a
+              v-for="(link, index) in legalLinks"
+              :key="index"
+              :href="link.url"
+              class="footer__link"
+            >
+              {{ link.text }}
+            </a>
+          </div>
+        </div>
       </div>
 
       <!-- Bottom Section -->
       <div class="footer__bottom">
         <p class="footer__copyright">
-          © {{ currentYear }} Открытые Перспективы. Все права защищены.
+          © {{ currentYear }} Автономная некоммерческая организация содействия профориентации и интеграции в реальный сектор экономики молодежи из незащищенных слоев населения «Открытые Перспективы» (АНО «Открытые Перспективы»)<br/>
+          ОГРН 1257700115551<br/>
+          ИНН 9726095312/КПП 772601001<br/>
+          Юридический адрес: 117105, г. Москва, вн.тер.г. муниципальный округ Донской, ш Варшавское, д. 33<br/>
+          Все права защищены. При использовании материалов ссылка на сайт обязательна.
         </p>
-        <div class="footer__legal">
-          <a 
-            v-for="(link, index) in legalLinks" 
-            :key="index"
-            :href="link.url" 
-            class="footer__link"
-          >
-            {{ link.text }}
-          </a>
-        </div>
+        <p class="footer__development">Сайт находится в стадии разработки.</p>
       </div>
     </div>
   </footer>
@@ -101,7 +110,7 @@ interface ContactInfo {
 
 export default defineComponent({
   name: 'AppFooter',
-  
+
   setup() {
     const currentYear = computed(() => new Date().getFullYear())
 
@@ -126,9 +135,9 @@ export default defineComponent({
     ]
 
     const contactInfo: ContactInfo[] = [
-      { label: 'Email', value: 'info@opland.ru', url: 'mailto:info@opland.ru', isLink: true },
-      { label: 'Телефон', value: '+7 (495) 123-45-67', url: 'tel:+74951234567', isLink: true },
-      { label: 'Адрес', value: 'г. Москва, ул. Примерная, д. 123', isLink: false }
+      { label: 'Email', value: 'info@openperspectives.ru', url: 'mailto:info@openperspectives.ru', isLink: true },
+      { label: 'Телефон', value: '+7 915 003 39 35', url: 'tel:+79150033935', isLink: true },
+      { label: 'Адрес', value: '117105, г. Москва, вн.тер.г. муниципальный округ Донской, ш Варшавское, д. 33', isLink: false }
     ]
 
     const legalLinks: Link[] = [
@@ -175,7 +184,7 @@ export default defineComponent({
 
     &--main {
       grid-column: 1 / -1;
-      
+
       @media (min-width: 1024px) {
         grid-column: auto;
       }
@@ -274,12 +283,22 @@ export default defineComponent({
     justify-content: space-between;
     align-items: center;
     padding-top: var(--spacing-8);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
     gap: var(--spacing-4);
 
     @media (max-width: 768px) {
       flex-direction: column;
       text-align: center;
+    }
+  }
+
+  &__legal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+
+    @media (max-width: 768px) {
+      gap: var(--spacing-3);
     }
   }
 
@@ -290,14 +309,11 @@ export default defineComponent({
     margin: 0;
   }
 
-  &__legal {
-    display: flex;
-    gap: var(--spacing-8);
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      gap: var(--spacing-3);
-    }
+  &__development {
+    font-size: var(--text-xs);
+    color: var(--color-white);
+    opacity: 0.7;
+    margin: 0;
   }
 }
-</style> 
+</style>

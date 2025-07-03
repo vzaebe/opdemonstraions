@@ -5,20 +5,22 @@
     <div class="orientation-content">
       <!-- Заголовок секции -->
       <h2 class="orientation-title">
-        Содействуем профориентации<br/>и интеграции в производство
+        Содействуем профориентации и адаптации молодежи
+        из уязвимых слоев, включая людей с нарушением слуха
+        в производство
       </h2>
-      
+
       <!-- Изображение с кнопкой воспроизведения -->
       <div class="orientation-image-container">
         <div class="image-wrapper">
           <!-- Основное изображение -->
-          <img 
-            class="orientation-image" 
+          <img
+            class="orientation-image"
             src="@/assets/png/goodGuy.png"
             alt="Профориентация"
           />
         </div>
-        
+
         <!-- Кнопка воспроизведения поверх изображения -->
         <div class="play-button-overlay">
           <button class="play-button" @click="handlePlayClick">
@@ -26,14 +28,14 @@
           </button>
         </div>
       </div>
-      
+
       <!-- Блоки с описанием услуг -->
       <div class="services-blocks">
         <!-- Блок "Наши рекомендации" -->
         <div class="service-block">
           <div class="service-icon">
-            <img 
-              src="@/assets/png/ourRecomendations.png" 
+            <img
+              src="@/assets/png/ourRecomendations.png"
               alt="Наши рекомендации"
               class="service-image"
             />
@@ -45,12 +47,12 @@
             </p>
           </div>
         </div>
-        
+
         <!-- Блок "Разработка ПО" -->
         <div class="service-block">
           <div class="service-icon">
-            <img 
-              src="@/assets/png/software.png" 
+            <img
+              src="@/assets/png/software.png"
               alt="Разработка ПО"
               class="service-image"
             />
@@ -67,7 +69,7 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'OrientationSection',
   methods: {
@@ -105,7 +107,7 @@ export default {
   line-height: $leading-10;
   text-align: center;
   color: $white;
-  width: 800px;
+  width: 1200px;
   margin: 0;
 }
 
@@ -151,18 +153,35 @@ export default {
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: $primary-yellow;
+  border-radius: $border-radius-full;
+  background: linear-gradient(135deg, $primary-teal, $primary-mint);
   border: none;
-  border-radius: 50%;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  
-  &:hover {
-    transform: scale(1.15);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 25px rgba(29, 233, 182, 0.35);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
   }
-  
+
+  &:hover {
+    background: linear-gradient(135deg, $primary-mint, $primary-cyan);
+    transform: scale(1.1);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
   &:active {
     transform: scale(0.95);
   }
@@ -202,7 +221,7 @@ export default {
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.4s ease;
-  
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.12);
     transform: translateY(-4px);
@@ -270,14 +289,14 @@ export default {
     height: auto;
     padding: 4rem 2rem;
   }
-  
+
   .orientation-title {
     position: static;
     width: 100%;
     transform: none;
     margin-bottom: 4rem;
   }
-  
+
   .orientation-image-container {
     position: static;
     width: 100%;
@@ -285,12 +304,12 @@ export default {
     transform: none;
     margin: 0 auto 4rem;
   }
-  
+
   .image-wrapper {
     width: 100%;
     height: auto;
   }
-  
+
   .orientation-image {
     position: relative;
     width: 100%;
@@ -298,7 +317,7 @@ export default {
     transform: none;
     left: 0;
   }
-  
+
   .services-blocks {
     position: static;
     width: 100%;
@@ -306,7 +325,7 @@ export default {
     gap: 3rem;
     transform: none;
   }
-  
+
   .service-block {
     width: 100%;
     max-width: 500px;
@@ -318,30 +337,30 @@ export default {
   .orientation-title {
     font-size: $text-3xl;
   }
-  
+
   .service-block {
     flex-direction: column;
     text-align: center;
     height: auto;
     padding: 2rem 1.5rem;
   }
-  
+
   .service-content {
     align-items: center;
   }
-  
+
   .play-button-overlay {
     width: 5rem;
     height: 5rem;
   }
-  
+
   .play-icon {
     font-size: $text-2xl;
   }
-  
+
   .service-icon {
     width: 12rem;
     height: 8rem;
   }
 }
-</style> 
+</style>

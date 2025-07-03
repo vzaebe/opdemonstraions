@@ -11,7 +11,7 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'GallerySection'
 }
@@ -19,14 +19,13 @@ export default {
 
 <style lang="scss" scoped>
 .gallery-section {
-  width: 1400px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
   height: 970px;
-  padding-left: 115px;
-  padding-right: 115px;
-  padding-top: 68px;
-  padding-bottom: 100px;
+  padding: 68px 115px 100px;
   background-color: $white;
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
@@ -45,11 +44,11 @@ export default {
   width: 100%;
   height: 100%;
   transition: transform 0.3s ease;
-  
+
   &:hover {
     transform: scale(1.05);
   }
-  
+
   // img1 - 370x461, left: 0px, top: 101px
   &:nth-child(1) {
     width: 370px;
@@ -57,7 +56,7 @@ export default {
     left: 0px;
     top: 101px;
   }
-  
+
   // img2 - 370x238, left: 400px, top: 0px
   &:nth-child(2) {
     width: 370px;
@@ -65,7 +64,7 @@ export default {
     left: 400px;
     top: 0px;
   }
-  
+
   // img3 - 370x193, left: 0px, top: 609px
   &:nth-child(3) {
     width: 370px;
@@ -73,7 +72,7 @@ export default {
     left: 0px;
     top: 609px;
   }
-  
+
   // img4 - 370x498, left: 400px, top: 304px
   &:nth-child(4) {
     width: 370px;
@@ -81,7 +80,7 @@ export default {
     left: 400px;
     top: 304px;
   }
-  
+
   // img5 - 331x370, left: 820px, top: 47px
   &:nth-child(5) {
     width: 331px;
@@ -89,7 +88,7 @@ export default {
     left: 820px;
     top: 47px;
   }
-  
+
   // img6 - 370x370, left: 800px, top: 432px
   &:nth-child(6) {
     width: 370px;
@@ -105,7 +104,7 @@ export default {
     height: auto;
     padding: 2rem;
   }
-  
+
   .gallery-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -114,7 +113,7 @@ export default {
     width: 100%;
     height: auto;
   }
-  
+
   .gallery-image {
     position: static;
     width: 100%;
@@ -122,4 +121,4 @@ export default {
     transform: none;
   }
 }
-</style> 
+</style>

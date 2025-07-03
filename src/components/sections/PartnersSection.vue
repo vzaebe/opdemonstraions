@@ -5,72 +5,72 @@
     <div class="partners-container">
       <!-- Заголовок секции -->
       <div class="partners-header">
-        <h2 class="partners-title">Наши генеральные партнеры</h2>
+        <h2 class="partners-title">Наши партнеры</h2>
         <p class="partners-subtitle">
-          Компании, которые сотрудничают с нами в области интеграции незащищённых слоёв населения в свои производства
+          Организации, которые сотрудничают с нами в области профориентации и интеграции молодежи из незащищённых слоёв населения в производство
         </p>
       </div>
-      
+
       <!-- Сетка логотипов партнеров -->
       <div class="partners-grid">
-        <!-- Партнер 1 - Akzent -->
+        <!-- Партнер 1 - Techencon -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img 
-              class="partner-logo" 
-              src="@/assets/images/partners/akzent.svg"
-              alt="Akzent"
+            <img
+              class="partner-logo"
+              src="@/assets/images/partners/techencon.svg"
+              alt="Techencon"
             />
           </div>
         </div>
-        
+
         <!-- Партнер 2 - COG -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img 
-              class="partner-logo" 
+            <img
+              class="partner-logo"
               src="@/assets/images/partners/cog.svg"
               alt="COG"
             />
           </div>
         </div>
-        
-        <!-- Партнер 3 - МСС (текст) -->
-        <div class="partner-card">
-          <div class="partner-logo-container partner-text-container">
-            <span class="partner-text">МСС</span>
-          </div>
-        </div>
-        
-        <!-- Партнер 4 - ПКБ МГТУ -->
+
+        <!-- Партнер 3 - ПКБ МГТУ -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img 
-              class="partner-logo" 
+            <img
+              class="partner-logo"
               src="@/assets/images/partners/pkbmstu.svg"
               alt="ПКБ МГТУ"
             />
           </div>
         </div>
-        
+
+        <!-- Партнер 4 - МСС (текст) -->
+        <div class="partner-card">
+          <div class="partner-logo-container partner-text-container">
+            <span class="partner-text">МСС</span>
+          </div>
+        </div>
+
         <!-- Партнер 5 - Simtech -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img 
-              class="partner-logo" 
+            <img
+              class="partner-logo"
               src="@/assets/images/partners/simtech.svg"
               alt="Simtech"
             />
           </div>
         </div>
-        
-        <!-- Партнер 6 - Techencon -->
+
+        <!-- Партнер 6 - Akzent -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img 
-              class="partner-logo" 
-              src="@/assets/images/partners/techencon.svg"
-              alt="Techencon"
+            <img
+              class="partner-logo"
+              src="@/assets/images/partners/akzent.svg"
+              alt="Akzent"
             />
           </div>
         </div>
@@ -79,7 +79,7 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'PartnersSection'
 }
@@ -180,7 +180,7 @@ export default {
   background: rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
   position: relative;
-  
+
   &:hover {
     transform: scale(1.05) translateY(-5px);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(29, 233, 182, 0.1));
@@ -224,32 +224,32 @@ export default {
   .partners-section {
     padding: 5rem 2rem;
   }
-  
+
   .partners-container {
     gap: 3rem;
   }
-  
+
   .partners-header {
     gap: 1.5rem;
   }
-  
+
   .partners-title {
     font-size: $text-4xl;
   }
-  
+
   .partners-subtitle {
     font-size: $text-base;
   }
-  
+
   .partners-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
-  
+
   .partner-card {
     height: 140px;
   }
-  
+
   .partner-text {
     font-size: 2.5rem;
   }
@@ -259,23 +259,23 @@ export default {
   .partners-section {
     padding: 4rem 1rem;
   }
-  
+
   .partners-container {
     gap: 2.5rem;
   }
-  
+
   .partners-grid {
     gap: 1.5rem;
   }
-  
+
   .partner-card {
     height: 120px;
   }
-  
+
   .partner-logo-container {
     padding: 1rem;
   }
-  
+
   .partner-text {
     font-size: 2rem;
   }
@@ -286,13 +286,13 @@ export default {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .partner-card {
     height: 100px;
   }
-  
+
   .partner-text {
     font-size: 1.8rem;
   }
 }
-</style> 
+</style>
