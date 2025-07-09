@@ -163,6 +163,7 @@ export default defineComponent({
   background-color: var(--color-primary);
   color: var(--color-white);
   padding: var(--spacing-16) var(--spacing-4);
+  margin-top: auto;
 
   &__container {
     max-width: var(--container-width);

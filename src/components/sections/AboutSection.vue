@@ -79,7 +79,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .about-section {
   width: 100%;
-  min-height: 100vh;
+  min-height: 120vh;
   display: flex;
   align-items: center;
   position: relative;
@@ -142,7 +142,7 @@ export default defineComponent({
   grid-template-rows: auto auto;
   gap: $spacing-12;
   align-items: center;
-  min-height: 80vh;
+  min-height: 100vh;
 }
 
 .about-title {

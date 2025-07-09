@@ -1,5 +1,19 @@
 @use './variables.scss' as *;
 
+html, body {
+  height: 100%;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
 // Сброс стилей и базовые настройки
 * {
   margin: 0;

@@ -30,12 +30,12 @@
           </div>
         </div>
 
-        <!-- Отзывы -->
+        <!-- Отзывы
         <div class="support-testimonials">
           <transition name="testimonial-slide" mode="out-in">
             <TestimonialCard :key="currentSlide" :testimonial="testimonials[currentSlide]" />
           </transition>
-        </div>
+        </div> -->
 
         <!-- Модальное окно -->
         <teleport to="body">

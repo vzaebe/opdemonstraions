@@ -34,8 +34,6 @@ export default {
     ServicesSection,
     AdvantagesSection,
     BestSection,
-    RegistrationSection,
-    TestimonialsSection,
     ServicesCardsSection,
     ProjectsSection,
     SocialMediaSection,
@@ -124,6 +122,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: $gray-900;
   line-height: $leading-relaxed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 // Основной контейнер приложения
@@ -135,6 +136,12 @@ export default {
 
 // Контейнер для основного контента
 .main-content {
+  width: 100%;
+}
+
+// Основной контент
+main {
+  flex: 1;
   width: 100%;
 }
 
