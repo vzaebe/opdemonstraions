@@ -1,7 +1,23 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import openurfeatures from '@/assets/png/openurfeatures.png'
+
+const form = ref({
+  name: '',
+  email: '',
+  password: ''
+})
+
+function submitForm() {
+  console.log('Registration form submitted:', form.value)
+  form.value = { name: '', email: '', password: '' }
+}
+</script>
+
 <template>
   <section class="registration-section">
     <div class="image-container">
-      <img src="@/assets/png/openurfeatures.png" alt="Регистрация" />
+      <img :src="openurfeatures" alt="Регистрация" />
     </div>
     <div class="registration-container">
       <div class="form-container">
@@ -28,31 +44,6 @@
     </div>
   </section>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'RegistrationSection',
-  data() {
-    return {
-      form: {
-        name: '',
-        email: '',
-        password: ''
-      }
-    }
-  },
-  methods: {
-    submitForm() {
-      console.log('Registration form submitted:', this.form)
-      this.form = {
-        name: '',
-        email: '',
-        password: ''
-      }
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables.scss' as *;
