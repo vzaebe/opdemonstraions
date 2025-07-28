@@ -55,6 +55,11 @@
 </template>
 
 <script lang="ts">
+/**
+ * Секция «Поддержка» (SupportSection).
+ * Предлагает три варианта поддержки: волонтёрство, партнёрство, пожертвование.
+ * Секция содержит собственное модальное окно и автослайдер отзывов.
+ */
 import { defineComponent } from 'vue'
 import TestimonialCard from '../TestimonialCard.vue'
 import ivanovaPic from '../../assets/png/face/ivanova pic.png'

@@ -1,3 +1,10 @@
+/**
+ * Файл конфигурации маршрутизатора Vue Router.
+ * Здесь объявляются публичные маршруты SPA-лендинга.
+ *
+ * При добавлении новых страниц достаточно добавить объект маршрута в массив
+ * `routes` ниже.
+ */
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -12,9 +19,9 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      // разделение кода на уровне маршрута: каждая страница будет вынесена
+      // в отдельный чанк (имя файла About.[hash].js). Такой кусок будет
+      // загружен лениво только при первом переходе на страницу.
       component: () => import('../views/AboutView.vue'),
     },
   ],

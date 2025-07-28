@@ -11,6 +11,11 @@
 </template>
 
 <script lang="ts">
+/**
+ * Секция «Социальные сети» (SocialMediaSection).
+ * Простые CTA-кнопки для перехода в Telegram и VK. Цвета кнопок взяты из
+ * бренд-гайдов соответствующих платформ.
+ */
 export default {
   name: 'SocialMediaSection'
 }

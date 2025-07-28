@@ -1,3 +1,9 @@
+/**
+ * Конфигурация ESLint (Flat config) с поддержкой Vue 3, TypeScript и Vitest/Cypress.
+ * Использует `@vue/eslint-config-typescript` для правил TS + Vue, а также
+ * `eslint-plugin-vue` для best practices.
+ * Плагин `skip-formatting` отключает правила, перекрывающиеся с Prettier.
+ */
 import { globalIgnores } from 'eslint/config'
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import pluginVue from 'eslint-plugin-vue'

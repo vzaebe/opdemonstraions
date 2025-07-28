@@ -4,7 +4,11 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
+/**
+ * Иконка «HtmlFileIcon» — стилизованный файл кода/HTML. Применяется в блоках
+ * о разработке открытых решений. Props: width/height.
+ */
 export default {
   name: 'HtmlFileIcon',
   props: {

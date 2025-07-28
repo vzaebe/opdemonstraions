@@ -47,6 +47,14 @@
 </template>
 
 <script lang="ts">
+/**
+ * Секция «О нас» (AboutSection).
+ * Показывает ключевые особенности организации через три «фичи» и вдохновляющую
+ * цитату. Кроме декоративных анимаций, реализованы hover-эффекты, которые
+ * подсвечивают карточку и генерируют частицы.
+ *
+ * Компонент опирается на иконки CircleIcon, HtmlFileIcon и TgIcon.
+ */
 import { defineComponent } from 'vue'
 import HtmlFileIcon from '../icons/HtmlFileIcon.vue'
 import CircleIcon from '../icons/CircleIcon.vue'

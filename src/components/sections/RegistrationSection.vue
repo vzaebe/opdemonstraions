@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+/**
+ * Секция «Регистрация» (RegistrationSection).
+ * Форма регистрации на мероприятие/платформу. Состояние хранится в ref,
+ * отправка выводит данные в консоль и сбрасывает форму.
+ */
 import { ref } from 'vue'
 import openurfeatures from '@/assets/png/openurfeatures.png'
 

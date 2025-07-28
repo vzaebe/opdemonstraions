@@ -99,6 +99,17 @@
 </template>
 
 <script lang="ts">
+/**
+ * Секция «Telegram» (TelegramSection).
+ * Приглашает пользователя подписаться на Telegram-канал организации.
+ * Реализованы:
+ *  - Анимация счётчиков подписчиков и постов;
+ *  - Большое количество декоративных элементов (частицы, волны, круги);
+ *  - Кнопка с ripple-эффектом и SVG-иконкой Telegram.
+ *
+ * Цвета и градиенты в компоненте соответствуют фирменным цветам Telegram
+ * (основной #0088cc), что согласуется с предпочтениями заказчика.
+ */
 import { defineComponent, ref, onMounted, onUnmounted, computed } from 'vue'
 import TgIcon from '../icons/TgIcon.vue'
 

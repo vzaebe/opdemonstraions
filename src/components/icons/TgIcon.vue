@@ -4,7 +4,10 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
+/**
+ * Иконка Telegram (TgIcon). Поддерживает props width/height.
+ */
 export default {
   name: 'TgIcon',
   props: {

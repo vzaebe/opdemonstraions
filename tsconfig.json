@@ -1,3 +1,8 @@
+/*
+ * Корневой tsconfig. Использует project references на node, app, vitest.
+ * Не содержит compilerOptions, кроме module, так как логика распределена
+ * в дочерних конфигурациях.
+ */
 {
   "files": [],
   "references": [

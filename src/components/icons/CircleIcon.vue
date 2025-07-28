@@ -4,7 +4,11 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
+/**
+ * Иконка «CircleIcon» — символ Геометрической фигуры, используется
+ * в секции преимуществ и других блоках. Принимает props width/height.
+ */
 export default {
   name: 'CircleIcon',
   props: {

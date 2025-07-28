@@ -1,3 +1,7 @@
+/*
+ * tsconfig.app.json — конфигурация компилятора для исходного кода приложения.
+ * Наследует настройки DOM из `@vue/tsconfig`, подключает алиас @/*.
+ */
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],

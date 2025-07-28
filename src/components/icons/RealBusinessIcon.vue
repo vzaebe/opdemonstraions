@@ -1,3 +1,4 @@
+<!-- Иконка «RealBusinessIcon» — символ реального производства -->
 <template>
   <svg viewBox="0 0 60 51.4286" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path

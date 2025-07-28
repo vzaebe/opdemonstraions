@@ -23,7 +23,12 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
+/**
+ * Секция «Отзывы» (TestimonialsSection).
+ * Отображает два отзыва с аватаром. Шаблон можно расширить, заменив статическую
+ * разметку на v-for по массиву отзывов.
+ */
 export default {
   name: 'TestimonialsSection'
 }

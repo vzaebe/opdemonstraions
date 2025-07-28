@@ -28,6 +28,12 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * Секция «Наши преимущества» (AdvantagesSection).
+ * Показывает три ключевых преимущества организации, каждое с собственной
+ * SVG-иконкой. Блоки анимируются по очереди (delay в CSS) и реагируют на
+ * hover-эффект.
+ */
 import RealBusinessIcon from '../icons/RealBusinessIcon.vue'
 import OpenDecisionsIcon from '../icons/OpenDecisionsIcon.vue'
 import OpenInfoIcon from '../icons/OpenInfoIcon.vue'

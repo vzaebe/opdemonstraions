@@ -1,15 +1,28 @@
+/**
+ * Точка входа фронтенд-приложения.
+ * Здесь инициализируется экземпляр Vue, подключаются глобальные плагины
+ * (Pinia для состояния, Vue-Router для маршрутизации) и монтируется
+ * корневой компонент `App.vue` в DOM-элемент с id `#app`.
+ *
+ * При добавлении новых глобальных плагинов (например, i18n, axios-инстанса
+ * или сторонних UI-библиотек) их следует подключать в этом файле ДО вызова
+ * `app.mount`, чтобы они были доступны во всём приложении.
+ */
 import './assets/main.css'
 import './assets/styles/global.scss'
 
 import { createApp } from 'vue'
+// Плагин управления состоянием приложения
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
 
-const app = createApp(App)
+const app = createApp(App) // Создаём экземпляр Vue с корневым компонентом
 
-app.use(createPinia())
-app.use(router)
+// Подключаем глобальные плагины --------------------------------------------
+app.use(createPinia()) // Глобальное хранилище состояний (Pinia)
+app.use(router)        // Маршрутизация (Vue Router)
 
+// Финальный шаг — монтируем приложение в DOM -------------------------------
 app.mount('#app')

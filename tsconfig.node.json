@@ -1,3 +1,6 @@
+/*
+ * tsconfig.node.json — настройки для Node-среды (скрипты, конфиги). Не сборка.
+ */
 {
   "extends": "@tsconfig/node22/tsconfig.json",
   "include": [

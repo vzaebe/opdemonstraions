@@ -1,3 +1,6 @@
+/*
+ * tsconfig.vitest.json — отдельная конфигурация для тестов Vitest.
+ */
 {
   "extends": "./tsconfig.app.json",
   "include": ["src/**/__tests__/*", "env.d.ts"],

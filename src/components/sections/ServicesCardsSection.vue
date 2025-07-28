@@ -33,6 +33,11 @@
 </template>
 
 <script lang="ts">
+/**
+ * Секция «Карточки услуг» (ServicesCardsSection).
+ * Генерирует сетку из четырёх карточек. Анимация появления сетки основана
+ * на scroll-проверке (getBoundingClientRect) без IntersectionObserver.
+ */
 import { ref, onMounted, onUnmounted } from 'vue'
 
 export default {

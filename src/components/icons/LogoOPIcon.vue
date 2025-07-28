@@ -26,7 +26,11 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
+/**
+ * Логотип организации (LogoOPIcon). SVG с градиентами, принимает className для
+ * кастомизации размеров/стилей через CSS.
+ */
 export default {
   name: 'LogoOPIcon',
   props: {

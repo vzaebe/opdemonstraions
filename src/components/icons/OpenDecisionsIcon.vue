@@ -1,3 +1,4 @@
+<!-- Иконка «OpenDecisionsIcon» — символ открытых решений -->
 <template>
   <svg viewBox="0 0 52.558 52.5581" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path

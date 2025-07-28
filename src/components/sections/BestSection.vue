@@ -73,6 +73,11 @@
 </template>
 
 <script lang="ts">
+/**
+ * Секция «Лучшее, что может человек» (BestSection).
+ * Содержит интерактивные карточки с описанием программ и экскурсий.
+ * Видимость и анимация карточек триггерятся через IntersectionObserver.
+ */
 import { ref, onMounted, onUnmounted } from 'vue'
 
 export default {

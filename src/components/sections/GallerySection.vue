@@ -12,6 +12,11 @@
 </template>
 
 <script lang="ts">
+/**
+ * Секция «Галерея» (GallerySection).
+ * Статическая мозаика из шести изображений, расположенных абсолютным
+ * позиционированием на десктопе иCSS-gridом на мобилках.
+ */
 export default {
   name: 'GallerySection'
 }
