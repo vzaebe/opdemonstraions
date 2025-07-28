@@ -153,7 +153,7 @@ export default {
 
 .best-content {
   flex: 1;
-  padding: 4rem 3rem 4rem 35rem;
+  padding: 4rem 3rem 4rem 25rem;
   display: flex;
   align-items: center;
   position: relative;
@@ -355,7 +355,7 @@ export default {
 }
 
 .best-image {
-  width: 30%;
+  width: 35%;
   height: 100%;
   position: relative;
   opacity: 0;

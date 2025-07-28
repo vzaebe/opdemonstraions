@@ -6,6 +6,7 @@
  */
 import { ref } from 'vue'
 import openurfeatures from '@/assets/png/openurfeatures.png'
+import { POLICY_LINKS } from '@/config/links'
 
 const form = ref({
   name: '',
@@ -42,7 +43,11 @@ function submitForm() {
               <input type="password" id="reg-password" v-model="form.password" placeholder="Ваш пароль" />
             </div>
             <button type="submit" class="submit-btn">Зайти</button>
-            <p class="consent-text">При регистрации вы соглашаетесь с нашими правилами</p>
+            <p class="consent-text">
+              При регистрации вы соглашаетесь с 
+              <a :href="POLICY_LINKS.TERMS_OF_USE" class="policy-link" target="_blank" rel="noopener">правилами</a> и 
+              <a :href="POLICY_LINKS.PERSONAL_DATA_AGREEMENT" class="policy-link" target="_blank" rel="noopener">обработкой персональных данных</a>
+            </p>
           </form>
         </div>
       </div>
@@ -311,6 +316,16 @@ function submitForm() {
   &:hover {
     opacity: 1;
     transform: translateY(-1px);
+  }
+
+  .policy-link {
+    color: #667eea;
+    text-decoration: underline;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 

@@ -433,7 +433,7 @@ export default {
   }
 
   .logo-icon {
-    width: 120px;
+    width: 140px;
   }
 
   .burger-button {
@@ -454,7 +454,7 @@ export default {
   }
 
   .logo-icon {
-    width: 100px;
+    width: 120px;
   }
 }
 

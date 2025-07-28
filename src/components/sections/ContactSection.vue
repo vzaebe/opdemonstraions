@@ -32,7 +32,10 @@
               <textarea id="message" v-model="form.message" placeholder="Оставьте своё сообщение"></textarea>
             </div>
             <button type="submit">ОТПРАВИТЬ</button>
-            <p class="consent-text">Нажимая на кнопку, вы даёте согласие на обработку своих персональных данных.</p>
+            <p class="consent-text">
+              Нажимая на кнопку, вы даёте согласие на 
+              <a :href="POLICY_LINKS.PERSONAL_DATA_AGREEMENT" class="policy-link" target="_blank" rel="noopener">обработку своих персональных данных</a>.
+            </p>
           </form>
         </div>
 
@@ -61,6 +64,8 @@
  *  - Фидбек-форму (Имя / Телефон / Email / Сообщение) с валидацией на уровне
  *    браузера и консольным выводом при отправке.
  */
+import { POLICY_LINKS } from '@/config/links'
+
 export default {
   name: 'ContactSection',
   data() {
@@ -70,7 +75,8 @@ export default {
         phone: '',
         email: '',
         message: ''
-      }
+      },
+      POLICY_LINKS
     }
   },
   methods: {
@@ -274,6 +280,16 @@ button {
   font-size: 0.75rem;
   color: #6B7280;
   margin-top: 0.5rem;
+
+  .policy-link {
+    color: $primary-teal;
+    text-decoration: underline;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 }
 
 @media (max-width: 1024px) {

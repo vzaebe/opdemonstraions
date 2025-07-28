@@ -100,6 +100,7 @@ import { defineComponent, computed } from 'vue'
 import TelegramIcon from '@/assets/images/tg.svg'
 import VKIcon from '@/assets/images/icon.svg'
 import YouTubeIcon from '@/assets/images/icon.svg'
+import { POLICY_LINKS } from '@/config/links'
 
 interface Link {
   text: string
@@ -152,8 +153,9 @@ export default defineComponent({
     ]
 
     const legalLinks: Link[] = [
-      { text: 'Политика конфиденциальности', url: '#' },
-      { text: 'Условия использования', url: '#' }
+      { text: 'Политика конфиденциальности', url: POLICY_LINKS.PRIVACY_POLICY },
+      { text: 'Соглашение на обработку ПД', url: POLICY_LINKS.PERSONAL_DATA_AGREEMENT },
+      { text: 'Условия использования', url: POLICY_LINKS.TERMS_OF_USE }
     ]
 
     return {

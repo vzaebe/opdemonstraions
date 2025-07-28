@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import Cookies from 'js-cookie';
+import { POLICY_LINKS } from '@/config/links';
 
 // Visibility state of the banner
 const isVisible = ref(false);
@@ -26,7 +27,9 @@ function acceptCookies() {
       aria-label="Cookie consent"
     >
       <p class="cookie-text">
-        Мы используем cookie-файлы, чтобы улучшить работу сайта. Продолжая пользоваться сайтом, вы соглашаетесь на использование cookie.
+        Мы используем cookie-файлы, чтобы улучшить работу сайта. Продолжая пользоваться сайтом, вы соглашаетесь на 
+        <a :href="POLICY_LINKS.PRIVACY_POLICY" class="policy-link" target="_blank" rel="noopener">использование cookie</a> и 
+        <a :href="POLICY_LINKS.PERSONAL_DATA_AGREEMENT" class="policy-link" target="_blank" rel="noopener">обработку персональных данных</a>.
       </p>
       <button class="accept-btn" @click="acceptCookies">Принять</button>
     </div>
@@ -65,6 +68,16 @@ function acceptCookies() {
   flex: 1 1 auto;
   font-size: $text-sm;
   line-height: $leading-relaxed;
+}
+
+.policy-link {
+  color: $white;
+  text-decoration: underline;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .accept-btn {

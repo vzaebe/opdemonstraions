@@ -61,14 +61,13 @@
  * Секция содержит собственное модальное окно и автослайдер отзывов.
  */
 import { defineComponent } from 'vue'
-import TestimonialCard from '../TestimonialCard.vue'
 import ivanovaPic from '../../assets/png/face/ivanova pic.png'
 import komarovPic from '../../assets/png/face/komarov pic.png'
 import mironovaPic from '../../assets/png/face/mironova pic.png'
 
 export default defineComponent({
   name: 'SupportSection',
-  components: { TestimonialCard },
+  components: {},
   data() {
     return {
       showModal: false,

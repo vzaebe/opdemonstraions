@@ -47,6 +47,8 @@ export default {
     ServicesSection,
     AdvantagesSection,
     BestSection,
+    RegistrationSection,
+    TestimonialsSection,
     ServicesCardsSection,
     ProjectsSection,
     SocialMediaSection,

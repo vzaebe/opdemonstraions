@@ -68,6 +68,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 0;
 
   &::after {
     content: '';
@@ -180,6 +181,11 @@ export default {
 }
 
 @media (max-width: $breakpoint-sm) {
+  .hero-section {
+    margin-top: 120px; // Отступ для мобильной шапки
+    height: calc(70vh - 120px);
+  }
+
   .hero-title {
     font-size: $text-3xl;
   }
