@@ -2,12 +2,15 @@
 
 html, body {
   height: 100%;
+  overflow-x: hidden; // Предотвращает горизонтальную прокрутку
 }
 
 #app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  overflow-x: hidden; // Предотвращает горизонтальную прокрутку
 }
 
 main {
@@ -19,6 +22,23 @@ main {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+// Глобальное предотвращение горизонтального overflow
+*, *::before, *::after {
+  max-width: 100%;
+}
+
+// Дополнительные стили для предотвращения горизонтальной прокрутки
+section {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+// Исправление для абсолютно позиционированных элементов
+.absolute-container {
+  position: relative;
+  overflow-x: hidden;
 }
 
 html {
@@ -1032,7 +1052,127 @@ body {
   z-index: 50;
 }
 
-// Адаптивные утилиты
+// Мобильные утилиты (Mobile-First подход)
+@media (max-width: $breakpoint-sm) {
+  .mobile\:hidden {
+    display: none;
+  }
+
+  .mobile\:block {
+    display: block;
+  }
+
+  .mobile\:flex {
+    display: flex;
+  }
+
+  .mobile\:text-center {
+    text-align: center;
+  }
+
+  .mobile\:px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .mobile\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .mobile\:py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .mobile\:py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .mobile\:text-sm {
+    font-size: $text-sm;
+  }
+
+  .mobile\:text-base {
+    font-size: $text-base;
+  }
+
+  .mobile\:text-lg {
+    font-size: $text-lg;
+  }
+
+  .mobile\:text-xl {
+    font-size: $text-xl;
+  }
+
+  .mobile\:text-2xl {
+    font-size: $text-2xl;
+  }
+
+  .mobile\:w-full {
+    width: 100%;
+  }
+
+  .mobile\:h-auto {
+    height: auto;
+  }
+
+  .mobile\:flex-col {
+    flex-direction: column;
+  }
+
+  .mobile\:gap-2 {
+    gap: 0.5rem;
+  }
+
+  .mobile\:gap-4 {
+    gap: 1rem;
+  }
+
+  .mobile\:mt-4 {
+    margin-top: 1rem;
+  }
+
+  .mobile\:mb-4 {
+    margin-bottom: 1rem;
+  }
+}
+
+// Адаптивные утилиты для планшетов
+@media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
+  .tablet\:hidden {
+    display: none;
+  }
+
+  .tablet\:block {
+    display: block;
+  }
+
+  .tablet\:flex {
+    display: flex;
+  }
+
+  .tablet\:text-center {
+    text-align: center;
+  }
+
+  .tablet\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .tablet\:py-6 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .tablet\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// Адаптивные утилиты для больших экранов
 @media (min-width: $breakpoint-lg) {
   .lg\:hidden {
     display: none;
@@ -1058,6 +1198,14 @@ body {
   .lg\:py-8 {
     padding-top: 2rem;
     padding-bottom: 2rem;
+  }
+
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -1118,6 +1266,75 @@ body {
 }
 
 /* -----------------------------------------------------------------
+   Touch-устройства и мобильные улучшения
+   -----------------------------------------------------------------*/
+
+// Минимальные размеры для touch-элементов (44px согласно Apple HIG)
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Класс для увеличения touch-области без визуальных изменений
+.touch-area-expand {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: transparent;
+    z-index: 1;
+  }
+}
+
+// Мобильные кнопки должны быть больше
+@media (max-width: $breakpoint-md) {
+  button:not(.compact) {
+    min-height: 48px;
+    padding: 12px 24px;
+    font-size: 16px; // Предотвращает zoom на iOS
+  }
+
+  input, textarea, select {
+    font-size: 16px; // Предотвращает zoom на iOS
+    padding: 12px 16px;
+    min-height: 44px;
+  }
+
+  a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // Увеличиваем отступы для лучшего touch UX
+  .mobile-spacing {
+    padding: 16px;
+    margin: 8px 0;
+  }
+}
+
+// Предотвращение случайного zoom на iOS
+@media (max-width: $breakpoint-sm) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* -----------------------------------------------------------------
    Unified hover / focus interaction for all interactive elements
    -----------------------------------------------------------------*/
 
@@ -1128,10 +1345,28 @@ a, button, .interactive-hover, .nav-link, .service-card, .project-card, .play-bu
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, box-shadow;
 
-  &:hover,
+  // Только на устройствах с hover (не touch)
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-2px) scale(1.015);
+      box-shadow: 0 4px 10px rgba($black, 0.08);
+    }
+  }
+
+  // Focus всегда работает
   &:focus-visible {
     transform: translateY(-2px) scale(1.015);
     box-shadow: 0 4px 10px rgba($black, 0.08);
+    outline: 2px solid $primary-teal;
+    outline-offset: 2px;
+  }
+
+  // Улучшенные touch-состояния
+  @media (hover: none) {
+    &:active {
+      transform: translateY(0) scale(0.98);
+      transition: transform 0.1s ease;
+    }
   }
 }
 
@@ -1141,4 +1376,41 @@ a, button, .interactive-hover, .nav-link, .service-card, .project-card, .play-bu
 .footer__link:hover,
 .footer__link:focus-visible {
   box-shadow: none !important;
+}
+
+// Улучшения для scroll на мобильных
+@media (max-width: $breakpoint-md) {
+  * {
+    // Плавная прокрутка на мобильных
+    -webkit-overflow-scrolling: touch;
+  }
+
+  // Предотвращение выделения текста на touch-элементах
+  button, .interactive {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  // Убираем highlight на tap для iOS
+  a, button, input, textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+// Safe area для устройств с вырезами
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  .safe-area-top {
+    padding-top: max(16px, env(safe-area-inset-top));
+  }
+
+  .safe-area-bottom {
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
 }

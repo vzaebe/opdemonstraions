@@ -92,12 +92,56 @@
           <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
+
+      <!-- Мобильный поиск -->
+      <div class="mobile-search">
+        <div class="search-input">
+          <input
+            type="text"
+            class="search-field"
+            placeholder="Поиск"
+            @focus="onSearchFocus"
+            @blur="onSearchBlur"
+            v-model="searchQuery"
+          />
+          <button class="search-button" @click="performSearch">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Навигационные ссылки -->
       <a href="#about" class="nav-link" @click="closeMenu">О нас</a>
       <a href="#projects" class="nav-link" @click="closeMenu">Проекты</a>
       <a href="#partners" class="nav-link" @click="closeMenu">Партнёры</a>
       <a href="#knowledge" class="nav-link" @click="closeMenu">База Знаний</a>
       <a href="#support" class="nav-link" @click="closeMenu">Поддержать</a>
       <a href="#contacts" class="nav-link" @click="closeMenu">Контакты</a>
+
+      <!-- Контактная информация в мобильном меню -->
+      <div class="mobile-contacts">
+        <div class="contact-links">
+          <a href="tel:+79999999999" class="mobile-contact-link" @click="closeMenu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 16.92V21a2 2 0 0 1-2.18 2 19.9 19.9 0 0 1-8.63-3.06 19.5 19.5 0 0 1-6-6A19.9 19.9 0 0 1 1 4.18 2 2 0 0 1 3 2h4.09a2 2 0 0 1 2 1.72c.12.81.34 1.6.66 2.35a2 2 0 0 1-.45 2.11L7.09 10.91a16 16 0 0 0 6 6l2.73-2.73a2 2 0 0 1 2.11-.45c.75.32 1.54.54 2.35.66a2 2 0 0 1 1.72 2.03z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>+7 999 999 99 99</span>
+          </a>
+          <a href="mailto:info@example.com" class="mobile-contact-link" @click="closeMenu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>info@example.com</span>
+          </a>
+          <a href="https://t.me/username" target="_blank" rel="noopener" class="mobile-contact-link" @click="closeMenu">
+            <TgIcon :width="18" :height="18" />
+            <span>Telegram</span>
+          </a>
+        </div>
+      </div>
     </nav>
   </div>
 </template>
@@ -185,6 +229,10 @@ export default {
   width: 100%;
   height: 100px;
   background-color: $primary-teal;
+  position: sticky; // Делаем заголовок липким
+  top: 0;
+  z-index: $z-sticky;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
@@ -387,17 +435,30 @@ export default {
 
 // Адаптивность для мобильных устройств
 @media (max-width: $breakpoint-md) {
-  .nav-container {
-    flex-direction: column;
+  .header {
     height: auto;
+    min-height: 100px;
+  }
+
+  .nav-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 100px;
     padding: 1rem;
     gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .logo-section {
-    order: -1; // Перемещаем логотип в начало на мобильных
-    margin-left: 0;
-    margin-bottom: 1rem;
+    order: 0;
+    margin: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 
   .spacer {
@@ -408,53 +469,164 @@ export default {
     display: none; // скрыто по умолчанию
     position: absolute;
     top: 100%;
-    right: 1rem;
+    left: 0;
+    right: 0;
     background: $primary-teal;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.5rem;
-    padding: 1rem;
-    border-radius: $border-radius-md;
+    padding: 1.5rem 1rem;
+    border-radius: 0 0 $border-radius-md $border-radius-md;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-    width: max-content;
+    width: 100%;
+    z-index: $z-dropdown;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
   }
 
   .nav-menu.open {
     display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .nav-link {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    width: 100%;
+    text-align: center;
+    border-radius: $border-radius-sm;
+    display: block;
+    text-decoration: none;
+    color: $white;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+    }
+
+    &:active {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   }
 
   .right-section {
-    width: 100%;
-    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    order: 1;
+    flex-shrink: 0;
   }
 
-  .search-input {
+  .search-container {
+    display: none; // Скрываем поиск на мобильных для экономии места
+  }
+
+  .logo-icon {
+    width: 180px;
+    max-height: 60px;
+  }
+
+  // Мобильный поиск в overlay меню
+  .mobile-search {
+    display: block;
     width: 100%;
+    margin-bottom: 1.5rem;
+
+    .search-input {
+      width: 100%;
+      margin: 0;
+    }
+
+    .search-field {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: $white;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .search-button {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: $white;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+
+  .contact-container {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .contact-link {
+    padding: 0.5rem;
+    border-radius: $border-radius-sm;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
   }
 
   .logo-icon {
     width: 140px;
+    max-height: 50px;
   }
 
   .burger-button {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0.75rem;
+    min-width: 44px; // Минимальный размер для touch
+    min-height: 44px;
   }
 }
 
 // Адаптивность для маленьких экранов
 @media (max-width: $breakpoint-sm) {
   .nav-container {
-    padding: 0.5rem;
+    padding: 0.75rem 0.5rem;
   }
 
   .nav-link {
-    font-size: clamp(0.7rem, 4vw, 0.95rem);
+    font-size: 0.95rem;
+    padding: 1rem 1.5rem;
   }
 
   .logo-icon {
-    width: 120px;
+    width: 220px;
+    max-height: 80px;
+  }
+
+  .contact-container {
+    gap: 0.5rem;
+  }
+
+  .contact-link {
+    padding: 0.4rem;
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .burger-button {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0.5rem;
   }
 }
 
@@ -481,19 +653,50 @@ export default {
   background: $primary-teal;
   border: none;
   color: $white;
-  padding: 0.5rem;
-  border-radius: $border-radius-md;
+  padding: 0.75rem;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: $border-radius-lg;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: $z-sticky;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s ease, transform 0.3s ease;
+  z-index: $z-modal; // Увеличен z-index для правильного отображения
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
 
   &:hover {
     background: $primary-mint;
-    transform: scale(1.05);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  // Дополнительная touch-область для мобильных
+  &::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: transparent;
+  }
+
+  // Анимация появления
+  opacity: 0;
+  transform: translateY(-100%);
+  animation: slide-down 0.3s ease forwards;
+}
+
+@keyframes slide-down {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -503,17 +706,64 @@ export default {
   top: 0;
   right: 0;
   height: 100vh;
-  width: 260px;
+  width: min(320px, 85vw);
   background: $primary-teal;
   padding: 4rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  z-index: $z-sticky;
+  z-index: $z-modal;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
 
-  /* плавное появление — можно добавить по желанию */
+  /* плавное появление */
   animation: slide-in 0.3s ease forwards;
+
+  .nav-link {
+    font-size: 1.1rem;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    border-radius: $border-radius-md;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateX(-5px);
+    }
+  }
+
+  .mobile-contacts {
+    margin-top: auto;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mobile-contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: $border-radius-md;
+    color: $white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: translateX(-3px);
+    }
+
+    span {
+      font-size: 0.9rem;
+    }
+  }
 }
 
 @keyframes slide-in {
@@ -539,8 +789,19 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: transparent; // можно чуть затемнить, если нужно
-  z-index: ($z-sticky - 1);
+  background: rgba(0, 0, 0, 0.5); // Затемняем фон для лучшего UX
+  z-index: ($z-modal - 1);
+  backdrop-filter: blur(4px);
+  animation: fade-in 0.3s ease forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Кнопка закрытия внутри меню */

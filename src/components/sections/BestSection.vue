@@ -153,23 +153,25 @@ export default {
 
 .best-content {
   flex: 1;
-  padding: 4rem 3rem 4rem 25rem;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 4vw, 4rem) clamp(2rem, 20vw, 25rem);
   display: flex;
   align-items: center;
   position: relative;
   z-index: 2;
+  min-width: 0; // Предотвращает переполнение
 }
 
 .content-wrapper {
-  max-width: 900px;
+  max-width: min(900px, 90vw);
   width: 100%;
+  margin: 0 auto; // Центрирование контента
 }
 
 .best-title {
-  font-size: $text-5xl;
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   line-height: $leading-tight;
-  margin: 0 0 2rem 0;
+  margin: 0 0 clamp(1rem, 3vw, 2rem) 0;
   background: linear-gradient(135deg, $white 0%, rgba($white, 0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -177,6 +179,8 @@ export default {
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s ease;
+  word-wrap: break-word;
+  hyphens: auto;
 
   &.slide-up {
     opacity: 1;
@@ -185,14 +189,15 @@ export default {
 }
 
 .best-description {
-  font-size: $text-xl;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
   font-weight: 400;
   line-height: $leading-relaxed;
-  margin: 0 0 3rem 0;
-  opacity: 0.9;
+  margin: 0 0 clamp(1.5rem, 4vw, 3rem) 0;
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s ease;
+  word-wrap: break-word;
+  hyphens: auto;
 
   &.slide-up {
     opacity: 0.9;
@@ -206,17 +211,25 @@ export default {
 
 .best-cards {
   display: flex;
-  gap: 2rem;
+  gap: clamp(1rem, 3vw, 2rem);
   width: 100%;
+  max-width: 100%;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }
 
 .best-card {
   flex: 1;
+  min-width: 0; // Предотвращает переполнение
+  max-width: 100%;
   background: rgba($white, 0.05);
   backdrop-filter: blur(10px);
   border: 1px solid rgba($white, 0.1);
   border-radius: $border-radius-xl;
-  padding: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -355,17 +368,22 @@ export default {
 }
 
 .best-image {
-  width: 35%;
+  width: clamp(30%, 35vw, 40%);
   height: 100%;
   position: relative;
   opacity: 0;
   transform: translateX(50px);
   transition: all 1s ease;
+  flex-shrink: 0; // Предотвращает сжатие изображения
 
   &.image-animate {
     opacity: 1;
     transform: translateX(0);
     transition-delay: 0.3s;
+  }
+
+  @media (max-width: 1200px) {
+    display: none; // Скрываем изображение на средних экранах для лучшего отображения карточек
   }
 }
 
@@ -422,87 +440,57 @@ export default {
 }
 
 // Responsive
-@media (max-width: $breakpoint-xl) {
+@media (max-width: 1200px) {
   .best-content {
-    padding: 3rem 2rem 3rem 4rem;
+    padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+    width: 100%;
+    max-width: 100%;
   }
 
-  .best-title {
-    font-size: $text-4xl;
-  }
-
-  .best-image {
-    width: 40%;
+  .content-wrapper {
+    max-width: 100%;
   }
 }
 
-@media (max-width: $breakpoint-lg) {
+@media (max-width: 768px) {
   .best-section {
-    flex-direction: column;
-    min-height: auto;
+    height: auto;
+    min-height: 600px;
+    padding: 2rem 0;
   }
 
-  .best-content {
-    order: 2;
-    padding: 3rem 2rem;
-    width: 100%;
-  }
-
-  .best-title {
-    font-size: $text-3xl;
-    margin-bottom: 1.5rem;
-  }
-
-  .best-description {
-    margin-bottom: 2rem;
-  }
-
-  .best-cards {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .best-image {
-    order: 1;
-    width: 100%;
-    height: 300px;
-    margin-bottom: 0;
-
-    &.image-animate {
-      transform: translateY(0);
-    }
-  }
-
-  .image-wrapper {
-    border-radius: 0;
-  }
-
-  .image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-position: center center;
-  }
-}
-
-@media (max-width: $breakpoint-md) {
   .best-content {
     padding: 2rem 1rem;
   }
 
   .best-title {
-    font-size: $text-2xl;
+    text-align: center;
   }
 
   .best-description {
-    font-size: $text-lg;
+    text-align: center;
   }
 
-  .best-card {
-    padding: 1.5rem;
+  .best-cards {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .best-section {
+    min-height: 500px;
   }
 
-  .best-image {
-    height: 250px;
+  .best-content {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .best-card h3 {
+    font-size: clamp(1rem, 4vw, 1.125rem);
+  }
+
+  .best-card p {
+    font-size: clamp(0.875rem, 3.5vw, 1rem);
   }
 }
 </style>

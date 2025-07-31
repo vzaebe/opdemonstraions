@@ -33,7 +33,7 @@
             </div>
             <button type="submit">ОТПРАВИТЬ</button>
             <p class="consent-text">
-              Нажимая на кнопку, вы даёте согласие на 
+              Нажимая на кнопку, вы даёте согласие на
               <a :href="POLICY_LINKS.PERSONAL_DATA_AGREEMENT" class="policy-link" target="_blank" rel="noopener">обработку своих персональных данных</a>.
             </p>
           </form>
@@ -292,10 +292,12 @@ button {
   }
 }
 
-@media (max-width: 1024px) {
+// Планшеты
+@media (max-width: $breakpoint-lg) {
   .contact-content {
     flex-direction: column;
     padding: 2rem;
+    gap: 2rem;
   }
 
   .contact-form {
@@ -307,17 +309,27 @@ button {
 
   .contact-info {
     padding-left: 0;
-    padding-top: 2rem;
+    padding-top: 0;
+  }
+
+  .map-container {
+    height: 200px;
   }
 }
 
-@media (max-width: 640px) {
+// Мобильные устройства
+@media (max-width: $breakpoint-md) {
   .contact-section {
     height: auto;
+    min-height: auto;
   }
 
   .map-container {
     height: 180px;
+
+    iframe {
+      border-radius: 12px;
+    }
   }
 
   .contact-container {
@@ -326,6 +338,126 @@ button {
 
   .contact-content {
     padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .contact-form {
+    h2 {
+      font-size: 1.75rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+
+    button {
+      padding: 1rem;
+      font-size: 1rem;
+      min-height: 48px; // touch-friendly
+      border-radius: 8px;
+    }
+  }
+
+  .contact-info {
+    h2 {
+      font-size: 1.75rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  .contact-item a {
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    display: block;
+    min-height: 44px; // touch-friendly
+    display: flex;
+    align-items: center;
+  }
+
+  .form-group {
+    input, textarea {
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+    }
+
+    textarea {
+      min-height: 120px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+}
+
+// Маленькие мобильные экраны
+@media (max-width: $breakpoint-sm) {
+  .map-container {
+    height: 160px;
+    margin: 1rem 0;
+  }
+
+  .contact-container {
+    padding: 0.75rem;
+  }
+
+  .contact-content {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .contact-form {
+    padding-bottom: 1.5rem;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      padding: 0.875rem;
+      font-size: 0.95rem;
+    }
+  }
+
+  .contact-info {
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+
+    input, textarea {
+      padding: 0.875rem;
+      font-size: 0.95rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .consent-text {
+    font-size: 0.7rem;
+    line-height: 1.4;
+    margin-top: 0.75rem;
   }
 }
 </style>

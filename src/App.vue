@@ -94,10 +94,10 @@ export default {
       <BestSection />
 
       <!-- Секция регистрации -->
-      <RegistrationSection />
+      <!-- RegistrationSection /> -->
 
       <!-- Секция отзывов -->
-      <TestimonialsSection />
+      <!--TestimonialsSection /> -->
 
       <!-- Секция карточек услуг -->
       <ServicesCardsSection />
@@ -158,6 +158,7 @@ export default {
 main {
   flex: 1;
   width: 100%;
+  overflow-x: hidden; // Предотвращает горизонтальную прокрутку
 }
 
 // Smooth scrolling for anchor links

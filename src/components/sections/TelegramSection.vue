@@ -328,6 +328,7 @@ export default defineComponent({
 .telegram-section {
   position: relative;
   width: 100%;
+  max-width: 100vw; // Предотвращаем горизонтальное переполнение
   background: linear-gradient(135deg, $primary-teal 0%, $primary-mint 100%);
   display: flex;
   justify-content: center;
@@ -836,10 +837,74 @@ export default defineComponent({
   }
 }
 
-// Адаптивность
-@media (max-width: 768px) {
+// Адаптивность для планшетов
+@media (max-width: $breakpoint-lg) {
+  .telegram-section {
+    padding: 5rem 2rem;
+  }
+
+  .telegram-title {
+    font-size: 2.5rem;
+  }
+
+  .telegram-description {
+    font-size: 1rem;
+  }
+
+  .channel-stats {
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .telegram-button {
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+  }
+
+  // Уменьшаем количество анимированных элементов
+  .floating-circle:nth-child(n+6),
+  .floating-triangle:nth-child(n+3),
+  .floating-square:nth-child(n+3) {
+    display: none;
+  }
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: $breakpoint-md) {
   .telegram-section {
     padding: 4rem 1rem;
+  }
+
+  .title-section {
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .telegram-icon-wrapper {
+    .telegram-icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .telegram-title {
+    font-size: 2rem;
+    line-height: 1.2;
+
+    .title-white {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .title-brand {
+      display: block;
+    }
+  }
+
+  .telegram-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 100%;
   }
 
   .channel-stats {
@@ -851,37 +916,127 @@ export default defineComponent({
       width: 2rem;
       height: 1px;
     }
+
+    .stat-number {
+      font-size: 1.75rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+    }
   }
 
   .telegram-button {
     padding: 1rem 2rem;
     font-size: 1.1rem;
+    min-height: 52px; // touch-friendly
+    border-radius: 16px;
+
+    .button-icon {
+      width: 20px;
+      height: 20px;
+    }
   }
 
+  .subscription-note {
+    font-size: 0.8rem;
+    gap: 0.4rem;
+    text-align: center;
+    padding: 0 1rem;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  // Скрываем большие декоративные элементы на мобильных для производительности
   .floating-circle,
   .floating-triangle,
   .floating-square,
   .wave-element {
-    display: none; // Скрываем большие декоративные элементы на мобильных
+    display: none;
   }
 
+  // Оставляем только несколько точек и частиц
   .pulsing-dot,
   .particle {
-    // Оставляем только точки и частицы, но уменьшаем их количество
     &:nth-child(n+4) {
       display: none;
     }
   }
 }
 
-@media (max-width: 480px) {
+// Маленькие мобильные экраны
+@media (max-width: $breakpoint-sm) {
+  .telegram-section {
+    padding: 3rem 0.75rem;
+  }
+
+  .telegram-container {
+    padding: 0;
+  }
+
+  .content-wrapper {
+    padding: 0 0.5rem;
+  }
+
+  .title-section {
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .telegram-title {
+    font-size: 1.75rem;
+  }
+
+  .telegram-description {
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+  }
+
   .channel-stats {
+    gap: 0.75rem;
+    padding: 0.75rem;
+
     .stat-number {
       font-size: 1.5rem;
     }
 
     .stat-label {
       font-size: 0.8rem;
+    }
+  }
+
+  .telegram-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+
+  .subscription-note {
+    font-size: 0.75rem;
+  }
+
+  // Убираем все анимированные элементы на очень маленьких экранах
+  .floating-elements {
+    display: none;
+  }
+}
+
+// Отключение анимаций для пользователей с предпочтением уменьшенного движения
+@media (prefers-reduced-motion: reduce) {
+  .floating-elements,
+  .telegram-icon.pulsing,
+  .icon-glow,
+  .ripple-effect {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .telegram-button {
+    .button-bg {
+      animation: none !important;
     }
   }
 }

@@ -12,9 +12,7 @@
 
       <!-- Кнопка воспроизведения -->
       <div class="play-button-container">
-        <button class="play-button" @click="handlePlayClick">
-          <span class="play-icon">▶</span>
-        </button>
+        <PlayButton @click="handlePlayClick" />
       </div>
 
       <!-- Дополнительная надпись -->
@@ -39,8 +37,13 @@
  *  - Кнопка имеет градиентный фон и лёгкую анимацию при ховере.
  *  - Размеры и шрифты адаптируются через @media.
  */
+import PlayButton from '@/components/PlayButton.vue'
+
 export default {
   name: 'HeroSection',
+  components: {
+    PlayButton
+  },
   methods: {
     // Обработчик клика по кнопке воспроизведения
     handlePlayClick() {
@@ -59,6 +62,7 @@ export default {
   position: relative;
   width: 100%;
   height: 70vh;
+  min-height: 500px;
   background-image: url('@/assets/images/VideoInFuture.jpg');
   background-attachment: fixed;
   background-position: center;
@@ -111,48 +115,7 @@ export default {
   margin-bottom: 2rem;
 }
 
-.play-button {
-  width: 5rem;
-  height: 5rem;
-  border-radius: $border-radius-full;
-  background: linear-gradient(135deg, $primary-teal, $primary-mint);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: left 0.5s ease;
-  }
-
-  &:hover {
-    background: linear-gradient(135deg, $primary-mint, $primary-cyan);
-    transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(29, 233, 182, 0.4);
-
-    &::before {
-      left: 100%;
-    }
-  }
-}
-
-.play-icon {
-  font-size: $text-2xl;
-  color: $white;
-  line-height: 1;
-  margin-left: 0.25rem;
-}
 
 .hero-caption {
   font-size: $text-lg;
@@ -166,37 +129,67 @@ export default {
     font-size: $text-4xl;
   }
 
-  .play-button {
-    width: 4.5rem;
-    height: 4.5rem;
-  }
 
-  .play-icon {
-    font-size: $text-xl;
-  }
 
   .hero-caption {
     font-size: $text-base;
   }
 }
 
+// Мобильная адаптация
 @media (max-width: $breakpoint-sm) {
   .hero-section {
-    margin-top: 120px; // Отступ для мобильной шапки
-    height: calc(70vh - 120px);
+    // Убираем фиксированный фон на мобильных из-за проблем с производительностью
+    background-attachment: scroll;
+    height: calc(100vh - 100px);
+    min-height: 400px;
+    padding: 2rem 1rem;
+  }
+
+  .hero-content {
+    padding: 0 0.5rem;
+    max-width: 100%;
   }
 
   .hero-title {
-    font-size: $text-3xl;
+    font-size: $text-2xl;
+    line-height: $leading-snug;
+    margin-bottom: 1rem;
+  }
+
+  .hero-title-container {
+    margin-bottom: 1.5rem;
+  }
+
+  .play-button-container {
+    margin-bottom: 1.5rem;
   }
 
   .play-button {
     width: 4rem;
     height: 4rem;
+    // Увеличиваем touch-область для лучшего мобильного UX
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: transparent;
+    }
   }
 
   .play-icon {
     font-size: $text-lg;
+  }
+
+  .hero-caption {
+    font-size: $text-sm;
+    padding: 0 1rem;
+    line-height: $leading-relaxed;
   }
 }
 </style>

@@ -39,6 +39,14 @@
  * на scroll-проверке (getBoundingClientRect) без IntersectionObserver.
  */
 import { ref, onMounted, onUnmounted } from 'vue'
+// @ts-ignore
+import image1 from '@/assets/png/SpecialCards/Product image-3.png'
+// @ts-ignore
+import image2 from '@/assets/png/SpecialCards/Product image-2.png'
+// @ts-ignore
+import image3 from '@/assets/png/SpecialCards/Product image-1.png'
+// @ts-ignore
+import image4 from '@/assets/png/SpecialCards/Product image.png'
 
 export default {
   name: 'ServicesCardsSection',
@@ -51,24 +59,26 @@ export default {
       {
         category: 'Компаниям',
         title: 'Мастер-классы',
-        image: '/src/assets/png/SpecialCards/Product image-3.png'
+        image: image1
       },
       {
         category: 'Разработчикам',
         title: 'Проект Адаптатион',
-        image: '/src/assets/png/SpecialCards/Product image-2.png'
+        image: image2
       },
       {
         category: 'Глухим инженерам',
         title: 'База знаний',
-        image: '/src/assets/png/SpecialCards/Product image-1.png'
+        image: image3
       },
       {
         category: 'Трудоустройство',
         title: 'Список вакансий',
-        image: '/src/assets/png/SpecialCards/Product image.png'
+        image: image4
       }
     ]
+
+    console.log('ServicesCardsSection: Данные карточек загружены', serviceCards)
 
     const checkVisibility = () => {
       if (!sectionRef.value) return
@@ -76,8 +86,24 @@ export default {
       const rect = sectionRef.value.getBoundingClientRect()
       const windowHeight = window.innerHeight
 
+      // Делаем анимацию более отзывчивой
       if (rect.top < windowHeight * 0.8) {
         isVisible.value = true
+        console.log('ServicesCardsSection: Анимация активирована')
+      }
+    }
+
+    // Проверяем видимость сразу при монтировании
+    const checkInitialVisibility = () => {
+      if (!sectionRef.value) return
+      
+      const rect = sectionRef.value.getBoundingClientRect()
+      const windowHeight = window.innerHeight
+      
+      // Если секция уже в зоне видимости, показываем сразу
+      if (rect.top < windowHeight) {
+        isVisible.value = true
+        console.log('ServicesCardsSection: Начальная видимость активирована')
       }
     }
 
@@ -90,8 +116,16 @@ export default {
     }
 
     onMounted(() => {
+      console.log('ServicesCardsSection: Компонент смонтирован')
+      checkInitialVisibility() // Проверяем сразу при монтировании
       checkVisibility()
       window.addEventListener('scroll', checkVisibility)
+      
+      // Принудительно показываем секцию через небольшую задержку
+      setTimeout(() => {
+        isVisible.value = true
+        console.log('ServicesCardsSection: Принудительное отображение')
+      }, 1000)
     })
 
     onUnmounted(() => {
@@ -151,10 +185,13 @@ export default {
 
 .services-cards-section {
   width: 100%;
+  max-width: 100vw;
   background-color: $white;
-  padding: 40px 0;
+  padding: 80px 20px;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  min-height: 600px; // Обеспечиваем минимальную высоту
+  z-index: 1; // Обеспечиваем правильную иерархию
 
   &::before {
     content: '';
@@ -183,9 +220,11 @@ export default {
   grid-template-rows: 1fr 1fr;
   gap: 32px;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 2;
+  min-height: 400px; // Обеспечиваем минимальную высоту контейнера
 }
 
 .service-card {
@@ -202,8 +241,8 @@ export default {
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
-  opacity: 0;
-  transform: translateY(60px);
+  opacity: 1; // Показываем карточки по умолчанию
+  transform: translateY(0); // Убираем начальное смещение
 
   &::before {
     content: '';
@@ -225,6 +264,12 @@ export default {
   &.visible {
     animation: slideInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     animation-delay: var(--animation-delay);
+  }
+
+  // Добавляем fallback для случаев, когда анимация не срабатывает
+  &:not(.visible) {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   &:hover {
@@ -371,10 +416,19 @@ export default {
 }
 
 @media (max-width: $breakpoint-lg) {
+  .services-cards-section {
+    padding: 60px 16px;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
   .services-cards-container {
     grid-template-columns: 1fr;
     grid-template-rows: none;
     gap: 24px;
+    max-width: 100%;
+    display: grid !important;
   }
 
   .service-card {
@@ -382,6 +436,8 @@ export default {
     align-items: flex-start;
     padding: 24px 16px;
     min-height: 200px;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
 
     &:hover {
       transform: translateY(-10px) scale(1.01);
@@ -392,17 +448,43 @@ export default {
     width: 100%;
     margin-left: 0;
     margin-top: 16px;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
   .service-image {
     width: 100%;
     height: 160px;
+    opacity: 1 !important;
+  }
+
+  .service-info {
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 }
 
 @media (max-width: $breakpoint-sm) {
+  .services-cards-section {
+    padding: 40px 8px;
+    display: block !important; // Принудительно показываем
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .services-cards-container {
+    gap: 16px;
+    max-width: 100%;
+    padding: 0;
+    display: grid !important; // Принудительно показываем grid
+  }
+
   .service-card {
-    padding: 20px 12px;
+    padding: 20px 16px;
+    margin: 0;
+    max-width: 100%;
+    opacity: 1 !important; // Принудительно показываем карточки
+    transform: translateY(0) !important; // Убираем смещение
 
     &:hover {
       transform: translateY(-5px);
@@ -415,6 +497,22 @@ export default {
 
   .service-category {
     font-size: $text-xs;
+  }
+
+  .service-info {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .service-image {
+    width: 100%;
+    height: 140px;
+    opacity: 1 !important;
+  }
+
+  .service-image-container {
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 }
 </style>

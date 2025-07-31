@@ -34,6 +34,9 @@ export default {
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
+  overflow: hidden; // Предотвращает переполнение
+  position: relative;
+  z-index: 1; // Обеспечивает правильную иерархию после OrientationSection
 }
 
 .gallery-container {
@@ -107,7 +110,8 @@ export default {
   .gallery-section {
     width: 100%;
     height: auto;
-    padding: 2rem;
+    padding: 4rem 2rem; // Увеличен верхний отступ для избежания налезания
+    margin-top: 2rem; // Дополнительный отступ
   }
 
   .gallery-container {
@@ -124,6 +128,39 @@ export default {
     width: 100%;
     height: 200px;
     transform: none;
+    border-radius: 8px;
+  }
+}
+
+// Дополнительная мобильная адаптация
+@media (max-width: $breakpoint-md) {
+  .gallery-section {
+    padding: 3rem 1rem;
+    margin-top: 1rem;
+  }
+
+  .gallery-container {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .gallery-image {
+    height: 180px;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .gallery-section {
+    padding: 2rem 0.75rem;
+  }
+
+  .gallery-container {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .gallery-image {
+    height: 160px;
   }
 }
 </style>

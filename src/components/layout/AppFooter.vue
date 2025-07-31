@@ -300,9 +300,10 @@ export default defineComponent({
     border-top: none;
     gap: var(--spacing-4);
 
-    @media (max-width: 768px) {
+    @media (max-width: $breakpoint-md) {
       flex-direction: column;
       text-align: center;
+      gap: var(--spacing-6);
     }
   }
 
@@ -311,23 +312,152 @@ export default defineComponent({
     flex-direction: column;
     gap: var(--spacing-3);
 
-    @media (max-width: 768px) {
-      gap: var(--spacing-3);
+    @media (max-width: $breakpoint-md) {
+      gap: var(--spacing-4);
+      align-items: center;
     }
   }
+}
 
-  &__copyright {
-    font-size: var(--text-sm);
-    color: var(--color-white);
-    opacity: 0.7;
-    margin: 0;
+// Дополнительная мобильная адаптация
+@media (max-width: $breakpoint-md) {
+  .footer {
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    &__section {
+      &--main {
+        order: -1;
+      }
+    }
+
+    &__social {
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    &__social-link {
+      width: 3rem;
+      height: 3rem;
+      min-width: 44px; // touch-friendly
+      min-height: 44px;
+
+      img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    &__title {
+      font-size: 1.75rem;
+    }
+
+    &__subtitle {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    &__description {
+      max-width: none;
+      text-align: center;
+    }
+
+    &__list {
+      align-items: center;
+      gap: 1rem;
+    }
+
+    &__link {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      min-height: 44px; // touch-friendly
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__contact {
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    &__copyright {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    &__development {
+      font-size: 0.75rem;
+      text-align: center;
+    }
   }
+}
 
-  &__development {
-    font-size: var(--text-xs);
-    color: var(--color-white);
-    opacity: 0.7;
-    margin: 0;
+@media (max-width: $breakpoint-sm) {
+  .footer {
+    &__container {
+      padding: 2rem 1rem;
+    }
+
+    &__grid {
+      gap: 1.5rem;
+    }
+
+    &__title {
+      font-size: 1.5rem;
+    }
+
+    &__subtitle {
+      font-size: 1.1rem;
+    }
+
+    &__description {
+      font-size: 0.9rem;
+    }
+
+    &__social {
+      gap: 0.75rem;
+    }
+
+    &__social-link {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+
+    &__list {
+      gap: 0.75rem;
+    }
+
+    &__link {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.8rem;
+    }
+
+    &__contact p {
+      font-size: 0.9rem;
+    }
+
+    &__copyright {
+      font-size: 0.7rem;
+    }
+
+    &__development {
+      font-size: 0.7rem;
+    }
+
+    &__bottom {
+      padding-top: 1.5rem;
+      gap: 1rem;
+    }
   }
 }
 </style>

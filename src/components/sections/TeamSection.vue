@@ -246,32 +246,146 @@ export default {
   }
 }
 
-@media (max-width: 1024px) {
-  .team-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
+// Планшеты
+@media (max-width: $breakpoint-lg) {
   .team-section {
     padding: 60px 16px;
+    gap: 48px;
   }
 
   .team-title {
-    font-size: 36px;
+    font-size: 40px;
+  }
+
+  .team-subtitle {
+    font-size: 20px;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+}
+
+// Мобильные устройства
+@media (max-width: $breakpoint-md) {
+  .team-section {
+    padding: 48px 16px;
+    gap: 36px;
+  }
+
+  .team-header {
+    gap: 20px;
+  }
+
+  .team-title {
+    font-size: 32px;
+    line-height: 1.2;
   }
 
   .team-subtitle {
     font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .team-button {
+    font-size: 16px;
+    padding: 14px 28px;
+    min-height: 48px; // touch-friendly
   }
 
   .team-grid {
     grid-template-columns: 1fr;
+    gap: 32px;
+    max-width: 400px;
   }
 
   .member-photo-wrapper {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
+  }
+
+  .member-name {
+    font-size: 20px;
+  }
+
+  .member-role {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .social-link {
+    padding: 12px;
+    min-width: 44px; // touch-friendly
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      font-size: 16px;
+    }
   }
 }
-</style> 
+
+// Маленькие мобильные экраны
+@media (max-width: $breakpoint-sm) {
+  .team-section {
+    padding: 36px 12px;
+    gap: 28px;
+  }
+
+  .team-header {
+    gap: 16px;
+  }
+
+  .team-title {
+    font-size: 28px;
+  }
+
+  .team-subtitle {
+    font-size: 16px;
+  }
+
+  .team-button {
+    font-size: 15px;
+    padding: 12px 24px;
+    min-height: 44px;
+  }
+
+  .team-grid {
+    gap: 24px;
+  }
+
+  .member-photo-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .member-info {
+    gap: 12px;
+  }
+
+  .member-name {
+    font-size: 18px;
+  }
+
+  .member-role {
+    font-size: 13px;
+  }
+
+  .member-social {
+    gap: 12px;
+  }
+
+  .social-link {
+    padding: 10px;
+    min-width: 40px;
+    min-height: 40px;
+
+    i {
+      font-size: 14px;
+    }
+  }
+}
+</style>

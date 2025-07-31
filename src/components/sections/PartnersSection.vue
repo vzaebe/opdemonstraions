@@ -93,6 +93,7 @@ export default {
 <style lang="scss" scoped>
 .partners-section {
   width: 100%;
+  max-width: 100vw; // Предотвращаем горизонтальное переполнение
   min-height: 800px;
   background: linear-gradient(135deg, $primary-teal, $primary-mint);
   display: flex;
