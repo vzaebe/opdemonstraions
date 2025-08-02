@@ -1,0 +1,24 @@
+<template>
+  <svg :width="width" :height="height" viewBox="0 0 40.0036 40.0229" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="fa-send-o" d="M39.98 1.69C40.07 1.1 39.87 0.62 39.38 0.26C38.88 -0.08 38.38 -0.09 37.86 0.22L0.71 21.65Q0.3 21.88 0.13 22.23Q-0.03 22.55 0 22.96C0.04 23.57 0.34 23.98 0.89 24.19L11.43 28.5L11.43 38.59C11.43 38.89 11.51 39.15 11.67 39.39C11.84 39.65 12.06 39.82 12.34 39.93Q12.54 40.02 12.86 40.02Q13.22 40.02 13.51 39.87Q13.73 39.75 13.91 39.55L20.56 32.25L32.32 37.05C32.52 37.12 32.69 37.16 32.86 37.16C33.11 37.16 33.34 37.1 33.55 36.98C33.95 36.74 34.19 36.41 34.26 35.98L39.98 1.69ZM36.67 4.19L31.74 33.72L20.76 29.24L31.43 11.45L12.17 25.71L4.67 22.65L36.67 4.19Z" fill="white" fill-opacity="1.000000" fill-rule="evenodd"/>
+  </svg>
+</template>
+
+<script lang="ts">
+/**
+ * Иконка Telegram (TgIcon). Поддерживает props width/height.
+ */
+export default {
+  name: 'TgIcon',
+  props: {
+    width: {
+      type: [Number, String],
+      default: 16
+    },
+    height: {
+      type: [Number, String],
+      default: 16
+    }
+  }
+}
+</script> 

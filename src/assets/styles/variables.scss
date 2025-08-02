@@ -1,0 +1,189 @@
+// Цветовая палитра проекта - фирменные цвета
+$primary-teal: #2EACB4; // Основной бирюзовый
+$primary-mint: #1DE9B6; // Мятный
+$primary-orange: #CB8816; // Оранжевый
+$primary-yellow: #EBD36F; // Желтый
+$primary-coral: #FF5252; // Коралловый
+$primary-cyan: #18FFFF; // Голубой
+
+// Нейтральные цвета
+$white: #FFFFFF;
+$black: #000000;
+$gray-50: #f9fafb;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+$gray-800: #1f2937;
+$gray-900: #111827;
+
+// Прозрачности
+$opacity-10: 0.1;
+$opacity-20: 0.2;
+$opacity-30: 0.3;
+$opacity-40: 0.4;
+$opacity-50: 0.5;
+$opacity-60: 0.6;
+$opacity-70: 0.7;
+$opacity-80: 0.8;
+$opacity-90: 0.9;
+
+// Размеры контейнеров
+$container-width: 1600px;
+$container-height: 100px;
+
+// Отступы
+$section-padding-x: 7rem; // 28 * 0.25rem = 7rem
+$section-padding-y: 1.5rem; // 6 * 0.25rem = 1.5rem
+
+// Размеры шрифтов
+$text-xs: 0.75rem;
+$text-sm: 0.875rem;
+$text-base: 1rem;
+$text-lg: 1.125rem;
+$text-xl: 1.25rem;
+$text-2xl: 1.5rem;
+$text-3xl: 1.875rem;
+$text-4xl: 2.25rem;
+$text-5xl: 3rem;
+$text-6xl: 3.75rem;
+$text-7xl: 4.5rem;
+$text-8xl: 6rem;
+$text-9xl: 8rem;
+
+// Межстрочные интервалы
+$leading-none: 1;
+$leading-tight: 1.25;
+$leading-snug: 1.375;
+$leading-normal: 1.5;
+$leading-relaxed: 1.625;
+$leading-loose: 2;
+$leading-3: 0.75rem;
+$leading-4: 1rem;
+$leading-5: 1.25rem;
+$leading-6: 1.5rem;
+$leading-7: 1.75rem;
+$leading-8: 2rem;
+$leading-9: 2.25rem;
+$leading-10: 2.5rem;
+
+// Размеры элементов
+$border-radius: 0.25rem;
+$border-radius-sm: 0.125rem;
+$border-radius-md: 0.375rem;
+$border-radius-lg: 0.5rem;
+$border-radius-xl: 0.75rem;
+$border-radius-2xl: 1rem;
+$border-radius-3xl: 1.5rem;
+$border-radius-full: 9999px;
+
+// Тени
+$shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+$shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+$shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+$shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+$shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+// Брейкпоинты для адаптивности
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// Z-индексы
+$z-dropdown: 1000;
+$z-sticky: 1020;
+$z-fixed: 1030;
+$z-modal-backdrop: 1040;
+$z-modal: 1050;
+$z-popover: 1060;
+$z-tooltip: 1070;
+
+// Переходы и анимации
+$transition-fast: 0.15s ease;
+$transition-normal: 0.2s ease;
+$transition-slow: 0.3s ease;
+
+// Размеры отступов
+$spacing-1: 0.25rem;
+$spacing-2: 0.5rem;
+$spacing-3: 0.75rem;
+$spacing-4: 1rem;
+$spacing-5: 1.25rem;
+$spacing-6: 1.5rem;
+$spacing-8: 2rem;
+$spacing-10: 2.5rem;
+$spacing-12: 3rem;
+$spacing-16: 4rem;
+$spacing-20: 5rem;
+$spacing-24: 6rem;
+$spacing-32: 8rem;
+
+// Максимальные ширины
+$max-w-xs: 20rem;
+$max-w-sm: 24rem;
+$max-w-md: 28rem;
+$max-w-lg: 32rem;
+$max-w-xl: 36rem;
+$max-w-2xl: 42rem;
+$max-w-3xl: 48rem;
+$max-w-4xl: 56rem;
+$max-w-5xl: 64rem;
+$max-w-6xl: 72rem;
+$max-w-7xl: 80rem;
+
+:root {
+  // Brand Colors
+  --color-primary: #2EACB4;
+  --color-secondary: #CB8816;
+  --color-accent-mint: #1DE9B6;
+  --color-accent-yellow: #EBD36F;
+  --color-accent-coral: #FF5252;
+  --color-accent-cyan: #18FFFF;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  // Gray Scale
+  --color-gray-900: #1A1A1A;
+  --color-gray-800: #2D2D2D;
+  --color-gray-700: #404040;
+  --color-gray-600: #525252;
+  --color-gray-500: #737373;
+  --color-gray-400: #9A9A9A;
+  --color-gray-300: #C4C4C4;
+  --color-gray-200: #E5E5E5;
+  --color-gray-100: #F5F5F5;
+
+  // Typography
+  --text-2xl: 1.5rem;
+  --text-xl: 1.25rem;
+  --text-lg: 1.125rem;
+  --text-base: 1rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.75rem;
+
+  // Container
+  --container-width: 1200px;
+
+  // Border Radius
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 1rem;
+
+  // Spacing
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+}
