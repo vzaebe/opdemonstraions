@@ -41,18 +41,18 @@
 
         <!-- Контактная информация -->
         <div class="contact-container">
-          <a href="tel:+79999999999" class="contact-link" aria-label="Телефон">
+          <a href="tel:+79150033935" class="contact-link" aria-label="Телефон">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M22 16.92V21a2 2 0 0 1-2.18 2 19.9 19.9 0 0 1-8.63-3.06 19.5 19.5 0 0 1-6-6A19.9 19.9 0 0 1 1 4.18 2 2 0 0 1 3 2h4.09a2 2 0 0 1 2 1.72c.12.81.34 1.6.66 2.35a2 2 0 0 1-.45 2.11L7.09 10.91a16 16 0 0 0 6 6l2.73-2.73a2 2 0 0 1 2.11-.45c.75.32 1.54.54 2.35.66a2 2 0 0 1 1.72 2.03z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
-          <a href="mailto:info@example.com" class="contact-link" aria-label="Email">
+          <a href="mailto:info@openperspectives.ru" class="contact-link" aria-label="Email">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
-          <a href="https://t.me/username" target="_blank" rel="noopener" class="contact-link" aria-label="Telegram">
+          <a href="https://t.me/openperspectives" target="_blank" rel="noopener" class="contact-link" aria-label="Telegram">
             <TgIcon :width="18" :height="18" />
           </a>
         </div>
@@ -123,20 +123,20 @@
       <!-- Контактная информация в мобильном меню -->
       <div class="mobile-contacts">
         <div class="contact-links">
-          <a href="tel:+79999999999" class="mobile-contact-link" @click="closeMenu">
+          <a href="tel:+79150033935" class="mobile-contact-link" @click="closeMenu">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M22 16.92V21a2 2 0 0 1-2.18 2 19.9 19.9 0 0 1-8.63-3.06 19.5 19.5 0 0 1-6-6A19.9 19.9 0 0 1 1 4.18 2 2 0 0 1 3 2h4.09a2 2 0 0 1 2 1.72c.12.81.34 1.6.66 2.35a2 2 0 0 1-.45 2.11L7.09 10.91a16 16 0 0 0 6 6l2.73-2.73a2 2 0 0 1 2.11-.45c.75.32 1.54.54 2.35.66a2 2 0 0 1 1.72 2.03z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span>+7 999 999 99 99</span>
+            <span>+7 915 003 39 35</span>
           </a>
-          <a href="mailto:info@example.com" class="mobile-contact-link" @click="closeMenu">
+          <a href="mailto:info@openperspectives.ru" class="mobile-contact-link" @click="closeMenu">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span>info@example.com</span>
+            <span>info@openperspectives.ru</span>
           </a>
-          <a href="https://t.me/username" target="_blank" rel="noopener" class="mobile-contact-link" @click="closeMenu">
+          <a href="https://t.me/openperspectives" target="_blank" rel="noopener" class="mobile-contact-link" @click="closeMenu">
             <TgIcon :width="18" :height="18" />
             <span>Telegram</span>
           </a>

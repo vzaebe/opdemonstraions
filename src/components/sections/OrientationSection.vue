@@ -17,7 +17,7 @@
           <div class="video-container">
             <img
               class="video-preview"
-              src="@/assets/png/goodGuy.png"
+              :src="goodGuy"
               alt="Профориентация"
             />
             <PlayButton
@@ -32,7 +32,7 @@
           <article class="service-card">
             <div class="service-media">
               <img
-                src="@/assets/png/ourRecomendations.png"
+                :src="ourRecomendations"
                 alt="Наши рекомендации"
                 class="service-image"
               />
@@ -48,7 +48,7 @@
           <article class="service-card">
             <div class="service-media">
               <img
-                src="@/assets/png/software.png"
+                :src="software"
                 alt="Разработка ПО"
                 class="service-image"
               />
@@ -85,6 +85,11 @@ export default {
     }
   }
 }
+</script>
+<script lang="ts" setup>
+const goodGuy = new URL('../../assets/png/goodGuy.png', import.meta.url).href
+const ourRecomendations = new URL('../../assets/png/ourRecomendations.png', import.meta.url).href
+const software = new URL('../../assets/png/software.png', import.meta.url).href
 </script>
 
 <style lang="scss" scoped>

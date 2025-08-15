@@ -65,7 +65,7 @@
     </div>
     <div class="best-image" :class="{ 'image-animate': isVisible }">
       <div class="image-wrapper">
-        <img src="@/assets/png/TheBestOfMan.png" alt="Два инженера у самолета" />
+        <img :src="bestImgUrl" alt="Два инженера у самолета" />
         <div class="image-overlay"></div>
       </div>
     </div>
@@ -119,11 +119,14 @@ export default {
       card.style.transform = 'translateY(0) scale(1)'
     }
 
+    const bestImgUrl = new URL('../../assets/png/TheBestOfMan.png', import.meta.url).href
+
     return {
       sectionRef,
       isVisible,
       handleCardHover,
-      handleCardLeave
+      handleCardLeave,
+      bestImgUrl
     }
   }
 }

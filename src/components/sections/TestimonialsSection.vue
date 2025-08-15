@@ -2,7 +2,7 @@
   <section class="testimonials-section">
     <div class="testimonials-container">
       <div class="testimonial">
-        <img class="testimonial-avatar" src="@/assets/png/1face.png" alt="Андрей Иванов" />
+        <img class="testimonial-avatar" :src="face1Url" alt="Андрей Иванов" />
         <div class="testimonial-content">
           <p class="testimonial-text">
             Я поступил в бауманку, не смотря на инвалидность по слуху. Всё благодаря команде открытых перспектив и их проектам в университете
@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="testimonial">
-        <img class="testimonial-avatar" src="@/assets/png/2face.png" alt="Алина Гришко" />
+        <img class="testimonial-avatar" :src="face2Url" alt="Алина Гришко" />
         <div class="testimonial-content">
           <p class="testimonial-text">
             Я из небольшого города из детского дома, Открытые Перспективы помогли мне поступить в Губкинский университет
@@ -32,6 +32,10 @@
 export default {
   name: 'TestimonialsSection'
 }
+</script>
+<script lang="ts" setup>
+const face1Url = new URL('../../assets/png/1face.png', import.meta.url).href
+const face2Url = new URL('../../assets/png/2face.png', import.meta.url).href
 </script>
 
 <style lang="scss" scoped>

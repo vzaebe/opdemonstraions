@@ -13,8 +13,10 @@ import vueDevTools from 'vite-plugin-vue-devtools'
  *  - В `css.preprocessorOptions.scss.additionalData` мы автоматически подключаем variables.scss во все scss-файлы.
  */
 // https://vite.dev/config/
-export default defineConfig({
-  base: './',
+export default defineConfig(({ mode }) => ({
+  // Абсолютная база для прод-сборки (GitHub Pages: /opdemonstraions/),
+  // и обычный корень для разработки.
+  base: mode === 'production' ? '/opdemonstraions/' : '/',
   plugins: [
     vue(),
     vueDevTools(),
@@ -31,4 +33,4 @@ export default defineConfig({
       }
     }
   }
-})
+}))

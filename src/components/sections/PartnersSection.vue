@@ -18,7 +18,7 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
-              src="@/assets/images/partners/techencon.svg"
+              :src="techencon"
               alt="Techencon"
             />
           </div>
@@ -29,7 +29,7 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
-              src="@/assets/images/partners/cog.svg"
+              :src="cog"
               alt="COG"
             />
           </div>
@@ -40,7 +40,7 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
-              src="@/assets/images/partners/pkbmstu.svg"
+              :src="pkbmstu"
               alt="ПКБ МГТУ"
             />
           </div>
@@ -58,7 +58,7 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
-              src="@/assets/images/partners/simtech.svg"
+              :src="simtech"
               alt="Simtech"
             />
           </div>
@@ -69,7 +69,7 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
-              src="@/assets/images/partners/akzent.svg"
+              :src="akzent"
               alt="Akzent"
             />
           </div>
@@ -88,6 +88,13 @@
 export default {
   name: 'PartnersSection'
 }
+</script>
+<script lang="ts" setup>
+const techencon = new URL('../../assets/images/partners/techencon.svg', import.meta.url).href
+const cog = new URL('../../assets/images/partners/cog.svg', import.meta.url).href
+const pkbmstu = new URL('../../assets/images/partners/pkbmstu.svg', import.meta.url).href
+const simtech = new URL('../../assets/images/partners/simtech.svg', import.meta.url).href
+const akzent = new URL('../../assets/images/partners/akzent.svg', import.meta.url).href
 </script>
 
 <style lang="scss" scoped>

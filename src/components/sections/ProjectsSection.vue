@@ -19,7 +19,7 @@
         <div class="project-image-container">
           <img
             class="project-image"
-            src="@/assets/png/Projects/Photo.png"
+            :src="p0"
             alt="Летние интенсивы в Бауманке"
           />
           <div class="project-image-overlay">
@@ -42,7 +42,7 @@
         <div class="project-image-container">
           <img
             class="project-image"
-            src="@/assets/png/Projects/Photo-1.png"
+            :src="p1"
             alt="Грант Росмолодежи"
           />
           <div class="project-image-overlay">
@@ -65,7 +65,7 @@
         <div class="project-image-container">
           <img
             class="project-image"
-            src="@/assets/png/Projects/Photo-2.png"
+            :src="p2"
             alt="Инклюзивные лекции"
           />
           <div class="project-image-overlay">
@@ -88,7 +88,7 @@
         <div class="project-image-container">
           <img
             class="project-image"
-            src="@/assets/png/Projects/Photo-3.png"
+            :src="p3"
             alt="Перевод науки на РЖЯ"
           />
           <div class="project-image-overlay">
@@ -176,12 +176,21 @@ export default {
       }
     })
 
+    const p0 = new URL('../../assets/png/Projects/Photo.png', import.meta.url).href
+    const p1 = new URL('../../assets/png/Projects/Photo-1.png', import.meta.url).href
+    const p2 = new URL('../../assets/png/Projects/Photo-2.png', import.meta.url).href
+    const p3 = new URL('../../assets/png/Projects/Photo-3.png', import.meta.url).href
+
     return {
       sectionRef,
       headerRef,
       gridRef,
       isHeaderVisible,
-      isGridVisible
+      isGridVisible,
+      p0,
+      p1,
+      p2,
+      p3
     }
   }
 }

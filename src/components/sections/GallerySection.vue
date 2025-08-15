@@ -1,12 +1,12 @@
 <template>
   <section class="gallery-section">
     <div class="gallery-container">
-      <img class="gallery-image" src="@/assets/randomPhotos/Image 06.png" alt="Галерея 1" />
-      <img class="gallery-image" src="@/assets/randomPhotos/Image 05.png" alt="Галерея 2" />
-      <img class="gallery-image" src="@/assets/randomPhotos/Image 04.png" alt="Галерея 3" />
-      <img class="gallery-image" src="@/assets/randomPhotos/Image 03.png" alt="Галерея 4" />
-      <img class="gallery-image" src="@/assets/randomPhotos/Image 02.png" alt="Галерея 5" />
-      <img class="gallery-image" src="@/assets/randomPhotos/Image 01.png" alt="Галерея 6" />
+      <img class="gallery-image" :src="g06" alt="Галерея 1" />
+      <img class="gallery-image" :src="g05" alt="Галерея 2" />
+      <img class="gallery-image" :src="g04" alt="Галерея 3" />
+      <img class="gallery-image" :src="g03" alt="Галерея 4" />
+      <img class="gallery-image" :src="g02" alt="Галерея 5" />
+      <img class="gallery-image" :src="g01" alt="Галерея 6" />
     </div>
   </section>
 </template>
@@ -20,6 +20,14 @@
 export default {
   name: 'GallerySection'
 }
+</script>
+<script lang="ts" setup>
+const g06 = new URL('../../assets/randomPhotos/Image 06.png', import.meta.url).href
+const g05 = new URL('../../assets/randomPhotos/Image 05.png', import.meta.url).href
+const g04 = new URL('../../assets/randomPhotos/Image 04.png', import.meta.url).href
+const g03 = new URL('../../assets/randomPhotos/Image 03.png', import.meta.url).href
+const g02 = new URL('../../assets/randomPhotos/Image 02.png', import.meta.url).href
+const g01 = new URL('../../assets/randomPhotos/Image 01.png', import.meta.url).href
 </script>
 
 <style lang="scss" scoped>

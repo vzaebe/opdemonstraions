@@ -10,7 +10,7 @@
     <div class="team-grid">
       <div class="team-member">
         <div class="member-photo-wrapper">
-          <img class="member-photo" src="@/assets/png/face/komarov pic.png" alt="Дмитрий Комаров" />
+          <img class="member-photo" :src="komarovUrl" alt="Дмитрий Комаров" />
         </div>
         <div class="member-info">
           <h3 class="member-name">Дмитрий Комаров</h3>
@@ -24,7 +24,7 @@
       </div>
       <div class="team-member">
         <div class="member-photo-wrapper">
-          <img class="member-photo" src="@/assets/png/face/ivanova pic.png" alt="Ольга Иванова" />
+          <img class="member-photo" :src="ivanovaUrl" alt="Ольга Иванова" />
         </div>
         <div class="member-info">
           <h3 class="member-name">Ольга Иванова</h3>
@@ -38,7 +38,7 @@
       </div>
       <div class="team-member">
         <div class="member-photo-wrapper">
-          <img class="member-photo" src="@/assets/png/face/mironova pic.png" alt="София Миронова" />
+          <img class="member-photo" :src="mironovaUrl" alt="София Миронова" />
         </div>
         <div class="member-info">
           <h3 class="member-name">София Миронова</h3>
@@ -64,6 +64,11 @@
 export default {
   name: 'TeamSection'
 }
+</script>
+<script lang="ts" setup>
+const komarovUrl = new URL('../../assets/png/face/komarov pic.png', import.meta.url).href
+const ivanovaUrl = new URL('../../assets/png/face/ivanova pic.png', import.meta.url).href
+const mironovaUrl = new URL('../../assets/png/face/mironova pic.png', import.meta.url).href
 </script>
 
 <style lang="scss" scoped>
