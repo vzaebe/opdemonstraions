@@ -37,11 +37,8 @@
  *  - Кнопка имеет градиентный фон и лёгкую анимацию при ховере.
  *  - Размеры и шрифты адаптируются через @media.
  */
-<<<<<<< HEAD
 import PlayButton from '@/components/PlayButton.vue'
 
-=======
->>>>>>> origin/amcyx-modal-employee-gh-pages
 export default {
   name: 'HeroSection',
   components: {
