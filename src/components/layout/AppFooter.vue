@@ -312,6 +312,7 @@ export default defineComponent({
     flex-direction: column;
     gap: var(--spacing-3);
 
+<<<<<<< HEAD
     @media (max-width: $breakpoint-md) {
       gap: var(--spacing-4);
       align-items: center;
@@ -460,4 +461,25 @@ export default defineComponent({
     }
   }
 }
+=======
+    @media (max-width: 768px) {
+      gap: var(--spacing-3);
+    }
+  }
+
+  &__copyright {
+    font-size: var(--text-sm);
+    color: var(--color-white);
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  &__development {
+    font-size: var(--text-xs);
+    color: var(--color-white);
+    opacity: 0.7;
+    margin: 0;
+  }
+}
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 </style>

@@ -65,7 +65,11 @@
     </div>
     <div class="best-image" :class="{ 'image-animate': isVisible }">
       <div class="image-wrapper">
+<<<<<<< HEAD
         <img :src="bestImgUrl" alt="Два инженера у самолета" />
+=======
+        <img src="@/assets/png/TheBestOfMan.png" alt="Два инженера у самолета" />
+>>>>>>> origin/amcyx-modal-employee-gh-pages
         <div class="image-overlay"></div>
       </div>
     </div>
@@ -119,14 +123,21 @@ export default {
       card.style.transform = 'translateY(0) scale(1)'
     }
 
+<<<<<<< HEAD
     const bestImgUrl = new URL('../../assets/png/TheBestOfMan.png', import.meta.url).href
 
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
     return {
       sectionRef,
       isVisible,
       handleCardHover,
+<<<<<<< HEAD
       handleCardLeave,
       bestImgUrl
+=======
+      handleCardLeave
+>>>>>>> origin/amcyx-modal-employee-gh-pages
     }
   }
 }
@@ -137,7 +148,11 @@ export default {
   display: flex;
   width: 100%;
   height: 700px;
+<<<<<<< HEAD
   background: linear-gradient(135deg, $primary-teal 0%, darken($primary-teal, 10%) 100%);
+=======
+  background: linear-gradient(135deg, $primary-teal 0%, #1a8a91 100%);
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   color: $white;
   position: relative;
   overflow: hidden;
@@ -156,11 +171,16 @@ export default {
 
 .best-content {
   flex: 1;
+<<<<<<< HEAD
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 4vw, 4rem) clamp(2rem, 20vw, 25rem);
+=======
+  padding: 4rem 3rem 4rem 25rem;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   display: flex;
   align-items: center;
   position: relative;
   z-index: 2;
+<<<<<<< HEAD
   min-width: 0; // Предотвращает переполнение
 }
 
@@ -168,13 +188,24 @@ export default {
   max-width: min(900px, 90vw);
   width: 100%;
   margin: 0 auto; // Центрирование контента
+=======
+}
+
+.content-wrapper {
+  max-width: 900px;
+  width: 100%;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 }
 
 .best-title {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   line-height: $leading-tight;
+<<<<<<< HEAD
   margin: 0 0 clamp(1rem, 3vw, 2rem) 0;
+=======
+  margin: 0 0 2rem 0;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   background: linear-gradient(135deg, $white 0%, rgba($white, 0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -182,8 +213,11 @@ export default {
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s ease;
+<<<<<<< HEAD
   word-wrap: break-word;
   hyphens: auto;
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 
   &.slide-up {
     opacity: 1;
@@ -192,6 +226,7 @@ export default {
 }
 
 .best-description {
+<<<<<<< HEAD
   font-size: clamp(1rem, 2.5vw, 1.25rem);
   font-weight: 400;
   line-height: $leading-relaxed;
@@ -201,6 +236,16 @@ export default {
   transition: all 0.8s ease;
   word-wrap: break-word;
   hyphens: auto;
+=======
+  font-size: $text-xl;
+  font-weight: 400;
+  line-height: $leading-relaxed;
+  margin: 0 0 3rem 0;
+  opacity: 0.9;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 
   &.slide-up {
     opacity: 0.9;
@@ -216,23 +261,33 @@ export default {
   display: flex;
   gap: clamp(1rem, 3vw, 2rem);
   width: 100%;
+<<<<<<< HEAD
   max-width: 100%;
 
   @media (max-width: 1200px) {
     flex-direction: column;
     gap: 1.5rem;
   }
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 }
 
 .best-card {
   flex: 1;
+<<<<<<< HEAD
   min-width: 0; // Предотвращает переполнение
   max-width: 100%;
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   background: rgba($white, 0.05);
   backdrop-filter: blur(10px);
   border: 1px solid rgba($white, 0.1);
   border-radius: $border-radius-xl;
+<<<<<<< HEAD
   padding: clamp(1.25rem, 3vw, 2rem);
+=======
+  padding: 2rem;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -371,22 +426,98 @@ export default {
 }
 
 .best-image {
+<<<<<<< HEAD
   width: clamp(30%, 35vw, 40%);
+=======
+  width: 35%;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   height: 100%;
   position: relative;
   opacity: 0;
   transform: translateX(50px);
   transition: all 1s ease;
+<<<<<<< HEAD
   flex-shrink: 0; // Предотвращает сжатие изображения
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 
   &.image-animate {
     opacity: 1;
     transform: translateX(0);
     transition-delay: 0.3s;
   }
+<<<<<<< HEAD
 
   @media (max-width: 1200px) {
     display: none; // Скрываем изображение на средних экранах для лучшего отображения карточек
+=======
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.image-wrapper img {
+  width: 87.5%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1);
+  transition: transform 0.8s ease;
+  filter: brightness(1.1) contrast(1.05);
+}
+
+.image-overlay {
+  display: none;
+}
+
+.best-section:hover .image-wrapper img {
+  transform: scale(1.05);
+}
+
+// Анимации
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Responsive
+@media (max-width: $breakpoint-xl) {
+  .best-content {
+    padding: 3rem 2rem 3rem 4rem;
+  }
+
+  .best-title {
+    font-size: $text-4xl;
+  }
+
+  .best-image {
+    width: 40%;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   }
 }
 
@@ -457,6 +588,7 @@ export default {
 
 @media (max-width: 768px) {
   .best-section {
+<<<<<<< HEAD
     height: auto;
     min-height: 600px;
     padding: 2rem 0;
@@ -494,6 +626,73 @@ export default {
 
   .best-card p {
     font-size: clamp(0.875rem, 3.5vw, 1rem);
+=======
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .best-content {
+    order: 2;
+    padding: 3rem 2rem;
+    width: 100%;
+  }
+
+  .best-title {
+    font-size: $text-3xl;
+    margin-bottom: 1.5rem;
+  }
+
+  .best-description {
+    margin-bottom: 2rem;
+  }
+
+  .best-cards {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .best-image {
+    order: 1;
+    width: 100%;
+    height: 300px;
+    margin-bottom: 0;
+
+    &.image-animate {
+      transform: translateY(0);
+    }
+  }
+
+  .image-wrapper {
+    border-radius: 0;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-position: center center;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .best-content {
+    padding: 2rem 1rem;
+  }
+
+  .best-title {
+    font-size: $text-2xl;
+  }
+
+  .best-description {
+    font-size: $text-lg;
+  }
+
+  .best-card {
+    padding: 1.5rem;
+  }
+
+  .best-image {
+    height: 250px;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   }
 }
 </style>

@@ -27,8 +27,8 @@ function acceptCookies() {
       aria-label="Cookie consent"
     >
       <p class="cookie-text">
-        Мы используем cookie-файлы, чтобы улучшить работу сайта. Продолжая пользоваться сайтом, вы соглашаетесь на 
-        <a :href="POLICY_LINKS.PRIVACY_POLICY" class="policy-link" target="_blank" rel="noopener">использование cookie</a> и 
+        Мы используем cookie-файлы, чтобы улучшить работу сайта. Продолжая пользоваться сайтом, вы соглашаетесь на
+        <a :href="POLICY_LINKS.PRIVACY_POLICY" class="policy-link" target="_blank" rel="noopener">использование cookie</a> и
         <a :href="POLICY_LINKS.PERSONAL_DATA_AGREEMENT" class="policy-link" target="_blank" rel="noopener">обработку персональных данных</a>.
       </p>
       <button class="accept-btn" @click="acceptCookies">Принять</button>

@@ -139,6 +139,7 @@ const g01 = new URL('../../assets/randomPhotos/Image 01.png', import.meta.url).h
     border-radius: 8px;
   }
 }
+<<<<<<< HEAD
 
 // Дополнительная мобильная адаптация
 @media (max-width: $breakpoint-md) {
@@ -171,4 +172,6 @@ const g01 = new URL('../../assets/randomPhotos/Image 01.png', import.meta.url).h
     height: 160px;
   }
 }
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 </style>

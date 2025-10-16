@@ -33,7 +33,11 @@
             </div>
             <button type="submit">ОТПРАВИТЬ</button>
             <p class="consent-text">
+<<<<<<< HEAD
               Нажимая на кнопку, вы даёте согласие на
+=======
+              Нажимая на кнопку, вы даёте согласие на 
+>>>>>>> origin/amcyx-modal-employee-gh-pages
               <a :href="POLICY_LINKS.PERSONAL_DATA_AGREEMENT" class="policy-link" target="_blank" rel="noopener">обработку своих персональных данных</a>.
             </p>
           </form>
@@ -394,6 +398,7 @@ button {
     }
   }
 }
+<<<<<<< HEAD
 
 // Маленькие мобильные экраны
 @media (max-width: $breakpoint-sm) {
@@ -461,3 +466,6 @@ button {
   }
 }
 </style>
+=======
+</style>
+>>>>>>> origin/amcyx-modal-employee-gh-pages

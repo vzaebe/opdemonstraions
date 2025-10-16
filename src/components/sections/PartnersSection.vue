@@ -18,7 +18,11 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
+<<<<<<< HEAD
               :src="techencon"
+=======
+              src="@/assets/images/partners/techencon.svg"
+>>>>>>> origin/amcyx-modal-employee-gh-pages
               alt="Techencon"
             />
           </div>
@@ -29,7 +33,11 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
+<<<<<<< HEAD
               :src="cog"
+=======
+              src="@/assets/images/partners/cog.svg"
+>>>>>>> origin/amcyx-modal-employee-gh-pages
               alt="COG"
             />
           </div>
@@ -40,7 +48,11 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
+<<<<<<< HEAD
               :src="pkbmstu"
+=======
+              src="@/assets/images/partners/pkbmstu.svg"
+>>>>>>> origin/amcyx-modal-employee-gh-pages
               alt="ПКБ МГТУ"
             />
           </div>
@@ -58,7 +70,11 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
+<<<<<<< HEAD
               :src="simtech"
+=======
+              src="@/assets/images/partners/simtech.svg"
+>>>>>>> origin/amcyx-modal-employee-gh-pages
               alt="Simtech"
             />
           </div>
@@ -69,7 +85,11 @@
           <div class="partner-logo-container">
             <img
               class="partner-logo"
+<<<<<<< HEAD
               :src="akzent"
+=======
+              src="@/assets/images/partners/akzent.svg"
+>>>>>>> origin/amcyx-modal-employee-gh-pages
               alt="Akzent"
             />
           </div>
@@ -308,4 +328,8 @@ const akzent = new URL('../../assets/images/partners/akzent.svg', import.meta.ur
     font-size: 1.8rem;
   }
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> origin/amcyx-modal-employee-gh-pages

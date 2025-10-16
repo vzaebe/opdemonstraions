@@ -37,8 +37,11 @@
  *  - Кнопка имеет градиентный фон и лёгкую анимацию при ховере.
  *  - Размеры и шрифты адаптируются через @media.
  */
+<<<<<<< HEAD
 import PlayButton from '@/components/PlayButton.vue'
 
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 export default {
   name: 'HeroSection',
   components: {
@@ -62,7 +65,10 @@ export default {
   position: relative;
   width: 100%;
   height: 70vh;
+<<<<<<< HEAD
   min-height: 500px;
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   background-image: url('@/assets/images/VideoInFuture.jpg');
   background-attachment: fixed;
   background-position: center;
@@ -139,6 +145,7 @@ export default {
 // Мобильная адаптация
 @media (max-width: $breakpoint-sm) {
   .hero-section {
+<<<<<<< HEAD
     // Убираем фиксированный фон на мобильных из-за проблем с производительностью
     background-attachment: scroll;
     height: calc(100vh - 100px);
@@ -149,6 +156,10 @@ export default {
   .hero-content {
     padding: 0 0.5rem;
     max-width: 100%;
+=======
+    margin-top: 120px; // Отступ для мобильной шапки
+    height: calc(70vh - 120px);
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   }
 
   .hero-title {

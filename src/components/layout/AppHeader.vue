@@ -37,6 +37,7 @@
               </svg>
             </button>
           </div>
+<<<<<<< HEAD
         </div>
 
         <!-- Контактная информация -->
@@ -109,16 +110,75 @@
               <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
         </div>
+
+        <!-- Контактная информация -->
+        <div class="contact-container">
+          <a href="tel:+79999999999" class="contact-link" aria-label="Телефон">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 16.92V21a2 2 0 0 1-2.18 2 19.9 19.9 0 0 1-8.63-3.06 19.5 19.5 0 0 1-6-6A19.9 19.9 0 0 1 1 4.18 2 2 0 0 1 3 2h4.09a2 2 0 0 1 2 1.72c.12.81.34 1.6.66 2.35a2 2 0 0 1-.45 2.11L7.09 10.91a16 16 0 0 0 6 6l2.73-2.73a2 2 0 0 1 2.11-.45c.75.32 1.54.54 2.35.66a2 2 0 0 1 1.72 2.03z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="mailto:info@example.com" class="contact-link" aria-label="Email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="https://t.me/username" target="_blank" rel="noopener" class="contact-link" aria-label="Telegram">
+            <TgIcon :width="18" :height="18" />
+          </a>
+        </div>
+
+        <!-- Кнопка бургера (видна только на мобильных) -->
+        <button class="burger-button" @click="toggleMenu" aria-label="Открыть меню">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
+<<<<<<< HEAD
 
       <!-- Навигационные ссылки -->
+=======
+    </div>
+  </header>
+
+  <!-- Плавающая кнопка-бургер (видима, когда шапка вышла из области видимости) -->
+  <button
+    class="floating-burger"
+    v-show="showFloatingBurger"
+    @click="toggleMenu"
+    aria-label="Меню"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- Оверлей: прозрачный фон + само меню -->
+  <div
+    v-if="isMenuOpen && showFloatingBurger"
+    class="overlay-backdrop"
+    @click.self="closeMenu"
+  >
+    <nav class="overlay-menu" @click.stop>
+      <!-- Кнопка закрытия -->
+      <button class="close-button" @click="closeMenu" aria-label="Закрыть меню">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+>>>>>>> origin/amcyx-modal-employee-gh-pages
       <a href="#about" class="nav-link" @click="closeMenu">О нас</a>
       <a href="#projects" class="nav-link" @click="closeMenu">Проекты</a>
       <a href="#partners" class="nav-link" @click="closeMenu">Партнёры</a>
       <a href="#knowledge" class="nav-link" @click="closeMenu">База Знаний</a>
       <a href="#support" class="nav-link" @click="closeMenu">Поддержать</a>
       <a href="#contacts" class="nav-link" @click="closeMenu">Контакты</a>
+<<<<<<< HEAD
 
       <!-- Контактная информация в мобильном меню -->
       <div class="mobile-contacts">
@@ -142,6 +202,8 @@
           </a>
         </div>
       </div>
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
     </nav>
   </div>
 </template>
@@ -469,12 +531,17 @@ export default {
     display: none; // скрыто по умолчанию
     position: absolute;
     top: 100%;
+<<<<<<< HEAD
     left: 0;
     right: 0;
+=======
+    right: 1rem;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
     background: $primary-teal;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
+<<<<<<< HEAD
     padding: 1.5rem 1rem;
     border-radius: 0 0 $border-radius-md $border-radius-md;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
@@ -483,10 +550,17 @@ export default {
     opacity: 0;
     transform: translateY(-10px);
     transition: all 0.3s ease;
+=======
+    padding: 1rem;
+    border-radius: $border-radius-md;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    width: max-content;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   }
 
   .nav-menu.open {
     display: flex;
+<<<<<<< HEAD
     opacity: 1;
     transform: translateY(0);
   }
@@ -582,15 +656,33 @@ export default {
   .logo-icon {
     width: 140px;
     max-height: 50px;
+=======
+  }
+
+  .right-section {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .logo-icon {
+    width: 140px;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   }
 
   .burger-button {
     display: flex;
     align-items: center;
     justify-content: center;
+<<<<<<< HEAD
     padding: 0.75rem;
     min-width: 44px; // Минимальный размер для touch
     min-height: 44px;
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   }
 }
 
@@ -628,6 +720,7 @@ export default {
     min-height: 40px;
     padding: 0.5rem;
   }
+<<<<<<< HEAD
 }
 
 .burger-button {
@@ -645,6 +738,33 @@ export default {
   }
 }
 
+=======
+
+  .nav-link {
+    font-size: clamp(0.7rem, 4vw, 0.95rem);
+  }
+
+  .logo-icon {
+    width: 120px;
+  }
+}
+
+.burger-button {
+  background: none;
+  border: none;
+  color: $white;
+  display: none;
+  padding: 0.5rem;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 /* Плавающая кнопка-бургер */
 .floating-burger {
   position: fixed;
@@ -653,14 +773,20 @@ export default {
   background: $primary-teal;
   border: none;
   color: $white;
+<<<<<<< HEAD
   padding: 0.75rem;
   min-width: 48px;
   min-height: 48px;
   border-radius: $border-radius-lg;
+=======
+  padding: 0.5rem;
+  border-radius: $border-radius-md;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+<<<<<<< HEAD
   z-index: $z-modal; // Увеличен z-index для правильного отображения
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -697,6 +823,15 @@ export default {
   to {
     opacity: 1;
     transform: translateY(0);
+=======
+  z-index: $z-sticky;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background: $primary-mint;
+    transform: scale(1.05);
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   }
 }
 
@@ -706,12 +841,17 @@ export default {
   top: 0;
   right: 0;
   height: 100vh;
+<<<<<<< HEAD
   width: min(320px, 85vw);
+=======
+  width: 260px;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   background: $primary-teal;
   padding: 4rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+<<<<<<< HEAD
   z-index: $z-modal;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.25);
   overflow-y: auto;
@@ -764,6 +904,13 @@ export default {
       font-size: 0.9rem;
     }
   }
+=======
+  z-index: $z-sticky;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.25);
+
+  /* плавное появление — можно добавить по желанию */
+  animation: slide-in 0.3s ease forwards;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 }
 
 @keyframes slide-in {
@@ -789,6 +936,7 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
+<<<<<<< HEAD
   background: rgba(0, 0, 0, 0.5); // Затемняем фон для лучшего UX
   z-index: ($z-modal - 1);
   backdrop-filter: blur(4px);
@@ -802,6 +950,10 @@ export default {
   to {
     opacity: 1;
   }
+=======
+  background: transparent; // можно чуть затемнить, если нужно
+  z-index: ($z-sticky - 1);
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 }
 
 /* Кнопка закрытия внутри меню */

@@ -19,7 +19,11 @@
         <div class="project-image-container">
           <img
             class="project-image"
+<<<<<<< HEAD
             :src="p0"
+=======
+            src="@/assets/png/Projects/Photo.png"
+>>>>>>> origin/amcyx-modal-employee-gh-pages
             alt="Летние интенсивы в Бауманке"
           />
           <div class="project-image-overlay">
@@ -42,7 +46,11 @@
         <div class="project-image-container">
           <img
             class="project-image"
+<<<<<<< HEAD
             :src="p1"
+=======
+            src="@/assets/png/Projects/Photo-1.png"
+>>>>>>> origin/amcyx-modal-employee-gh-pages
             alt="Грант Росмолодежи"
           />
           <div class="project-image-overlay">
@@ -65,7 +73,11 @@
         <div class="project-image-container">
           <img
             class="project-image"
+<<<<<<< HEAD
             :src="p2"
+=======
+            src="@/assets/png/Projects/Photo-2.png"
+>>>>>>> origin/amcyx-modal-employee-gh-pages
             alt="Инклюзивные лекции"
           />
           <div class="project-image-overlay">
@@ -88,7 +100,11 @@
         <div class="project-image-container">
           <img
             class="project-image"
+<<<<<<< HEAD
             :src="p3"
+=======
+            src="@/assets/png/Projects/Photo-3.png"
+>>>>>>> origin/amcyx-modal-employee-gh-pages
             alt="Перевод науки на РЖЯ"
           />
           <div class="project-image-overlay">
@@ -176,21 +192,28 @@ export default {
       }
     })
 
+<<<<<<< HEAD
     const p0 = new URL('../../assets/png/Projects/Photo.png', import.meta.url).href
     const p1 = new URL('../../assets/png/Projects/Photo-1.png', import.meta.url).href
     const p2 = new URL('../../assets/png/Projects/Photo-2.png', import.meta.url).href
     const p3 = new URL('../../assets/png/Projects/Photo-3.png', import.meta.url).href
 
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
     return {
       sectionRef,
       headerRef,
       gridRef,
       isHeaderVisible,
+<<<<<<< HEAD
       isGridVisible,
       p0,
       p1,
       p2,
       p3
+=======
+      isGridVisible
+>>>>>>> origin/amcyx-modal-employee-gh-pages
     }
   }
 }

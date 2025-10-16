@@ -39,6 +39,7 @@
  * на scroll-проверке (getBoundingClientRect) без IntersectionObserver.
  */
 import { ref, onMounted, onUnmounted } from 'vue'
+<<<<<<< HEAD
 // @ts-ignore
 import image1 from '@/assets/png/SpecialCards/Product image-3.png'
 // @ts-ignore
@@ -47,6 +48,8 @@ import image2 from '@/assets/png/SpecialCards/Product image-2.png'
 import image3 from '@/assets/png/SpecialCards/Product image-1.png'
 // @ts-ignore
 import image4 from '@/assets/png/SpecialCards/Product image.png'
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 
 export default {
   name: 'ServicesCardsSection',
@@ -59,33 +62,53 @@ export default {
       {
         category: 'Компаниям',
         title: 'Мастер-классы',
+<<<<<<< HEAD
         image: image1
+=======
+        image: '/src/assets/png/SpecialCards/Product image-3.png'
+>>>>>>> origin/amcyx-modal-employee-gh-pages
       },
       {
         category: 'Разработчикам',
         title: 'Проект Адаптатион',
+<<<<<<< HEAD
         image: image2
+=======
+        image: '/src/assets/png/SpecialCards/Product image-2.png'
+>>>>>>> origin/amcyx-modal-employee-gh-pages
       },
       {
         category: 'Глухим инженерам',
         title: 'База знаний',
+<<<<<<< HEAD
         image: image3
+=======
+        image: '/src/assets/png/SpecialCards/Product image-1.png'
+>>>>>>> origin/amcyx-modal-employee-gh-pages
       },
       {
         category: 'Трудоустройство',
         title: 'Список вакансий',
+<<<<<<< HEAD
         image: image4
       }
     ]
 
     console.log('ServicesCardsSection: Данные карточек загружены', serviceCards)
 
+=======
+        image: '/src/assets/png/SpecialCards/Product image.png'
+      }
+    ]
+
+>>>>>>> origin/amcyx-modal-employee-gh-pages
     const checkVisibility = () => {
       if (!sectionRef.value) return
 
       const rect = sectionRef.value.getBoundingClientRect()
       const windowHeight = window.innerHeight
 
+<<<<<<< HEAD
       // Делаем анимацию более отзывчивой
       if (rect.top < windowHeight * 0.8) {
         isVisible.value = true
@@ -104,6 +127,10 @@ export default {
       if (rect.top < windowHeight) {
         isVisible.value = true
         console.log('ServicesCardsSection: Начальная видимость активирована')
+=======
+      if (rect.top < windowHeight * 0.8) {
+        isVisible.value = true
+>>>>>>> origin/amcyx-modal-employee-gh-pages
       }
     }
 
@@ -116,6 +143,7 @@ export default {
     }
 
     onMounted(() => {
+<<<<<<< HEAD
       console.log('ServicesCardsSection: Компонент смонтирован')
       checkInitialVisibility() // Проверяем сразу при монтировании
       checkVisibility()
@@ -126,6 +154,10 @@ export default {
         isVisible.value = true
         console.log('ServicesCardsSection: Принудительное отображение')
       }, 1000)
+=======
+      checkVisibility()
+      window.addEventListener('scroll', checkVisibility)
+>>>>>>> origin/amcyx-modal-employee-gh-pages
     })
 
     onUnmounted(() => {
@@ -187,11 +219,17 @@ export default {
   width: 100%;
   max-width: 100vw;
   background-color: $white;
+<<<<<<< HEAD
   padding: 80px 20px;
   position: relative;
   overflow-x: hidden;
   min-height: 600px; // Обеспечиваем минимальную высоту
   z-index: 1; // Обеспечиваем правильную иерархию
+=======
+  padding: 40px 0;
+  position: relative;
+  overflow: hidden;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 
   &::before {
     content: '';
@@ -224,7 +262,10 @@ export default {
   margin: 0 auto;
   position: relative;
   z-index: 2;
+<<<<<<< HEAD
   min-height: 400px; // Обеспечиваем минимальную высоту контейнера
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 }
 
 .service-card {
@@ -241,8 +282,13 @@ export default {
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+<<<<<<< HEAD
   opacity: 1; // Показываем карточки по умолчанию
   transform: translateY(0); // Убираем начальное смещение
+=======
+  opacity: 0;
+  transform: translateY(60px);
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 
   &::before {
     content: '';
@@ -264,12 +310,15 @@ export default {
   &.visible {
     animation: slideInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     animation-delay: var(--animation-delay);
+<<<<<<< HEAD
   }
 
   // Добавляем fallback для случаев, когда анимация не срабатывает
   &:not(.visible) {
     opacity: 1;
     transform: translateY(0);
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
   }
 
   &:hover {
@@ -436,8 +485,11 @@ export default {
     align-items: flex-start;
     padding: 24px 16px;
     min-height: 200px;
+<<<<<<< HEAD
     opacity: 1 !important;
     transform: translateY(0) !important;
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 
     &:hover {
       transform: translateY(-10px) scale(1.01);
@@ -445,6 +497,7 @@ export default {
   }
 
   .service-image-container {
+<<<<<<< HEAD
     width: 100%;
     margin-left: 0;
     margin-top: 16px;
@@ -461,10 +514,21 @@ export default {
   .service-info {
     opacity: 1 !important;
     visibility: visible !important;
+=======
+    width: 100%;
+    margin-left: 0;
+    margin-top: 16px;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
+  }
+
+  .service-image {
+    width: 100%;
+    height: 160px;
   }
 }
 
 @media (max-width: $breakpoint-sm) {
+<<<<<<< HEAD
   .services-cards-section {
     padding: 40px 8px;
     display: block !important; // Принудительно показываем
@@ -485,6 +549,10 @@ export default {
     max-width: 100%;
     opacity: 1 !important; // Принудительно показываем карточки
     transform: translateY(0) !important; // Убираем смещение
+=======
+  .service-card {
+    padding: 20px 12px;
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 
     &:hover {
       transform: translateY(-5px);
@@ -498,6 +566,7 @@ export default {
   .service-category {
     font-size: $text-xs;
   }
+<<<<<<< HEAD
 
   .service-info {
     opacity: 1 !important;
@@ -514,5 +583,7 @@ export default {
     opacity: 1 !important;
     visibility: visible !important;
   }
+=======
+>>>>>>> origin/amcyx-modal-employee-gh-pages
 }
 </style>

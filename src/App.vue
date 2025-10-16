@@ -94,10 +94,10 @@ export default {
       <BestSection />
 
       <!-- Секция регистрации -->
-      <!-- RegistrationSection /> -->
+      <RegistrationSection />
 
       <!-- Секция отзывов -->
-      <!--TestimonialsSection /> -->
+      <TestimonialsSection />
 
       <!-- Секция карточек услуг -->
       <ServicesCardsSection />
