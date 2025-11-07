@@ -2,52 +2,107 @@
   <section class="contact-section">
     <div class="map-container">
       <iframe
-        src="https://yandex.ru/map-widget/v1/?ll=37.622738%2C55.692389&pt=37.622738,55.692389,pm2rdm&z=16"
+        :src="mapUrl"
         width="100%"
         height="250"
         frameborder="0"
         style="border-radius: 16px;"
+        title="Наше местоположение на карте"
       ></iframe>
     </div>
     <div class="contact-container">
       <div class="contact-content">
+        <!-- Форма контакта -->
         <div class="contact-form">
           <h2>Свяжитесь с нами</h2>
           <p>Мы всегда открыты новым перспективам</p>
-          <form @submit.prevent="submitForm">
+
+          <!-- Сообщение об успехе/ошибке -->
+          <div v-if="submitMessage" :class="['form-message', submitMessage.type]">
+            {{ submitMessage.text }}
+          </div>
+
+          <form @submit.prevent="handleSubmit">
             <div class="form-group">
               <label for="name">ИМЯ</label>
-              <input type="text" id="name" v-model="form.name" placeholder="Ваше имя" />
+              <input
+                id="name"
+                v-model="formData.name"
+                type="text"
+                placeholder="Ваше имя"
+                required
+                @blur="validateField('name')"
+              />
+              <span v-if="errors.name" class="error-text">{{ errors.name }}</span>
             </div>
+
             <div class="form-group">
               <label for="phone">ТЕЛЕФОН</label>
-              <input type="tel" id="phone" v-model="form.phone" placeholder="Ваш телефон" />
+              <input
+                id="phone"
+                v-model="formData.phone"
+                type="tel"
+                placeholder="Ваш телефон"
+                @blur="validateField('phone')"
+              />
+              <span v-if="errors.phone" class="error-text">{{ errors.phone }}</span>
             </div>
+
             <div class="form-group">
               <label for="email">ПОЧТА</label>
-              <input type="email" id="email" v-model="form.email" placeholder="Ваша почта" />
+              <input
+                id="email"
+                v-model="formData.email"
+                type="email"
+                placeholder="Ваша почта"
+                required
+                @blur="validateField('email')"
+              />
+              <span v-if="errors.email" class="error-text">{{ errors.email }}</span>
             </div>
+
             <div class="form-group">
               <label for="message">СООБЩЕНИЕ</label>
-              <textarea id="message" v-model="form.message" placeholder="Оставьте своё сообщение"></textarea>
+              <textarea
+                id="message"
+                v-model="formData.message"
+                placeholder="Оставьте своё сообщение"
+                required
+                @blur="validateField('message')"
+              ></textarea>
+              <span v-if="errors.message" class="error-text">{{ errors.message }}</span>
             </div>
-            <button type="submit">ОТПРАВИТЬ</button>
+
+            <button type="submit" :disabled="isSubmitting" class="submit-button">
+              {{ isSubmitting ? 'ОТПРАВКА...' : 'ОТПРАВИТЬ' }}
+            </button>
+
             <p class="consent-text">
               Нажимая на кнопку, вы даёте согласие на
-              <a :href="POLICY_LINKS.PERSONAL_DATA_AGREEMENT" class="policy-link" target="_blank" rel="noopener">обработку своих персональных данных</a>.
+              <a href="#" class="policy-link">обработку своих персональных данных</a>.
             </p>
           </form>
         </div>
 
+        <!-- Информация о контактах -->
         <div class="contact-info">
           <h2>Контакты</h2>
           <p>Если хотите связаться лично или написать, то мы всегда открыты</p>
           <div class="contact-details">
             <div class="contact-item">
-              <a href="tel:+79150033935">+7 915 003 39 35</a>
+              <a :href="`tel:${CONTACT.PHONE}`" :title="CONTACT.PHONE">
+                {{ CONTACT.PHONE }}
+              </a>
             </div>
             <div class="contact-item">
-              <a href="mailto:info@openperspectives.ru">info@openperspectives.ru</a>
+              <a :href="`mailto:${CONTACT.EMAIL}`" :title="CONTACT.EMAIL">
+                {{ CONTACT.EMAIL }}
+              </a>
+            </div>
+            <div class="contact-item">
+              <a :href="CONTACT.TELEGRAM_URL" target="_blank" rel="noopener noreferrer">
+                Написать в Telegram
+              </a>
             </div>
           </div>
         </div>
@@ -56,40 +111,158 @@
   </section>
 </template>
 
-<script lang="ts">
-/**
- * Секция «Контакты» (ContactSection).
- * Включает:
- *  - Яндекс-карту с интерактивной меткой.
- *  - Фидбек-форму (Имя / Телефон / Email / Сообщение) с валидацией на уровне
- *    браузера и консольным выводом при отправке.
- */
-import { POLICY_LINKS } from '@/config/links'
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
+import { CONTACT, VALIDATION } from '../../config'
+import { contactService } from '../../services/api/contact'
+import { useAnalytics } from '../../composables/useAnalytics'
+import type { ContactFormData, FormValidationError } from '../../types/models'
 
-export default {
-  name: 'ContactSection',
-  data() {
-    return {
-      form: {
-        name: '',
-        phone: '',
-        email: '',
-        message: ''
-      },
-      POLICY_LINKS
-    }
-  },
-  methods: {
-    submitForm() {
-      console.log('Form submitted:', this.form)
-      this.form = {
-        name: '',
-        phone: '',
-        email: '',
-        message: ''
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// Константы
+const mapUrl = 'https://yandex.ru/map-widget/v1/?ll=37.622738%2C55.692389&pt=37.622738,55.692389,pm2rdm&z=16'
+
+// Состояние формы
+const formData = reactive<ContactFormData>({
+  name: '',
+  email: '',
+  phone: undefined,
+  message: ''
+})
+
+const errors = reactive<Record<string, string>>({})
+const isSubmitting = ref(false)
+const submitMessage = ref<{ type: 'success' | 'error'; text: string } | null>(null)
+
+// Аналитика
+const { trackButtonClick, trackError } = useAnalytics()
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/**
+ * Валидирует отдельное поле формы
+ */
+function validateField(fieldName: keyof ContactFormData): void {
+  const value = formData[fieldName]
+
+  switch (fieldName) {
+    case 'name':
+      if (!value || (value as string).trim().length < VALIDATION.NAME_MIN_LENGTH) {
+        errors[fieldName] = `Имя должно быть не менее ${VALIDATION.NAME_MIN_LENGTH} символов`
+      } else if ((value as string).length > VALIDATION.NAME_MAX_LENGTH) {
+        errors[fieldName] = `Имя должно быть не более ${VALIDATION.NAME_MAX_LENGTH} символов`
+      } else {
+        delete errors[fieldName]
       }
-    }
+      break
+
+    case 'email':
+      if (!value || !VALIDATION.EMAIL_REGEX.test(value as string)) {
+        errors[fieldName] = 'Пожалуйста, введите корректный email адрес'
+      } else {
+        delete errors[fieldName]
+      }
+      break
+
+    case 'phone':
+      if (value && !VALIDATION.PHONE_REGEX.test(value as string)) {
+        errors[fieldName] = 'Пожалуйста, введите корректный номер телефона'
+      } else {
+        delete errors[fieldName]
+      }
+      break
+
+    case 'message':
+      if (!value || (value as string).trim().length < VALIDATION.MESSAGE_MIN_LENGTH) {
+        errors[fieldName] = `Сообщение должно быть не менее ${VALIDATION.MESSAGE_MIN_LENGTH} символов`
+      } else if ((value as string).length > VALIDATION.MESSAGE_MAX_LENGTH) {
+        errors[fieldName] = `Сообщение должно быть не более ${VALIDATION.MESSAGE_MAX_LENGTH} символов`
+      } else {
+        delete errors[fieldName]
+      }
+      break
   }
+}
+
+/**
+ * Обработчик отправки формы
+ */
+async function handleSubmit(): Promise<void> {
+  // Валидируем все поля
+  Object.keys(formData).forEach(key => {
+    validateField(key as keyof ContactFormData)
+  })
+
+  // Если есть ошибки, не отправляем
+  if (Object.keys(errors).length > 0) {
+    submitMessage.value = {
+      type: 'error',
+      text: 'Пожалуйста, исправьте ошибки в форме'
+    }
+    return
+  }
+
+  isSubmitting.value = true
+  submitMessage.value = null
+
+  try {
+    // Отправляем через service
+    const result = await contactService.sendMessage(formData)
+
+    if (result.success) {
+      // Успех
+      submitMessage.value = {
+        type: 'success',
+        text: 'Спасибо! Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.'
+      }
+
+      // Трекируем событие
+      trackButtonClick('contact_form_submit')
+
+      // Очищаем форму
+      formData.name = ''
+      formData.email = ''
+      formData.phone = undefined
+      formData.message = ''
+
+      // Очищаем сообщение через 5 секунд
+      setTimeout(() => {
+        submitMessage.value = null
+      }, 5000)
+    } else {
+      // Ошибка
+      const errorText = result.message || 'Ошибка при отправке сообщения'
+      submitMessage.value = {
+        type: 'error',
+        text: errorText
+      }
+
+      trackError(
+        new Error(errorText),
+        'contact_form_submission'
+      )
+    }
+  } catch (error) {
+    const errorMessage = 'Произошла ошибка при отправке. Пожалуйста, попробуйте позже.'
+    submitMessage.value = {
+      type: 'error',
+      text: errorMessage
+    }
+
+    trackError(
+      error instanceof Error ? error : new Error(String(error)),
+      'contact_form_error'
+    )
+  } finally {
+    isSubmitting.value = false
+  }
+}
+</script>
+
+<script lang="ts">
+export default {
+  name: 'ContactSection'
 }
 </script>
 
@@ -289,6 +462,61 @@ button {
     &:hover {
       opacity: 0.8;
     }
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ✨ Новые стили для валидации и сообщений об ошибках ✨ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.error-text {
+  display: block;
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  animation: slideDown 0.2s ease-out;
+}
+
+.form-message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  animation: slideDown 0.3s ease-out;
+  font-weight: 500;
+
+  &.success {
+    background-color: #d1fae5;
+    border: 1px solid #6ee7b7;
+    color: #065f46;
+  }
+
+  &.error {
+    background-color: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #7f1d1d;
+  }
+}
+
+.submit-button {
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+      box-shadow: 0 4px 12px rgba(46, 172, 180, 0.2);
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

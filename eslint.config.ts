@@ -42,4 +42,15 @@ export default defineConfigWithVueTs(
     ],
   },
   skipFormatting,
+  {
+    files: ['**/*.{ts,tsx,mts}'],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.app.json'],
+        tsconfigRootDir: process.cwd(),
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+    },
+  },
 )

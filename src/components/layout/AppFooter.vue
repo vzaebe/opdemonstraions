@@ -97,10 +97,7 @@
  * с сервера.
  */
 import { defineComponent, computed } from 'vue'
-import TelegramIcon from '@/assets/images/tg.svg'
-import VKIcon from '@/assets/images/icon.svg'
-import YouTubeIcon from '@/assets/images/icon.svg'
-import { POLICY_LINKS } from '@/config/links'
+import { POLICY_LINKS } from '../../config'
 
 interface Link {
   text: string
@@ -127,9 +124,9 @@ export default defineComponent({
     const currentYear = computed(() => new Date().getFullYear())
 
     const socialLinks: SocialLink[] = [
-      { name: 'Telegram', url: 'https://t.me/openperspectives', icon: TelegramIcon },
-      { name: 'VK', url: 'https://vk.com/openperspectives', icon: VKIcon },
-      { name: 'YouTube', url: 'https://youtube.com/@openperspectives', icon: YouTubeIcon }
+      { name: 'Telegram', url: 'https://t.me/openperspectives', icon: '@/assets/images/tg.svg' },
+      { name: 'VK', url: 'https://vk.com/openperspectives', icon: '@/assets/images/icon.svg' },
+      { name: 'YouTube', url: 'https://youtube.com/@openperspectives', icon: '@/assets/images/icon.svg' }
     ]
 
     const projectLinks: Link[] = [
@@ -312,7 +309,6 @@ export default defineComponent({
     flex-direction: column;
     gap: var(--spacing-3);
 
-<<<<<<< HEAD
     @media (max-width: $breakpoint-md) {
       gap: var(--spacing-4);
       align-items: center;
@@ -461,25 +457,4 @@ export default defineComponent({
     }
   }
 }
-=======
-    @media (max-width: 768px) {
-      gap: var(--spacing-3);
-    }
-  }
-
-  &__copyright {
-    font-size: var(--text-sm);
-    color: var(--color-white);
-    opacity: 0.7;
-    margin: 0;
-  }
-
-  &__development {
-    font-size: var(--text-xs);
-    color: var(--color-white);
-    opacity: 0.7;
-    margin: 0;
-  }
-}
->>>>>>> origin/amcyx-modal-employee-gh-pages
 </style>

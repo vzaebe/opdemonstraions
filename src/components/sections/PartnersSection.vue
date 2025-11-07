@@ -1,6 +1,6 @@
 <template>
   <!-- Секция с генеральными партнерами -->
-  <section class="partners-section">
+  <UiSection class="partners-section" :padding="'py-24'" :background="''">
     <!-- Контейнер секции -->
     <div class="partners-container">
       <!-- Заголовок секции -->
@@ -16,45 +16,21 @@
         <!-- Партнер 1 - Techencon -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img
-              class="partner-logo"
-<<<<<<< HEAD
-              :src="techencon"
-=======
-              src="@/assets/images/partners/techencon.svg"
->>>>>>> origin/amcyx-modal-employee-gh-pages
-              alt="Techencon"
-            />
+            <img class="partner-logo" src="@/assets/images/partners/techencon.svg" alt="Techencon" loading="lazy" />
           </div>
         </div>
 
         <!-- Партнер 2 - COG -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img
-              class="partner-logo"
-<<<<<<< HEAD
-              :src="cog"
-=======
-              src="@/assets/images/partners/cog.svg"
->>>>>>> origin/amcyx-modal-employee-gh-pages
-              alt="COG"
-            />
+            <img class="partner-logo" src="@/assets/images/partners/cog.svg" alt="COG" loading="lazy" />
           </div>
         </div>
 
         <!-- Партнер 3 - ПКБ МГТУ -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img
-              class="partner-logo"
-<<<<<<< HEAD
-              :src="pkbmstu"
-=======
-              src="@/assets/images/partners/pkbmstu.svg"
->>>>>>> origin/amcyx-modal-employee-gh-pages
-              alt="ПКБ МГТУ"
-            />
+            <img class="partner-logo" src="@/assets/images/partners/pkbmstu.svg" alt="ПКБ МГТУ" loading="lazy" />
           </div>
         </div>
 
@@ -68,59 +44,35 @@
         <!-- Партнер 5 - Simtech -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img
-              class="partner-logo"
-<<<<<<< HEAD
-              :src="simtech"
-=======
-              src="@/assets/images/partners/simtech.svg"
->>>>>>> origin/amcyx-modal-employee-gh-pages
-              alt="Simtech"
-            />
+            <img class="partner-logo" src="@/assets/images/partners/simtech.svg" alt="Simtech" loading="lazy" />
           </div>
         </div>
 
         <!-- Партнер 6 - Akzent -->
         <div class="partner-card">
           <div class="partner-logo-container">
-            <img
-              class="partner-logo"
-<<<<<<< HEAD
-              :src="akzent"
-=======
-              src="@/assets/images/partners/akzent.svg"
->>>>>>> origin/amcyx-modal-employee-gh-pages
-              alt="Akzent"
-            />
+            <img class="partner-logo" src="@/assets/images/partners/akzent.svg" alt="Akzent" loading="lazy" />
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </UiSection>
 </template>
 
 <script lang="ts">
-/**
- * Секция «Партнёры» (PartnersSection).
- * Отображает сетку логотипов/названий организаций-партнёров. Каждая карточка
- * реагирует на hover, применяя градиент и трансформацию.
- */
 export default {
   name: 'PartnersSection'
 }
 </script>
+
 <script lang="ts" setup>
-const techencon = new URL('../../assets/images/partners/techencon.svg', import.meta.url).href
-const cog = new URL('../../assets/images/partners/cog.svg', import.meta.url).href
-const pkbmstu = new URL('../../assets/images/partners/pkbmstu.svg', import.meta.url).href
-const simtech = new URL('../../assets/images/partners/simtech.svg', import.meta.url).href
-const akzent = new URL('../../assets/images/partners/akzent.svg', import.meta.url).href
+import UiSection from '../ui/Section.vue'
 </script>
 
 <style lang="scss" scoped>
 .partners-section {
   width: 100%;
-  max-width: 100vw; // Предотвращаем горизонтальное переполнение
+  max-width: 100vw;
   min-height: 800px;
   background: linear-gradient(135deg, $primary-teal, $primary-mint);
   display: flex;
@@ -317,7 +269,10 @@ const akzent = new URL('../../assets/images/partners/akzent.svg', import.meta.ur
 @media (max-width: $breakpoint-sm) {
   .partners-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+  }
+
+  .partners-title {
+    font-size: $text-3xl;
   }
 
   .partner-card {
@@ -325,11 +280,7 @@ const akzent = new URL('../../assets/images/partners/akzent.svg', import.meta.ur
   }
 
   .partner-text {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 }
-<<<<<<< HEAD
 </style>
-=======
-</style>
->>>>>>> origin/amcyx-modal-employee-gh-pages

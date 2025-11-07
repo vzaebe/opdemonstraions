@@ -1,174 +1,60 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-
-export interface AppState {
-  isLoading: boolean
-  currentPage: string
-  userPreferences: {
-    theme: 'light' | 'dark' | 'auto'
-    language: 'ru' | 'en'
-    reducedMotion: boolean
-  }
-  modalState: {
-    isOpen: boolean
-    type: string | null
-    data: unknown
-  }
-  analytics: {
-    pageViews: number
-    modalOpens: number
-    buttonClicks: number
-  }
-}
+import { ref } from 'vue'
+import { usePreferencesStore } from './preferences'
+import { useModalStore } from './modal'
+import { useAnalyticsStore } from './analytics'
 
 export const useAppStore = defineStore('app', () => {
-  // Состояние
   const isLoading = ref(false)
   const currentPage = ref('home')
-  const userPreferences = ref({
-    theme: 'light' as 'light' | 'dark' | 'auto',
-    language: 'ru' as 'ru' | 'en',
-    reducedMotion: false
-  })
-  const modalState = ref({
-    isOpen: false,
-    type: null as string | null,
-    data: null as unknown
-  })
-  const analytics = ref({
-    pageViews: 0,
-    modalOpens: 0,
-    buttonClicks: 0
-  })
 
-  // Геттеры
-  const isDarkTheme = computed(() => {
-    if (userPreferences.value.theme === 'auto') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches
-    }
-    return userPreferences.value.theme === 'dark'
-  })
+  // Compose specialized stores for backward compatibility
+  const preferences = usePreferencesStore()
+  const modal = useModalStore()
+  const analytics = useAnalyticsStore()
 
-  const isModalOpen = computed(() => modalState.value.isOpen)
-
-  const currentModalType = computed(() => modalState.value.type)
-
-  const currentModalData = computed(() => modalState.value.data)
-
-  // Действия
-  const setLoading = (loading: boolean) => {
-    isLoading.value = loading
+  function setLoading(next: boolean): void {
+    isLoading.value = next
   }
 
-  const setCurrentPage = (page: string) => {
+  function setCurrentPage(page: string): void {
     currentPage.value = page
-    analytics.value.pageViews++
+    analytics.trackPageView()
   }
 
-  const setTheme = (theme: 'light' | 'dark' | 'auto') => {
-    userPreferences.value.theme = theme
-    localStorage.setItem('theme', theme)
-
-    // Применяем тему к документу
-    if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+  function initializeApp(): void {
+    preferences.initialize()
   }
 
-  const setLanguage = (language: 'ru' | 'en') => {
-    userPreferences.value.language = language
-    localStorage.setItem('language', language)
-  }
-
-  const setReducedMotion = (reduced: boolean) => {
-    userPreferences.value.reducedMotion = reduced
-    localStorage.setItem('reducedMotion', reduced.toString())
-  }
-
-  const openModal = (type: string, data?: unknown) => {
-    modalState.value = {
-      isOpen: true,
-      type,
-      data
-    }
-    analytics.value.modalOpens++
-  }
-
-  const closeModal = () => {
-    modalState.value = {
-      isOpen: false,
-      type: null,
-      data: null
-    }
-  }
-
-  const trackButtonClick = (buttonText: string) => {
-    analytics.value.buttonClicks++
-    console.log(`Button clicked: ${buttonText}`)
-  }
-
-  const initializeApp = () => {
-    // Загружаем настройки из localStorage
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | 'auto' | null
-    const savedLanguage = localStorage.getItem('language') as 'ru' | 'en' | null
-    const savedReducedMotion = localStorage.getItem('reducedMotion')
-
-    if (savedTheme) {
-      setTheme(savedTheme)
-    }
-    if (savedLanguage) {
-      setLanguage(savedLanguage)
-    }
-    if (savedReducedMotion) {
-      setReducedMotion(savedReducedMotion === 'true')
-    }
-
-    // Инициализируем тему
-    setTheme(userPreferences.value.theme)
-  }
-
-  const resetAnalytics = () => {
-    analytics.value = {
-      pageViews: 0,
-      modalOpens: 0,
-      buttonClicks: 0
-    }
-  }
-
-  const getAnalyticsReport = () => {
-    return {
-      ...analytics.value,
-      timestamp: new Date().toISOString()
-    }
+  function getAnalyticsReport(): { pageViews: number; modalOpens: number; buttonClicks: number; timestamp: string } {
+    return { ...analytics.counters, timestamp: new Date().toISOString() }
   }
 
   return {
-    // Состояние
     isLoading,
     currentPage,
-    userPreferences,
-    modalState,
-    analytics,
+    // expose nested stores api as backwards-compat
+    userPreferences: preferences, // theme, language, reducedMotion + setters
+    modalState: modal.state,
+    analytics: analytics.counters,
 
-    // Геттеры
-    isDarkTheme,
-    isModalOpen,
-    currentModalType,
-    currentModalData,
+    // getters compatibility
+    isDarkTheme: preferences.isDarkTheme,
+    isModalOpen: modal.isOpen,
+    currentModalType: modal.type,
+    currentModalData: modal.data,
 
-    // Действия
+    // actions
     setLoading,
     setCurrentPage,
-    setTheme,
-    setLanguage,
-    setReducedMotion,
-    openModal,
-    closeModal,
-    trackButtonClick,
+    setTheme: preferences.setTheme,
+    setLanguage: preferences.setLanguage,
+    setReducedMotion: preferences.setReducedMotion,
+    openModal: modal.open,
+    closeModal: modal.close,
+    trackButtonClick: analytics.trackButtonClick,
     initializeApp,
-    resetAnalytics,
-    getAnalyticsReport
+    resetAnalytics: analytics.reset,
+    getAnalyticsReport,
   }
 })

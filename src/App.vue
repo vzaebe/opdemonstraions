@@ -12,50 +12,17 @@
  * При необходимости изменить порядок секций или добавить новую — достаточно
  * отредактировать разметку в теге <template> ниже (без изменений логики).
  */
-// Импортируем все компоненты секций
-import AppHeader from '@/components/layout/AppHeader.vue'
-import AppFooter from '@/components/layout/AppFooter.vue'
-import HeroSection from '@/components/sections/HeroSection.vue'
-import PartnersSection from '@/components/sections/PartnersSection.vue'
-import OrientationSection from '@/components/sections/OrientationSection.vue'
-import GallerySection from '@/components/sections/GallerySection.vue'
-import AboutSection from '@/components/sections/AboutSection.vue'
-import ServicesSection from '@/components/sections/ServicesSection.vue'
-import AdvantagesSection from '@/components/sections/AdvantagesSection.vue'
-import BestSection from '@/components/sections/BestSection.vue'
-import RegistrationSection from '@/components/sections/RegistrationSection.vue'
-import TestimonialsSection from '@/components/sections/TestimonialsSection.vue'
-import ServicesCardsSection from '@/components/sections/ServicesCardsSection.vue'
-import ProjectsSection from '@/components/sections/ProjectsSection.vue'
-import SocialMediaSection from '@/components/sections/SocialMediaSection.vue'
-import TeamSection from '@/components/sections/TeamSection.vue'
-import ContactSection from '@/components/sections/ContactSection.vue'
-import SupportSection from '@/components/sections/SupportSection.vue'
-import CookieBanner from '@/components/CookieBanner.vue'
-import TelegramSection from '@/components/sections/TelegramSection.vue'
+// Импортируем только layout-элементы. Контентные секции живут в маршрутах
+import { defineAsyncComponent } from 'vue'
+import AppHeader from './components/layout/AppHeader.vue'
+import AppFooter from './components/layout/AppFooter.vue'
+const CookieBanner = defineAsyncComponent(() => import('./components/CookieBanner.vue'))
 
 export default {
   name: 'App',
   components: {
     AppHeader,
     AppFooter,
-    HeroSection,
-    PartnersSection,
-    OrientationSection,
-    GallerySection,
-    AboutSection,
-    ServicesSection,
-    AdvantagesSection,
-    BestSection,
-    RegistrationSection,
-    TestimonialsSection,
-    ServicesCardsSection,
-    ProjectsSection,
-    SocialMediaSection,
-    TelegramSection,
-    TeamSection,
-    ContactSection,
-    SupportSection,
     CookieBanner
   }
 }
@@ -67,60 +34,9 @@ export default {
     <!-- Компонент навигации -->
     <AppHeader />
 
-    <!-- Основной контент -->
+    <!-- Основной контент (маршруты) -->
     <main>
-      <!-- Секция героя с фоновым изображением -->
-      <HeroSection />
-
-      <!-- Секция с партнерами -->
-      <PartnersSection />
-
-      <!-- Секция "Содействуем профориентации" -->
-      <OrientationSection />
-
-      <!-- Секция с изображениями -->
-      <GallerySection />
-
-      <!-- Секция "Больше, чем АНО" -->
-      <AboutSection />
-
-      <!-- Секция "Что мы делаем?" -->
-      <ServicesSection />
-
-      <!-- Секция "Наши преимущества" -->
-      <AdvantagesSection />
-
-      <!-- Секция "Лучшее, что может человек" -->
-      <BestSection />
-
-      <!-- Секция регистрации -->
-      <RegistrationSection />
-
-      <!-- Секция отзывов -->
-      <TestimonialsSection />
-
-      <!-- Секция карточек услуг -->
-      <ServicesCardsSection />
-
-      <!-- Секция основных проектов -->
-      <ProjectsSection />
-
-      <!-- Секция социальных сетей -->
-      <SocialMediaSection />
-
-      <!-- Секция подписки на Telegram-канал -->
-      <TelegramSection />
-
-      <!-- Секция команды -->
-      <TeamSection />
-
-      <!-- Секция контактов -->
-      <ContactSection />
-
-      <!-- Секция поддержки -->
-      <SupportSection />
-
-      <!-- Cookie consent banner -->
+      <router-view />
       <CookieBanner />
     </main>
 

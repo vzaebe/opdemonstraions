@@ -7,7 +7,7 @@
       </p>
       <ButtonPrimary
         :variant="showProfile ? 'secondary' : 'primary'"
-        @click="showProfile = !showProfile"
+        @click="toggleProfileView"
       >
         {{ showProfile ? 'Скрыть профили' : 'Показать профили' }}
       </ButtonPrimary>
@@ -19,79 +19,178 @@
 
     <div v-else class="team-grid">
       <div
+        v-for="member in teamMembers"
+        :key="member.id"
         class="team-member"
-        v-for="member in team"
-        :key="member.name"
-        @click="handleMemberClick(member)"
+        @click="selectMember(member)"
       >
         <div class="member-photo-wrapper">
-          <img class="member-photo" :src="member.photo" :alt="member.name" />
+          <img 
+            class="member-photo" 
+            :src="member.photo" 
+            :alt="`Фото ${member.name}`"
+            loading="lazy"
+          />
         </div>
         <div class="member-info">
           <h3 class="member-name">{{ member.name }}</h3>
           <p class="member-role">{{ member.role }}</p>
           <div class="member-social">
-            <a href="#" class="social-link"><i class="fas fa-globe"></i></a>
-            <a href="mailto:#" class="social-link"><i class="fas fa-envelope"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+            <a
+              v-if="member.socials.linkedin"
+              :href="member.socials.linkedin"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="LinkedIn"
+              aria-label="LinkedIn профиль"
+            >
+              <i class="fas fa-linkedin"></i>
+            </a>
+            <a
+              v-if="member.socials.telegram"
+              :href="member.socials.telegram"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="Telegram"
+              aria-label="Telegram"
+            >
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a
+              v-if="member.socials.email"
+              :href="`mailto:${member.socials.email}`"
+              class="social-link"
+              title="Email"
+              aria-label="Отправить письмо"
+            >
+              <i class="fas fa-envelope"></i>
+            </a>
           </div>
         </div>
       </div>
     </div>
 
-    <MemberModal :visible="showModal" :member="selectedMember" @close="closeModal" />
+    <!-- Модальное окно профиля -->
+    <MemberModal 
+      :visible="showModal" 
+      :member="selectedMember" 
+      @close="closeModal" 
+    />
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useModal } from '@/composables/useModal'
+import { ref, computed } from 'vue'
+import { useAnalytics } from '@/composables/useAnalytics'
 import MemberModal from '../MemberModal.vue'
 import EmployeeProfile from '../EmployeeProfile.vue'
 import ButtonPrimary from '../ButtonPrimary.vue'
+import type { TeamMember } from '@/types/models'
+// Import team member photos
+import komarovPhoto from '@/assets/png/face/komarov pic.png'
+import ivanovaPhoto from '@/assets/png/face/ivanova pic.png'
+import mironovaPhoto from '@/assets/png/face/mironova pic.png'
 
-interface TeamMember {
-  name: string;
-  role: string;
-  photo: string;
-  bio: string;
-}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+// Композабли
+const { trackButtonClick, trackProfileView } = useAnalytics()
+
+// Состояние
 const showProfile = ref(false)
 const selectedMember = ref<TeamMember | null>(null)
+const showModal = ref(false)
 
-const { isOpen: showModal, open: openModal, close: closeModal } = useModal({
-  closeOnEscape: true,
-  closeOnOverlay: true,
-  preventScroll: true,
-  focusTrap: true
-})
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const handleMemberClick = (member: TeamMember) => {
-  selectedMember.value = member
-  openModal(member)
-}
-
-const team: TeamMember[] = [
+// Данные команды (с правильными типами)
+const teamMembers: TeamMember[] = [
   {
+    id: 'dmitriy-komarov',
     name: 'Дмитрий Комаров',
     role: 'НАЧАЛЬНИК УПРАВЛЕНИЯ ДОСТУПНОЙ ИНФОРМАЦИОННОЙ СРЕДЫ',
-    photo: new URL('@/assets/png/face/komarov pic.png', import.meta.url).href,
-    bio: 'Курирует цифровую трансформацию среды. Помогает развивать доступность информационных технологий для всех категорий пользователей. Отвечает за внедрение инновационных решений в области доступности.'
+    position: 'Head of Accessibility',
+    photo: komarovPhoto,
+    bio: 'Курирует цифровую трансформацию среды. Помогает развивать доступность информационных технологий для всех категорий пользователей. Отвечает за внедрение инновационных решений в области доступности.',
+    socials: {
+      telegram: 'https://t.me/dmitriy_komarov',
+      linkedin: 'https://linkedin.com/in/dmitriy-komarov',
+      email: 'dmitriy@openperspectives.ru'
+    },
+    department: 'Accessibility',
+    yearsInTeam: 5
   },
   {
+    id: 'olga-ivanova',
     name: 'Ольга Иванова',
     role: 'ДИРЕКТОР',
-    photo: new URL('@/assets/png/face/ivanova pic.png', import.meta.url).href,
-    bio: 'Отвечает за общее руководство и стратегическое развитие организации. Координирует все направления деятельности и обеспечивает достижение ключевых показателей эффективности.'
+    position: 'Director',
+    photo: ivanovaPhoto,
+    bio: 'Отвечает за общее руководство и стратегическое развитие организации. Координирует все направления деятельности и обеспечивает достижение ключевых показателей эффективности.',
+    socials: {
+      telegram: 'https://t.me/olga_ivanova',
+      linkedin: 'https://linkedin.com/in/olga-ivanova',
+      email: 'olga@openperspectives.ru'
+    },
+    department: 'Management',
+    yearsInTeam: 8
   },
   {
+    id: 'sofia-mironova',
     name: 'София Миронова',
     role: 'НАЧАЛЬНИК УПРАВЛЕНИЯ ИНКЛЮЗИВНЫХ ПРОГРАММ',
-    photo: new URL('@/assets/png/face/mironova pic.png', import.meta.url).href,
-    bio: 'Разрабатывает и реализует инклюзивные программы для молодёжи и школ. Создает образовательные инициативы, направленные на развитие инклюзивной среды в образовательных учреждениях.'
+    position: 'Head of Inclusive Programs',
+    photo: mironovaPhoto,
+    bio: 'Разрабатывает и реализует инклюзивные программы для молодёжи и школ. Создает образовательные инициативы, направленные на развитие инклюзивной среды в образовательных учреждениях.',
+    socials: {
+      telegram: 'https://t.me/sofia_mironova',
+      linkedin: 'https://linkedin.com/in/sofia-mironova',
+      email: 'sofia@openperspectives.ru'
+    },
+    department: 'Programs',
+    yearsInTeam: 6
   }
 ]
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/**
+ * Переключить вид профилей
+ */
+function toggleProfileView(): void {
+  showProfile.value = !showProfile.value
+  trackButtonClick(showProfile.value ? 'show_profiles' : 'hide_profiles')
+}
+
+/**
+ * Выбрать члена команды
+ */
+function selectMember(member: TeamMember): void {
+  selectedMember.value = member
+  showModal.value = true
+  
+  // Трекируем просмотр профиля
+  trackProfileView(member.name, 'modal')
+}
+
+/**
+ * Закрыть модальное окно
+ */
+function closeModal(): void {
+  showModal.value = false
+  // Оставляем selectedMember для плавного перехода
+  setTimeout(() => {
+    selectedMember.value = null
+  }, 300)
+}
+</script>
+
+<script lang="ts">
+export default {
+  name: 'TeamSection'
+}
 </script>
 
 <style lang="scss" scoped>

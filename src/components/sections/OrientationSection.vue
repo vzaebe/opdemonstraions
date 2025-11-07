@@ -1,6 +1,5 @@
 <template>
   <section class="orientation-section">
-<<<<<<< HEAD
     <div class="container">
       <!-- Заголовок -->
       <header class="section-header">
@@ -24,50 +23,10 @@
             <PlayButton
               :overlay="true"
               @click="handlePlayClick"
-=======
-    <!-- Основной контент секции -->
-    <div class="orientation-content">
-      <!-- Заголовок секции -->
-      <h2 class="orientation-title">
-        Содействуем профориентации и адаптации молодежи
-        из уязвимых слоев, включая людей с нарушением слуха
-        в производство
-      </h2>
-
-      <!-- Изображение с кнопкой воспроизведения -->
-      <div class="orientation-image-container">
-        <div class="image-wrapper">
-          <!-- Основное изображение -->
-          <img
-            class="orientation-image"
-            src="@/assets/png/goodGuy.png"
-            alt="Профориентация"
-          />
-        </div>
-
-        <!-- Кнопка воспроизведения поверх изображения -->
-        <div class="play-button-overlay">
-          <button class="play-button" @click="handlePlayClick">
-            <span class="play-icon">▶</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Блоки с описанием услуг -->
-      <div class="services-blocks">
-        <!-- Блок "Наши рекомендации" -->
-        <div class="service-block">
-          <div class="service-icon">
-            <img
-              src="@/assets/png/ourRecomendations.png"
-              alt="Наши рекомендации"
-              class="service-image"
->>>>>>> origin/amcyx-modal-employee-gh-pages
             />
           </div>
         </div>
 
-<<<<<<< HEAD
         <!-- Блоки услуг -->
         <div class="services-grid">
           <article class="service-card">
@@ -101,23 +60,6 @@
               </p>
             </div>
           </article>
-=======
-        <!-- Блок "Разработка ПО" -->
-        <div class="service-block">
-          <div class="service-icon">
-            <img
-              src="@/assets/png/software.png"
-              alt="Разработка ПО"
-              class="service-image"
-            />
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Разработка ПО</h3>
-            <p class="service-description">
-              Программные решения для обеспечения доступности
-            </p>
-          </div>
->>>>>>> origin/amcyx-modal-employee-gh-pages
         </div>
       </div>
     </div>
@@ -125,11 +67,8 @@
 </template>
 
 <script lang="ts">
-<<<<<<< HEAD
 import PlayButton from '@/components/PlayButton.vue'
 
-=======
->>>>>>> origin/amcyx-modal-employee-gh-pages
 /**
  * Секция «Содействуем профориентации» (OrientationSection).
  * Показывает описание направления, изображение с play-кнопкой и два блока
@@ -182,10 +121,6 @@ const software = new URL('../../assets/png/software.png', import.meta.url).href
   font-weight: 700;
   line-height: 1.2;
   color: $white;
-<<<<<<< HEAD
-=======
-  width: 1200px;
->>>>>>> origin/amcyx-modal-employee-gh-pages
   margin: 0;
   max-width: 1000px;
   margin-left: auto;
@@ -224,43 +159,8 @@ const software = new URL('../../assets/png/software.png', import.meta.url).href
 .video-preview {
   width: 100%;
   height: 100%;
-<<<<<<< HEAD
   object-fit: cover;
   display: block;
-=======
-  border-radius: $border-radius-full;
-  background: linear-gradient(135deg, $primary-teal, $primary-mint);
-  border: none;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(29, 233, 182, 0.35);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: left 0.5s ease;
-  }
-
-  &:hover {
-    background: linear-gradient(135deg, $primary-mint, $primary-cyan);
-    transform: scale(1.1);
-
-    &::before {
-      left: 100%;
-    }
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
->>>>>>> origin/amcyx-modal-employee-gh-pages
 }
 
 
@@ -279,19 +179,11 @@ const software = new URL('../../assets/png/software.png', import.meta.url).href
   align-items: center;
   gap: 1.5rem;
   padding: 2rem;
-<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: $border-radius-2xl;
   transition: all 0.3s ease;
-=======
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: $border-radius-xl;
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition: all 0.4s ease;
->>>>>>> origin/amcyx-modal-employee-gh-pages
 
   &:hover {
     background: rgba(255, 255, 255, 0.15);
@@ -349,46 +241,10 @@ const software = new URL('../../assets/png/software.png', import.meta.url).href
     padding: 0 1.5rem;
   }
 
-<<<<<<< HEAD
   .main-content {
-=======
-  .orientation-title {
-    position: static;
-    width: 100%;
-    transform: none;
-    margin-bottom: 4rem;
-  }
-
-  .orientation-image-container {
-    position: static;
-    width: 100%;
-    max-width: 600px;
-    transform: none;
-    margin: 0 auto 4rem;
-  }
-
-  .image-wrapper {
-    width: 100%;
-    height: auto;
-  }
-
-  .orientation-image {
-    position: relative;
-    width: 100%;
-    height: auto;
-    transform: none;
-    left: 0;
-  }
-
-  .services-blocks {
-    position: static;
-    width: 100%;
-    flex-direction: column;
->>>>>>> origin/amcyx-modal-employee-gh-pages
     gap: 3rem;
   }
 
-<<<<<<< HEAD
   .services-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -402,12 +258,6 @@ const software = new URL('../../assets/png/software.png', import.meta.url).href
   .service-media {
     width: 100px;
     height: 75px;
-=======
-  .service-block {
-    width: 100%;
-    max-width: 500px;
-    justify-content: center;
->>>>>>> origin/amcyx-modal-employee-gh-pages
   }
 }
 
@@ -417,7 +267,6 @@ const software = new URL('../../assets/png/software.png', import.meta.url).href
     min-height: auto;
   }
 
-<<<<<<< HEAD
   .container {
     padding: 0 1rem;
   }
@@ -437,15 +286,11 @@ const software = new URL('../../assets/png/software.png', import.meta.url).href
 
 
   .service-card {
-=======
-  .service-block {
->>>>>>> origin/amcyx-modal-employee-gh-pages
     flex-direction: column;
     text-align: center;
     padding: 2rem 1.5rem;
   }
 
-<<<<<<< HEAD
   .service-media {
     width: 140px;
     height: 105px;
@@ -500,24 +345,4 @@ const software = new URL('../../assets/png/software.png', import.meta.url).href
     font-size: $text-sm;
   }
 }
-=======
-  .service-content {
-    align-items: center;
-  }
-
-  .play-button-overlay {
-    width: 5rem;
-    height: 5rem;
-  }
-
-  .play-icon {
-    font-size: $text-2xl;
-  }
-
-  .service-icon {
-    width: 12rem;
-    height: 8rem;
-  }
-}
->>>>>>> origin/amcyx-modal-employee-gh-pages
 </style>

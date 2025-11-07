@@ -20,6 +20,12 @@ function submitForm() {
 }
 </script>
 
+<script lang="ts">
+export default {
+  name: 'RegistrationSection'
+}
+</script>
+
 <template>
   <section class="registration-section">
     <div class="image-container">

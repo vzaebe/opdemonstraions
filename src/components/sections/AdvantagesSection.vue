@@ -39,6 +39,12 @@ import OpenDecisionsIcon from '../icons/OpenDecisionsIcon.vue'
 import OpenInfoIcon from '../icons/OpenInfoIcon.vue'
 </script>
 
+<script lang="ts">
+export default {
+  name: 'AdvantagesSection'
+}
+</script>
+
 <style lang="scss" scoped>
 .advantages-section {
   width: 100%;

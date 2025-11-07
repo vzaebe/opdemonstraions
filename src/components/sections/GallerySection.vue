@@ -15,12 +15,13 @@
 /**
  * Секция «Галерея» (GallerySection).
  * Статическая мозаика из шести изображений, расположенных абсолютным
- * позиционированием на десктопе иCSS-gridом на мобилках.
+ * позиционированием на десктопе и CSS-grid на мобильных.
  */
 export default {
   name: 'GallerySection'
 }
 </script>
+
 <script lang="ts" setup>
 const g06 = new URL('../../assets/randomPhotos/Image 06.png', import.meta.url).href
 const g05 = new URL('../../assets/randomPhotos/Image 05.png', import.meta.url).href
@@ -33,145 +34,159 @@ const g01 = new URL('../../assets/randomPhotos/Image 01.png', import.meta.url).h
 <style lang="scss" scoped>
 .gallery-section {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  height: 970px;
-  padding: 68px 115px 100px;
-  background-color: $white;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  overflow: hidden; // Предотвращает переполнение
+  background: $primary-teal;
+  padding: 4rem 2rem;
   position: relative;
-  z-index: 1; // Обеспечивает правильную иерархию после OrientationSection
+  overflow: hidden;
 }
 
 .gallery-container {
-  width: 1170px;
-  height: 802px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   position: relative;
+  height: 600px;
+  display: none;
 }
 
 .gallery-image {
   position: absolute;
-  border-radius: 10px;
   object-fit: cover;
-  width: 100%;
-  height: 100%;
+  border-radius: $border-radius-md;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
+}
 
-  // img1 - 370x461, left: 0px, top: 101px
-  &:nth-child(1) {
-    width: 370px;
-    height: 461px;
-    left: 0px;
-    top: 101px;
-  }
+.gallery-image:nth-child(1) {
+  width: 300px;
+  height: 200px;
+  top: 50px;
+  left: 50px;
+  z-index: 5;
+}
 
-  // img2 - 370x238, left: 400px, top: 0px
-  &:nth-child(2) {
-    width: 370px;
-    height: 238px;
-    left: 400px;
-    top: 0px;
-  }
+.gallery-image:nth-child(2) {
+  width: 250px;
+  height: 180px;
+  top: 100px;
+  left: 380px;
+  z-index: 4;
+}
 
-  // img3 - 370x193, left: 0px, top: 609px
-  &:nth-child(3) {
-    width: 370px;
-    height: 193px;
-    left: 0px;
-    top: 609px;
-  }
+.gallery-image:nth-child(3) {
+  width: 280px;
+  height: 200px;
+  top: 10px;
+  right: 100px;
+  z-index: 3;
+}
 
-  // img4 - 370x498, left: 400px, top: 304px
-  &:nth-child(4) {
-    width: 370px;
-    height: 498px;
-    left: 400px;
-    top: 304px;
-  }
+.gallery-image:nth-child(4) {
+  width: 220px;
+  height: 180px;
+  bottom: 80px;
+  left: 100px;
+  z-index: 2;
+}
 
-  // img5 - 331x370, left: 820px, top: 47px
-  &:nth-child(5) {
-    width: 331px;
-    height: 370px;
-    left: 820px;
-    top: 47px;
-  }
+.gallery-image:nth-child(5) {
+  width: 260px;
+  height: 190px;
+  bottom: 50px;
+  left: 400px;
+  z-index: 1;
+}
 
-  // img6 - 370x370, left: 800px, top: 432px
-  &:nth-child(6) {
-    width: 370px;
-    height: 370px;
-    left: 800px;
-    top: 432px;
-  }
+.gallery-image:nth-child(6) {
+  width: 300px;
+  height: 210px;
+  bottom: 10px;
+  right: 80px;
+  z-index: 0;
 }
 
 @media (max-width: $breakpoint-lg) {
   .gallery-section {
-    width: 100%;
-    height: auto;
-    padding: 4rem 2rem; // Увеличен верхний отступ для избежания налезания
-    margin-top: 2rem; // Дополнительный отступ
+    padding: 3rem 1rem;
   }
 
   .gallery-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    position: static;
-    width: 100%;
-    height: auto;
+    height: 500px;
   }
 
-  .gallery-image {
-    position: static;
-    width: 100%;
-    height: 200px;
-    transform: none;
-    border-radius: 8px;
+  .gallery-image:nth-child(1) {
+    width: 200px;
+    height: 150px;
+    top: 30px;
+    left: 20px;
+  }
+
+  .gallery-image:nth-child(2) {
+    width: 180px;
+    height: 140px;
+    top: 60px;
+    left: 250px;
+  }
+
+  .gallery-image:nth-child(3) {
+    width: 200px;
+    height: 150px;
+    top: 0;
+    right: 50px;
+  }
+
+  .gallery-image:nth-child(4) {
+    width: 160px;
+    height: 140px;
+    bottom: 60px;
+    left: 50px;
+  }
+
+  .gallery-image:nth-child(5) {
+    width: 180px;
+    height: 140px;
+    bottom: 40px;
+    left: 250px;
+  }
+
+  .gallery-image:nth-child(6) {
+    width: 200px;
+    height: 150px;
+    bottom: 0;
+    right: 40px;
   }
 }
-<<<<<<< HEAD
 
-// Дополнительная мобильная адаптация
 @media (max-width: $breakpoint-md) {
-  .gallery-section {
-    padding: 3rem 1rem;
-    margin-top: 1rem;
-  }
-
   .gallery-container {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    height: auto;
   }
 
   .gallery-image {
-    height: 180px;
+    position: static !important;
+    width: 100% !important;
+    height: 160px !important;
+    z-index: 0 !important;
   }
 }
 
 @media (max-width: $breakpoint-sm) {
-  .gallery-section {
-    padding: 2rem 0.75rem;
-  }
-
   .gallery-container {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
   .gallery-image {
     height: 160px;
   }
 }
-=======
->>>>>>> origin/amcyx-modal-employee-gh-pages
 </style>
+
+

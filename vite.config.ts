@@ -16,7 +16,9 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig(({ mode }) => ({
   // Абсолютная база для прод-сборки (GitHub Pages: /opdemonstraions/),
   // и обычный корень для разработки.
-  base: mode === 'production' ? (process.env.NODE_ENV === 'ftp' ? './' : '/opdemonstraions/') : '/',
+  base: mode === 'production'
+    ? (process.env.VITE_DEPLOY_TARGET === 'ftp' ? './' : '/opdemonstraions/')
+    : '/',
   publicDir: 'public',
   plugins: [
     vue(),

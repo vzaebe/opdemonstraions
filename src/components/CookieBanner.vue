@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import Cookies from 'js-cookie';
-import { POLICY_LINKS } from '@/config/links';
+import { POLICY_LINKS } from '../config';
 
 // Visibility state of the banner
 const isVisible = ref(false);
@@ -15,6 +15,12 @@ function acceptCookies() {
   // Store consent for one year
   Cookies.set('cookie_consent', 'accepted', { expires: 365 });
   isVisible.value = false;
+}
+</script>
+
+<script lang="ts">
+export default {
+  name: 'CookieBanner'
 }
 </script>
 

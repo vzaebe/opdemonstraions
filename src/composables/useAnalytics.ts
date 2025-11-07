@@ -31,7 +31,7 @@ export function useAnalytics() {
     events.value.push(analyticsEvent)
 
     // В реальном приложении здесь будет отправка в аналитический сервис
-    console.log('Analytics Event:', analyticsEvent)
+    // console.log('Analytics Event:', analyticsEvent)
 
     // Отправка в Google Analytics (если настроен)
     if (typeof gtag !== 'undefined') {
@@ -68,7 +68,7 @@ export function useAnalytics() {
     })
   }
 
-  const trackButtonClick = (buttonText: string, section: string) => {
+  const trackButtonClick = (buttonText: string, section?: string) => {
     track('button_click', {
       button_text: buttonText,
       section,
