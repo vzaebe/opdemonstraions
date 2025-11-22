@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "category": "Слайсеры",
+    "title": "Cura",
+    "url": "https://ultimaker.com/software/ultimaker-cura",
+    "description": "Популярный бесплатный слайсер"
+  },
+  {
+    "id": 2,
+    "category": "Моделирование",
+    "title": "Tinkercad",
+    "url": "https://www.tinkercad.com/",
+    "description": "Для новичков"
+  }
+]
+
+
+

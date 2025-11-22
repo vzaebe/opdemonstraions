@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "name": "Иван Иванов",
+    "orphanage": "Детский дом №1",
+    "wish": "Фигурка Человека-паука",
+    "file_name": "spider_man.stl",
+    "model_link": "https://thingiverse.com/thing:12345",
+    "comment": "Красный цвет",
+    "status": "new",
+    "date": "2023-10-27"
+  }
+]

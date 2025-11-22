@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "title": "Закупка пластика на ноябрь",
+    "description": "Необходимо 50кг PLA пластика для выполнения текущих заявок.",
+    "target_amount": 50000,
+    "current_amount": 35000,
+    "image": "fundraising-plastic.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Ремонт принтеров",
+    "description": "Закупка запчастей для восстановления 3-х принтеров волонтеров.",
+    "target_amount": 15000,
+    "current_amount": 2000,
+    "image": "fundraising-repair.jpg"
+  }
+]
+
+
+

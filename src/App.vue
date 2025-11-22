@@ -32,16 +32,16 @@ export default {
   <!-- Главный контейнер приложения -->
   <div id="app">
     <!-- Компонент навигации -->
-    <AppHeader />
+    <AppHeader v-if="!$route.meta.hideLayout" />
 
     <!-- Основной контент (маршруты) -->
     <main>
       <router-view />
-      <CookieBanner />
+      <CookieBanner v-if="!$route.meta.hideLayout" />
     </main>
 
     <!-- Футер -->
-    <AppFooter />
+    <AppFooter v-if="!$route.meta.hideLayout" />
   </div>
 </template>
 

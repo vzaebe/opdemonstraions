@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "name": "Алексей Петров",
+    "type": "individual",
+    "city": "Москва",
+    "printer_model": "Ender 3 v2",
+    "materials": ["PLA", "PETG"],
+    "about": "Увлекаюсь печатью 3 года",
+    "contact": "@alex_3d",
+    "completed_works": 12
+  },
+  {
+    "id": 2,
+    "name": "3D-Studio",
+    "type": "company",
+    "city": "Санкт-Петербург",
+    "printer_model": "Farm of Prusa i3",
+    "materials": ["PLA", "ABS", "Nylon", "Resin"],
+    "about": "Студия печати",
+    "contact": "info@3dstudio.ru",
+    "completed_works": 45
+  }
+]

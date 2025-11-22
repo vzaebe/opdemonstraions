@@ -5,18 +5,20 @@
     <div class="nav-container">
       <!-- Логотип в левом углу -->
       <div class="logo-section">
-        <LogoOPIcon class="logo-icon" />
+        <router-link :to="{ name: 'home' }">
+          <LogoOPIcon class="logo-icon" />
+        </router-link>
       </div>
 
       <!-- Навигационное меню по центру -->
       <nav :class="['nav-menu', { open: isMenuOpen }]">
         <router-link :to="{ name: 'home', hash: '#about' }" class="nav-link" @click="closeMenu">О нас</router-link>
         <router-link :to="{ name: 'home', hash: '#projects' }" class="nav-link" @click="closeMenu">Проекты</router-link>
+        <router-link :to="{ name: 'charity' }" class="nav-link" @click="closeMenu">Благотворительность</router-link>
         <router-link :to="{ name: 'home', hash: '#partners' }" class="nav-link" @click="closeMenu">Партнёры</router-link>
         <router-link :to="{ name: 'home', hash: '#knowledge' }" class="nav-link" @click="closeMenu">База Знаний</router-link>
         <router-link :to="{ name: 'home', hash: '#support' }" class="nav-link" @click="closeMenu">Поддержка</router-link>
         <router-link :to="{ name: 'home', hash: '#contacts' }" class="nav-link" @click="closeMenu">Контакты</router-link>
-        <router-link :to="{ name: 'test' }" class="nav-link" @click="closeMenu">Тест роутинга</router-link>
       </nav>
 
       <!-- Правая секция: поиск и контакты -->
@@ -116,11 +118,11 @@
       <!-- Навигационные ссылки -->
       <router-link :to="{ name: 'home', hash: '#about' }" class="nav-link" @click="closeMenu">О нас</router-link>
       <router-link :to="{ name: 'home', hash: '#projects' }" class="nav-link" @click="closeMenu">Проекты</router-link>
+      <router-link :to="{ name: 'charity' }" class="nav-link" @click="closeMenu">Благотворительность</router-link>
       <router-link :to="{ name: 'home', hash: '#partners' }" class="nav-link" @click="closeMenu">Партнёры</router-link>
       <router-link :to="{ name: 'home', hash: '#knowledge' }" class="nav-link" @click="closeMenu">База Знаний</router-link>
       <router-link :to="{ name: 'home', hash: '#support' }" class="nav-link" @click="closeMenu">Поддержка</router-link>
       <router-link :to="{ name: 'home', hash: '#contacts' }" class="nav-link" @click="closeMenu">Контакты</router-link>
-      <router-link :to="{ name: 'test' }" class="nav-link" @click="closeMenu">Тест роутинга</router-link>
 
       <!-- Контактная информация в мобильном меню -->
       <div class="mobile-contacts">
@@ -280,6 +282,8 @@ export default {
   &:hover,
   &:focus-visible {
     background-color: transparent;
+    // Optionally add an underline or highlight effect
+    // border-bottom: 2px solid $white; 
   }
 }
 
