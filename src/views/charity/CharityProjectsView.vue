@@ -155,7 +155,7 @@ onMounted(async () => {
 }
 
 .hero-section {
-  background: linear-gradient(135deg, $primary-teal 0%, #0d9488 100%);
+  background: linear-gradient(135deg, $primary-teal 0%, $primary-teal-dark 100%);
   color: $white;
   padding: $spacing-16 0;
   text-align: center;

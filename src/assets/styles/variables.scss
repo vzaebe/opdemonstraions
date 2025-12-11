@@ -5,11 +5,19 @@
 
 // Основные фирменные цвета
 $primary-teal: #2EACB4; // Основной бирюзовый
+$primary-teal-light: #4FD1C7; // Светлый бирюзовый (для hover и акцентов)
+$primary-teal-dark: #0d9488; // Темный бирюзовый (для градиентов)
 $primary-mint: #1DE9B6; // Мятный
 $primary-orange: #CB8816; // Оранжевый
 $primary-yellow: #EBD36F; // Желтый
 $primary-coral: #FF5252; // Коралловый
 $primary-cyan: #18FFFF; // Голубой
+
+// Семантические цвета (для статусов, уведомлений и т.д.)
+$success-green: #10b981; // Зеленый успех (синхронизировано с constants.ts COLORS.SUCCESS)
+$warning-yellow: #f59e0b; // Желтый предупреждение (синхронизировано с constants.ts COLORS.WARNING)
+$error-red: #ef4444; // Красный ошибка (синхронизировано с constants.ts COLORS.ERROR)
+$info-blue: #3b82f6; // Синий информация (синхронизировано с constants.ts COLORS.INFO)
 
 // Нейтральные цвета
 $white: #FFFFFF;
@@ -155,6 +163,12 @@ $max-w-7xl: 80rem;
   --color-accent-cyan: #{$primary-cyan};
   --color-white: #{$white};
   --color-black: #{$black};
+
+  // Semantic Colors (синхронизировано с семантическими переменными выше)
+  --color-success: #{$success-green};
+  --color-warning: #{$warning-yellow};
+  --color-error: #{$error-red};
+  --color-info: #{$info-blue};
 
   // Gray Scale (синхронизировано с $gray-* переменными)
   --color-gray-900: #{$gray-900};
