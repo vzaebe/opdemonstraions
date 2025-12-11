@@ -105,10 +105,15 @@ export const CONTAINER_SIZES = {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export const COLORS = {
-  PRIMARY_TEAL: '#1f9e8f',
-  PRIMARY_MINT: '#26b8a3',
-  SECONDARY_BLUE: '#1e3a8a',
-  ACCENT_ORANGE: '#ff6b35',
+  // Основные фирменные цвета (синхронизировано с variables.scss)
+  PRIMARY_TEAL: '#2EACB4',      // Основной бирюзовый
+  PRIMARY_MINT: '#1DE9B6',      // Мятный
+  PRIMARY_ORANGE: '#CB8816',    // Оранжевый
+  PRIMARY_YELLOW: '#EBD36F',    // Желтый
+  PRIMARY_CORAL: '#FF5252',     // Коралловый
+  PRIMARY_CYAN: '#18FFFF',      // Голубой
+  SECONDARY_BLUE: '#1e3a8a',   // Дополнительный синий
+  ACCENT_ORANGE: '#ff6b35',    // Акцентный оранжевый (legacy)
   
   GRAY_50: '#f9fafb',
   GRAY_100: '#f3f4f6',

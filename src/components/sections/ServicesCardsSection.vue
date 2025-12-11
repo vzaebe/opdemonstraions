@@ -5,10 +5,11 @@
         class="service-card"
         v-for="(card, index) in serviceCards"
         :key="index"
-        :class="{ 'visible': isVisible }"
+        :class="{ 'visible': isVisible, 'clickable': index === 2 }"
         :style="{ '--animation-delay': index * 0.2 + 's' }"
         @mouseenter="onCardHover(index)"
         @mouseleave="onCardLeave"
+        @click="onCardClick(index)"
       >
         <div class="service-info">
           <span class="service-category">{{ card.category }}</span>
@@ -39,6 +40,7 @@
  * на scroll-проверке (getBoundingClientRect) без IntersectionObserver.
  */
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 // @ts-ignore
 import image1 from '@/assets/png/SpecialCards/Product image-3.png'
 // @ts-ignore
@@ -51,6 +53,7 @@ import image4 from '@/assets/png/SpecialCards/Product image.png'
 export default {
   name: 'ServicesCardsSection',
   setup() {
+    const router = useRouter()
     const sectionRef = ref<HTMLElement | null>(null)
     const isVisible = ref(false)
     const hoveredCard = ref<number | null>(null)
@@ -111,6 +114,13 @@ export default {
       hoveredCard.value = null
     }
 
+    const onCardClick = (index: number) => {
+      // Индекс 2 - это карточка "База знаний"
+      if (index === 2) {
+        router.push({ name: 'knowledge' })
+      }
+    }
+
     onMounted(() => {
       checkInitialVisibility() // Проверяем сразу при монтировании
       checkVisibility()
@@ -132,7 +142,8 @@ export default {
       hoveredCard,
       serviceCards,
       onCardHover,
-      onCardLeave
+      onCardLeave,
+      onCardClick
     }
   }
 }
@@ -237,6 +248,10 @@ export default {
   overflow: hidden;
   opacity: 1; // Показываем карточки по умолчанию
   transform: translateY(0); // Убираем начальное смещение
+
+  &.clickable {
+    cursor: pointer;
+  }
 
   &::before {
     content: '';

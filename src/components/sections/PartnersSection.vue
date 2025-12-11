@@ -9,6 +9,12 @@
         <p class="partners-subtitle">
           Организации, которые сотрудничают с нами в области профориентации и интеграции молодежи из незащищённых слоёв населения в производство
         </p>
+        <router-link to="/partners" class="partners-link">
+          <span>Узнать больше о партнёрах</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </router-link>
       </div>
 
       <!-- Сетка логотипов партнеров -->
@@ -137,7 +143,40 @@ import UiSection from '../ui/Section.vue'
   font-weight: 500;
   line-height: $leading-7;
   color: $white;
-  margin: 0;
+  margin: 0 0 2rem;
+}
+
+.partners-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: rgba($white, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba($white, 0.3);
+  border-radius: $border-radius-full;
+  color: $white;
+  font-weight: 600;
+  font-size: $text-base;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    background: rgba($white, 0.25);
+    border-color: rgba($white, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+    svg {
+      transform: translateX(5px);
+    }
+  }
 }
 
 .partners-grid {

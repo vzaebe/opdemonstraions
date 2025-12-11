@@ -1,0 +1,213 @@
+[
+  {
+    "id": "1",
+    "title": "Протезы для детей с ограниченными возможностями",
+    "description": "Проект направлен на изготовление функциональных протезов верхних конечностей для детей с врождёнными патологиями или травмами. Используются современные технологии 3D-печати для создания лёгких, прочных и красивых протезов, которые дети могут настраивать под свой вкус.",
+    "shortDescription": "Изготовление 3D-печатных протезов для детей",
+    "status": "active",
+    "category": "Медицина",
+    "heroImage": "/assets/Photo-1-hP6WAeoY.png",
+    "startDate": "2023-01-15",
+    "beneficiaries": "Более 50 детей получили функциональные протезы",
+    "impact": "Дети получили возможность полноценно участвовать в играх, учёбе и творчестве",
+    "partners": ["Детская больница №1", "Московский центр реабилитации", "Благотворительный фонд \"Дети\""],
+    "budget": 500000,
+    "raised": 450000,
+    "photos": [
+      {
+        "id": "p1-1",
+        "type": "photo",
+        "url": "/assets/Photo-1-hP6WAeoY.png",
+        "title": "Изготовление протеза",
+        "description": "Процесс 3D-печати детского протеза"
+      },
+      {
+        "id": "p1-2",
+        "type": "photo",
+        "url": "/assets/Photo-2-CP5VBPtB.png",
+        "title": "Примерка протеза",
+        "description": "Ребёнок примеряет новый протез"
+      },
+      {
+        "id": "p1-3",
+        "type": "photo",
+        "url": "/assets/Photo-3-DIfeW6kR.png",
+        "title": "Готовый результат",
+        "description": "Счастливый ребёнок с новым протезом"
+      }
+    ],
+    "videos": [
+      {
+        "id": "v1-1",
+        "type": "video",
+        "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "title": "История Маши",
+        "description": "Видеорепортаж о том, как 3D-печатный протез изменил жизнь 8-летней Маши",
+        "thumbnail": "/assets/Photo-1-hP6WAeoY.png"
+      },
+      {
+        "id": "v1-2",
+        "type": "video",
+        "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "title": "Процесс изготовления",
+        "description": "Пошаговый процесс создания протеза от идеи до готового изделия",
+        "thumbnail": "/assets/Photo-2-CP5VBPtB.png"
+      }
+    ],
+    "reports": [
+      {
+        "id": "r1-1",
+        "type": "document",
+        "url": "/reports/prosthetics-q1-2024.pdf",
+        "title": "Отчёт за Q1 2024",
+        "description": "Подробный отчёт о проделанной работе в первом квартале 2024 года"
+      },
+      {
+        "id": "r1-2",
+        "type": "document",
+        "url": "/reports/prosthetics-stats-2024.pdf",
+        "title": "Статистика проекта 2024",
+        "description": "Общая статистика: количество изготовленных протезов, благополучателей, волонтёров"
+      }
+    ],
+    "videoReports": [
+      {
+        "id": "vr1-1",
+        "type": "video",
+        "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "title": "Видеоотчёт за 2023 год",
+        "description": "Итоги года: достижения, истории детей, благодарности волонтёрам",
+        "thumbnail": "/assets/Photo-3-DIfeW6kR.png"
+      }
+    ],
+    "mediaLinks": [
+      {
+        "title": "Статья на РБК",
+        "url": "https://example.com/rbc-article",
+        "type": "article"
+      },
+      {
+        "title": "Репортаж на Первом канале",
+        "url": "https://example.com/channel-one",
+        "type": "video"
+      },
+      {
+        "title": "Интервью с основателем проекта",
+        "url": "https://example.com/interview",
+        "type": "audio"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Адаптивные устройства для детских садов",
+    "description": "Создание специализированных адаптивных устройств и игрушек для детских садов и реабилитационных центров. Проект включает разработку и печать держателей для карандашей, специальных рукояток для столовых приборов, игрушек с тактильными элементами и других полезных приспособлений для детей с особенностями развития.",
+    "shortDescription": "Адаптивные игрушки и устройства для детей",
+    "status": "active",
+    "category": "Образование",
+    "heroImage": "/assets/Photo-2-CP5VBPtB.png",
+    "startDate": "2023-06-01",
+    "beneficiaries": "15 детских садов и 3 реабилитационных центра",
+    "impact": "Улучшение качества обучения и развития для более чем 200 детей",
+    "partners": ["Департамент образования", "Центр инклюзивного образования"],
+    "budget": 300000,
+    "raised": 280000,
+    "photos": [
+      {
+        "id": "p2-1",
+        "type": "photo",
+        "url": "/assets/Image 01-B0NyYaoJ.png",
+        "title": "Адаптивные игрушки",
+        "description": "Набор адаптивных игрушек для детского сада"
+      },
+      {
+        "id": "p2-2",
+        "type": "photo",
+        "url": "/assets/Image 02-D1ghUlDX.png",
+        "title": "Держатели для карандашей",
+        "description": "Специальные держатели для детей с нарушениями моторики"
+      }
+    ],
+    "videos": [
+      {
+        "id": "v2-1",
+        "type": "video",
+        "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "title": "Использование адаптивных устройств",
+        "description": "Как дети используют адаптивные устройства в детском саду",
+        "thumbnail": "/assets/Image 01-B0NyYaoJ.png"
+      }
+    ],
+    "reports": [
+      {
+        "id": "r2-1",
+        "type": "document",
+        "url": "/reports/adaptive-devices-2024.pdf",
+        "title": "Годовой отчёт 2024",
+        "description": "Полный отчёт о реализации проекта за 2024 год"
+      }
+    ],
+    "videoReports": [],
+    "mediaLinks": [
+      {
+        "title": "Статья в журнале \"Образование\"",
+        "url": "https://example.com/education-article",
+        "type": "article"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Обучающие модели для школ",
+    "description": "Разработка и изготовление наглядных учебных пособий для уроков физики, химии, биологии и математики. Проект помогает школам получить качественные обучающие модели: от молекулярных структур до топографических карт и геометрических фигур.",
+    "shortDescription": "3D-модели для образовательных учреждений",
+    "status": "completed",
+    "category": "Образование",
+    "heroImage": "/assets/Image 03-BL5zhlkF.png",
+    "startDate": "2022-09-01",
+    "endDate": "2023-05-31",
+    "beneficiaries": "25 школ получили обучающие модели",
+    "impact": "Повышение качества преподавания естественных наук",
+    "partners": ["Министерство образования", "Учительский клуб"],
+    "budget": 400000,
+    "raised": 400000,
+    "photos": [
+      {
+        "id": "p3-1",
+        "type": "photo",
+        "url": "/assets/Image 03-BL5zhlkF.png",
+        "title": "Молекулярные модели",
+        "description": "Набор молекулярных структур для уроков химии"
+      },
+      {
+        "id": "p3-2",
+        "type": "photo",
+        "url": "/assets/Image 04-DS6ru9iI.png",
+        "title": "Геометрические фигуры",
+        "description": "Объёмные геометрические фигуры для математики"
+      }
+    ],
+    "videos": [],
+    "reports": [
+      {
+        "id": "r3-1",
+        "type": "document",
+        "url": "/reports/school-models-final.pdf",
+        "title": "Итоговый отчёт проекта",
+        "description": "Полный отчёт о завершённом проекте с результатами и отзывами"
+      }
+    ],
+    "videoReports": [
+      {
+        "id": "vr3-1",
+        "type": "video",
+        "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "title": "Итоги проекта",
+        "description": "Видеоотчёт о результатах проекта обучающих моделей",
+        "thumbnail": "/assets/Image 03-BL5zhlkF.png"
+      }
+    ],
+    "mediaLinks": []
+  }
+]
+

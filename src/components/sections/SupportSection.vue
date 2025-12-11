@@ -26,7 +26,7 @@
             <span class="support-option-icon">💸</span>
             <h3>Пожертвования</h3>
             <p>Финансовая поддержка для развития наших проектов</p>
-            <a href="#" class="support-link" @click.prevent="openModal('donate')">Сделать пожертвование</a>
+            <router-link :to="{ name: 'support' }" class="support-link">Сделать пожертвование</router-link>
           </div>
         </div>
 

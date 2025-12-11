@@ -186,7 +186,7 @@ export class HttpClient {
    */
   async get<T>(endpoint: string, config: RequestConfig = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`
-    return this.fetchWithRetry<T>(url, { method: 'GET', ...config })
+    return this.fetchWithRetry<T>(url, { method: 'GET', credentials: 'include', ...config })
   }
 
   /**
@@ -197,6 +197,7 @@ export class HttpClient {
     return this.fetchWithRetry<T>(url, {
       method: 'POST',
       body: body ? JSON.stringify(body) : undefined,
+      credentials: 'include',
       ...config
     })
   }
@@ -209,6 +210,7 @@ export class HttpClient {
     return this.fetchWithRetry<T>(url, {
       method: 'PUT',
       body: body ? JSON.stringify(body) : undefined,
+      credentials: 'include',
       ...config
     })
   }
@@ -221,6 +223,7 @@ export class HttpClient {
     return this.fetchWithRetry<T>(url, {
       method: 'PATCH',
       body: body ? JSON.stringify(body) : undefined,
+      credentials: 'include',
       ...config
     })
   }
@@ -230,7 +233,7 @@ export class HttpClient {
    */
   async delete<T>(endpoint: string, config: RequestConfig = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`
-    return this.fetchWithRetry<T>(url, { method: 'DELETE', ...config })
+    return this.fetchWithRetry<T>(url, { method: 'DELETE', credentials: 'include', ...config })
   }
 }
 

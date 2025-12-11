@@ -12,13 +12,91 @@
 
       <!-- Навигационное меню по центру -->
       <nav :class="['nav-menu', { open: isMenuOpen }]">
-        <router-link :to="{ name: 'home', hash: '#about' }" class="nav-link" @click="closeMenu">О нас</router-link>
-        <router-link :to="{ name: 'home', hash: '#projects' }" class="nav-link" @click="closeMenu">Проекты</router-link>
-        <router-link :to="{ name: 'charity' }" class="nav-link" @click="closeMenu">Благотворительность</router-link>
-        <router-link :to="{ name: 'home', hash: '#partners' }" class="nav-link" @click="closeMenu">Партнёры</router-link>
-        <router-link :to="{ name: 'home', hash: '#knowledge' }" class="nav-link" @click="closeMenu">База Знаний</router-link>
-        <router-link :to="{ name: 'home', hash: '#support' }" class="nav-link" @click="closeMenu">Поддержка</router-link>
-        <router-link :to="{ name: 'home', hash: '#contacts' }" class="nav-link" @click="closeMenu">Контакты</router-link>
+        <router-link :to="{ name: 'about' }" class="nav-link" @click="closeMenu">О нас</router-link>
+        <router-link :to="{ name: 'organization-projects' }" class="nav-link" @click="closeMenu">Проекты</router-link>
+        
+        <!-- Благотворительность с выпадающим меню -->
+        <div class="nav-dropdown" @mouseenter="showCharityDropdown = true" @mouseleave="showCharityDropdown = false">
+          <router-link :to="{ name: 'charity' }" class="nav-link" @click="closeMenu">
+            Благотворительность
+            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </router-link>
+          <transition name="dropdown-fade">
+            <div v-if="showCharityDropdown" class="dropdown-menu">
+              <div class="dropdown-header">
+                <h3>Ресурсы</h3>
+                <p>Статьи, видео и материалы</p>
+              </div>
+              <router-link :to="{ name: 'charity-articles' }" class="dropdown-item" @click="closeMenu">
+                <div class="item-icon articles">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="item-content">
+                  <span class="item-title">Статьи</span>
+                  <span class="item-description">Полезные публикации</span>
+                </div>
+              </router-link>
+              <router-link :to="{ name: 'charity-videos' }" class="dropdown-item" @click="closeMenu">
+                <div class="item-icon videos">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="23 7 16 12 23 17 23 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="item-content">
+                  <span class="item-title">Видео</span>
+                  <span class="item-description">Видеоматериалы</span>
+                </div>
+              </router-link>
+              <router-link :to="{ name: 'charity-materials' }" class="dropdown-item" @click="closeMenu">
+                <div class="item-icon materials">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="13 2 13 9 20 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="item-content">
+                  <span class="item-title">Материалы</span>
+                  <span class="item-description">Файлы для скачивания</span>
+                </div>
+              </router-link>
+              <router-link :to="{ name: 'charity-models' }" class="dropdown-item" @click="closeMenu">
+                <div class="item-icon models">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="item-content">
+                  <span class="item-title">3D Модели</span>
+                  <span class="item-description">STL файлы для печати</span>
+                </div>
+              </router-link>
+              <router-link :to="{ name: 'charity-projects' }" class="dropdown-item" @click="closeMenu">
+                <div class="item-icon projects">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="item-content">
+                  <span class="item-title">Проекты</span>
+                  <span class="item-description">Наши инициативы</span>
+                </div>
+              </router-link>
+            </div>
+          </transition>
+        </div>
+        
+        <router-link :to="{ name: 'partners' }" class="nav-link" @click="closeMenu">Партнёры</router-link>
+        <router-link :to="{ name: 'knowledge' }" class="nav-link" @click="closeMenu">База Знаний</router-link>
+        <router-link :to="{ name: 'support' }" class="nav-link" @click="closeMenu">Поддержка</router-link>
+        <router-link :to="{ name: 'contacts' }" class="nav-link" @click="closeMenu">Контакты</router-link>
       </nav>
 
       <!-- Правая секция: поиск и контакты -->
@@ -116,13 +194,25 @@
       </div>
 
       <!-- Навигационные ссылки -->
-      <router-link :to="{ name: 'home', hash: '#about' }" class="nav-link" @click="closeMenu">О нас</router-link>
-      <router-link :to="{ name: 'home', hash: '#projects' }" class="nav-link" @click="closeMenu">Проекты</router-link>
-      <router-link :to="{ name: 'charity' }" class="nav-link" @click="closeMenu">Благотворительность</router-link>
-      <router-link :to="{ name: 'home', hash: '#partners' }" class="nav-link" @click="closeMenu">Партнёры</router-link>
-      <router-link :to="{ name: 'home', hash: '#knowledge' }" class="nav-link" @click="closeMenu">База Знаний</router-link>
-      <router-link :to="{ name: 'home', hash: '#support' }" class="nav-link" @click="closeMenu">Поддержка</router-link>
-      <router-link :to="{ name: 'home', hash: '#contacts' }" class="nav-link" @click="closeMenu">Контакты</router-link>
+      <router-link :to="{ name: 'about' }" class="nav-link" @click="closeMenu">О нас</router-link>
+      <router-link :to="{ name: 'organization-projects' }" class="nav-link" @click="closeMenu">Проекты</router-link>
+      
+      <!-- Благотворительность с подменю -->
+      <div class="mobile-nav-section">
+        <router-link :to="{ name: 'charity' }" class="nav-link" @click="closeMenu">Благотворительность</router-link>
+        <div class="mobile-submenu">
+          <router-link :to="{ name: 'charity-articles' }" class="submenu-link" @click="closeMenu">• Статьи</router-link>
+          <router-link :to="{ name: 'charity-videos' }" class="submenu-link" @click="closeMenu">• Видео</router-link>
+          <router-link :to="{ name: 'charity-materials' }" class="submenu-link" @click="closeMenu">• Материалы</router-link>
+          <router-link :to="{ name: 'charity-models' }" class="submenu-link" @click="closeMenu">• Список моделей</router-link>
+          <router-link :to="{ name: 'charity-projects' }" class="submenu-link" @click="closeMenu">• Проекты</router-link>
+        </div>
+      </div>
+      
+      <router-link :to="{ name: 'partners' }" class="nav-link" @click="closeMenu">Партнёры</router-link>
+      <router-link :to="{ name: 'knowledge' }" class="nav-link" @click="closeMenu">База Знаний</router-link>
+      <router-link :to="{ name: 'support' }" class="nav-link" @click="closeMenu">Поддержка</router-link>
+      <router-link :to="{ name: 'contacts' }" class="nav-link" @click="closeMenu">Контакты</router-link>
 
       <!-- Контактная информация в мобильном меню -->
       <div class="mobile-contacts">
@@ -166,6 +256,7 @@ export default {
       isSearchFocused: false,
       isMenuOpen: false,
       showFloatingBurger: false,
+      showCharityDropdown: false,
       headerObserver: null as IntersectionObserver | null
     }
   },
@@ -278,6 +369,9 @@ export default {
   transition: all 0.3s ease;
   position: relative;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 
   &:hover,
   &:focus-visible {
@@ -285,6 +379,191 @@ export default {
     // Optionally add an underline or highlight effect
     // border-bottom: 2px solid $white; 
   }
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+  margin-left: 0.25rem;
+}
+
+.nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &:hover .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 1rem;
+  background: $white;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  min-width: 320px;
+  z-index: $z-dropdown;
+  border: 1px solid rgba($primary-teal, 0.1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid $white;
+  }
+}
+
+.dropdown-fade-enter-active,
+.dropdown-fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dropdown-fade-enter-from {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-10px) scale(0.95);
+}
+
+.dropdown-fade-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-5px) scale(0.98);
+}
+
+.dropdown-header {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid $primary-orange;
+
+  h3 {
+    font-size: 1.1rem;
+    color: $primary-teal;
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 0.8rem;
+    color: $gray-500;
+    margin: 0;
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  color: $gray-700;
+  text-decoration: none;
+  border-radius: $border-radius-md;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 0.25rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: $primary-orange;
+    transform: scaleY(0);
+    transition: transform 0.25s ease;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, rgba($primary-teal, 0.08) 0%, rgba($primary-mint, 0.12) 100%);
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba($primary-teal, 0.15);
+
+    &::before {
+      transform: scaleY(1);
+    }
+
+    .item-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .item-title {
+      color: $primary-teal;
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.item-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius-md;
+  transition: all 0.25s ease;
+
+  &.articles {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    color: #1976d2;
+  }
+
+  &.videos {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+    color: #7b1fa2;
+  }
+
+  &.materials {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    color: #388e3c;
+  }
+
+  &.models {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    color: #f57c00;
+  }
+
+  &.projects {
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+    color: #c2185b;
+  }
+
+  svg {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+  }
+}
+
+.item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.item-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $gray-800;
+  transition: color 0.25s ease;
+}
+
+.item-description {
+  font-size: 0.8rem;
+  color: $gray-500;
+  line-height: 1.2;
 }
 
 .search-container {
@@ -475,119 +754,65 @@ export default {
     }
   }
 
-  .right-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    order: 1;
-    flex-shrink: 0;
-  }
-
-  .search-container {
-    display: none;
-  }
-
-  .logo-icon {
-    width: 180px;
-    max-height: 60px;
-  }
-
-  .mobile-search {
-    display: block;
+  .nav-dropdown {
     width: 100%;
-    margin-bottom: 1.5rem;
+    flex-direction: column;
+    align-items: stretch;
 
-    .search-input {
-      width: 100%;
-      margin: 0;
-    }
-
-    .search-field {
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: $white;
-
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.7);
-      }
-    }
-
-    .search-button {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: $white;
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-      }
+    .nav-link {
+      justify-content: center;
     }
   }
 
-  .contact-container {
-    display: flex;
-    gap: 0.75rem;
+  .dropdown-menu {
+    position: static;
+    margin-top: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    width: 100%;
+    transform: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    &::before {
+      display: none;
+    }
   }
 
-  .contact-link {
-    padding: 0.5rem;
-    border-radius: $border-radius-sm;
-    min-width: 44px;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .dropdown-header {
+    border-bottom-color: $primary-orange;
 
+    h3, p {
+      color: $white;
+    }
+  }
+
+  .dropdown-item {
+    color: $white;
+    
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15);
+      color: $white;
+
+      .item-title {
+        color: $white;
+      }
+    }
+
+    &::before {
+      background: $primary-orange;
     }
   }
 
-  .logo-icon {
-    width: 140px;
-    max-height: 50px;
+  .item-title {
+    color: rgba(255, 255, 255, 0.95);
   }
 
-  .burger-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem;
-    min-width: 44px;
-    min-height: 44px;
-  }
-}
-
-@media (max-width: $breakpoint-sm) {
-  .nav-container {
-    padding: 0.75rem 0.5rem;
+  .item-description {
+    color: rgba(255, 255, 255, 0.7);
   }
 
-  .nav-link {
-    font-size: 0.95rem;
-    padding: 1rem 1.5rem;
-  }
-
-  .logo-icon {
-    width: 220px;
-    max-height: 80px;
-  }
-
-  .contact-container {
-    gap: 0.5rem;
-  }
-
-  .contact-link {
-    padding: 0.4rem;
-    min-width: 40px;
-    min-height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .burger-button {
-    min-width: 40px;
-    min-height: 40px;
-    padding: 0.5rem;
+  .dropdown-arrow {
+    display: none;
   }
 }
 
@@ -718,6 +943,35 @@ export default {
     span {
       font-size: 0.9rem;
     }
+  }
+}
+
+.mobile-nav-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mobile-submenu {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+  gap: 0.25rem;
+}
+
+.submenu-link {
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  border-radius: $border-radius-sm;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: $white;
+    transform: translateX(3px);
   }
 }
 

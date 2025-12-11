@@ -69,8 +69,43 @@
       ></textarea>
     </div>
 
+    <div class="form-group">
+      <label class="form-label">Контактное лицо</label>
+      <input
+        v-model="form.contact_name"
+        type="text"
+        class="form-input"
+        placeholder="Имя того, с кем связаться"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Телефон для связи</label>
+      <input
+        v-model="form.contact_phone"
+        type="tel"
+        class="form-input"
+        placeholder="+7..."
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Email (опционально)</label>
+      <input
+        v-model="form.contact_email"
+        type="email"
+        class="form-input"
+        placeholder="name@example.com"
+      />
+    </div>
+
     <div v-if="success" class="form-message success">
       Заявка успешно отправлена! Мы свяжемся с вами.
+    </div>
+    <div v-if="error" class="form-message error">
+      {{ error }}
     </div>
 
     <div class="form-actions">
@@ -82,22 +117,55 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useCharityStore } from '@/stores/charity'
 import ButtonPrimary from '@/components/ButtonPrimary.vue'
+
+interface Props {
+  initialModelLink?: string
+  initialWish?: string
+  initialComment?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  initialModelLink: '',
+  initialWish: '',
+  initialComment: ''
+})
+
+const emit = defineEmits<{
+  success: []
+}>()
 
 const store = useCharityStore()
 
 const loading = ref(false)
 const success = ref(false)
+const error = ref<string | null>(null)
 
 const form = reactive({
   name: '',
   orphanage: '',
-  wish: '',
+  wish: props.initialWish || '',
   file_name: '',
-  model_link: '',
-  comment: ''
+  model_link: props.initialModelLink || '',
+  comment: props.initialComment || '',
+  contact_name: '',
+  contact_phone: '',
+  contact_email: ''
+})
+
+// Update form when props change
+watch(() => props.initialModelLink, (newValue) => {
+  if (newValue) form.model_link = newValue
+})
+
+watch(() => props.initialWish, (newValue) => {
+  if (newValue) form.wish = newValue
+})
+
+watch(() => props.initialComment, (newValue) => {
+  if (newValue) form.comment = newValue
 })
 
 const handleFileChange = (event: Event) => {
@@ -110,29 +178,37 @@ const handleFileChange = (event: Event) => {
 const handleSubmit = async () => {
   loading.value = true
   success.value = false
-  
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  
-  store.addRequest({ ...form })
-  
-  loading.value = false
-  success.value = true
-  
-  // Reset form
-  form.name = ''
-  form.orphanage = ''
-  form.wish = ''
-  form.comment = ''
-  form.file_name = ''
-  form.model_link = ''
-  
-  const fileInput = document.getElementById('file') as HTMLInputElement
-  if (fileInput) fileInput.value = ''
-  
-  setTimeout(() => {
-    success.value = false
-  }, 5000)
+  error.value = null
+
+  try {
+    await store.addRequest({ ...form })
+    success.value = true
+
+    // Reset form
+    form.name = ''
+    form.orphanage = ''
+    form.wish = ''
+    form.comment = ''
+    form.file_name = ''
+    form.model_link = ''
+    form.contact_name = ''
+    form.contact_phone = ''
+    form.contact_email = ''
+    
+    const fileInput = document.getElementById('file') as HTMLInputElement
+    if (fileInput) fileInput.value = ''
+    
+    // Emit success event for modal close
+    emit('success')
+    
+    setTimeout(() => {
+      success.value = false
+    }, 5000)
+  } catch {
+    error.value = 'Не удалось отправить заявку. Попробуйте позже.'
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -197,6 +273,11 @@ const handleSubmit = async () => {
     background-color: rgba($primary-mint, 0.1);
     color: darken($primary-teal, 10%);
     border: 1px solid $primary-mint;
+  }
+  &.error {
+    background-color: rgba($primary-coral, 0.08);
+    color: $primary-coral;
+    border: 1px solid rgba($primary-coral, 0.3);
   }
 }
 </style>

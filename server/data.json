@@ -1,0 +1,58 @@
+{
+  "printRequests": [
+    {
+      "id": "seed-1",
+      "name": "Иван Иванов",
+      "orphanage": "Детский дом №1",
+      "wish": "Фигурка Человека-паука",
+      "file_name": "spider_man.stl",
+      "model_link": "https://thingiverse.com/thing:12345",
+      "comment": "Красный цвет",
+      "status": "new",
+      "date": "2023-10-27"
+    },
+    {
+      "id": "cd501ac4-e2fc-4796-97d6-a208defa75df",
+      "name": "Комаров Дмитрий Алексеевич",
+      "orphanage": "ш. Варшавское дом 16, кв 106",
+      "wish": "213213",
+      "file_name": "",
+      "model_link": "https://ironov.artlebedev.ru/projects/51498",
+      "comment": "ПоПочтеСообщалЧтоНедодалиПодарок,такпоитогуничегоинедали,пожалуйстаучтитеВЭтомЗаказе.[Заказ № 31854] (09.11.2024)писалПоПочтеСказалиЧтоПоложатВНомер заказа: 32936\nДата: 04.12.2024НоНичегоНеОтветилиПотомВообщеПересталиОтвечатьСвяжительСоМнойПоПочтеПожалуйста",
+      "status": "new",
+      "date": "2025-12-11"
+    }
+  ],
+  "volunteers": [],
+  "campaigns": [
+    {
+      "id": "camp-1",
+      "title": "Пластик для детских моделей",
+      "description": "Собираем пластик PLA 1.75мм для печати обучающих моделей.",
+      "type": "materials",
+      "status": "published",
+      "shortText": "Нужно 5кг PLA для ближайших заказов",
+      "heroImage": "",
+      "needs": [
+        {
+          "id": "need-1",
+          "title": "PLA 1.75мм",
+          "kind": "material",
+          "qty": 5,
+          "unit": "кг",
+          "status": "open"
+        }
+      ],
+      "progress": 0
+    }
+  ],
+  "doneWorks": [],
+  "partners": [],
+  "donationsHistory": [],
+  "articles": [],
+  "videos": [],
+  "materials": [],
+  "printModels": [],
+  "projects": [],
+  "contacts": []
+}

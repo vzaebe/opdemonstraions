@@ -1,0 +1,135 @@
+[
+  {
+    "id": "model-1",
+    "name": "Развивающий пазл 'Животные'",
+    "description": "Красочный пазл из 6 деталей с изображениями домашних животных. Идеален для детей 3-5 лет. Детали достаточно крупные, безопасны для малышей.",
+    "category": "Развивающие игрушки",
+    "fileUrl": "/models/animal-puzzle.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400",
+    "printTime": "2.5 часа",
+    "materialType": "PLA",
+    "date": "2024-12-10T10:00:00.000Z"
+  },
+  {
+    "id": "model-2",
+    "name": "Адаптивная ручка для письма",
+    "description": "Специальная насадка на карандаш или ручку для детей с моторными нарушениями. Помогает правильно держать письменные принадлежности.",
+    "category": "Адаптивные устройства",
+    "fileUrl": "/models/adaptive-pen-grip.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400",
+    "printTime": "45 минут",
+    "materialType": "TPU",
+    "date": "2024-12-09T14:30:00.000Z"
+  },
+  {
+    "id": "model-3",
+    "name": "Конструктор 'Робот'",
+    "description": "Простой конструктор из 15 деталей для сборки робота. Развивает пространственное мышление и мелкую моторику. Для детей 6-10 лет.",
+    "category": "Конструкторы",
+    "fileUrl": "/models/robot-constructor.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400",
+    "printTime": "4 часа",
+    "materialType": "PLA",
+    "date": "2024-12-08T11:00:00.000Z"
+  },
+  {
+    "id": "model-4",
+    "name": "Органайзер для карандашей 'Ракета'",
+    "description": "Яркий органайзер в форме ракеты для хранения карандашей, ручек и фломастеров. Вмещает до 20 предметов. Устойчивая подставка.",
+    "category": "Органайзеры",
+    "fileUrl": "/models/rocket-organizer.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=400",
+    "printTime": "3.5 часа",
+    "materialType": "PLA",
+    "date": "2024-12-07T09:15:00.000Z"
+  },
+  {
+    "id": "model-5",
+    "name": "Фигурки животных (набор)",
+    "description": "Набор из 8 фигурок диких животных: слон, жираф, лев, зебра и другие. Отлично подходит для игр и изучения животного мира.",
+    "category": "Игрушки",
+    "fileUrl": "/models/wild-animals-set.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1564054074885-8c5c4e43d3b8?w=400",
+    "printTime": "5 часов",
+    "materialType": "PLA",
+    "date": "2024-12-06T13:45:00.000Z"
+  },
+  {
+    "id": "model-6",
+    "name": "Подставка для книг",
+    "description": "Регулируемая подставка для книг и учебников. Помогает держать правильную осанку при чтении. 3 положения наклона.",
+    "category": "Учебные принадлежности",
+    "fileUrl": "/models/book-stand.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400",
+    "printTime": "6 часов",
+    "materialType": "PETG",
+    "date": "2024-12-05T10:30:00.000Z"
+  },
+  {
+    "id": "model-7",
+    "name": "Машинка-каталка",
+    "description": "Простая машинка с большими колесами. Прочная и безопасная, подходит для детей от 2 лет. Легко катается по любой поверхности.",
+    "category": "Транспорт",
+    "fileUrl": "/models/push-car.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400",
+    "printTime": "4.5 часа",
+    "materialType": "PLA",
+    "date": "2024-12-04T15:20:00.000Z"
+  },
+  {
+    "id": "model-8",
+    "name": "Музыкальная свистулька 'Птичка'",
+    "description": "Свистулька в форме птички. Издает приятный мелодичный звук. Развивает музыкальный слух и дыхание. Безопасна для детей.",
+    "category": "Музыкальные инструменты",
+    "fileUrl": "/models/bird-whistle.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+    "printTime": "1 час",
+    "materialType": "PLA",
+    "date": "2024-12-03T12:00:00.000Z"
+  },
+  {
+    "id": "model-9",
+    "name": "Браслет с именем",
+    "description": "Настраиваемый браслет с выдавленным текстом. Можно указать имя ребенка. Регулируемый размер. Популярен среди подростков.",
+    "category": "Украшения",
+    "fileUrl": "/models/name-bracelet.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=400",
+    "printTime": "2 часа",
+    "materialType": "PLA",
+    "date": "2024-12-02T08:45:00.000Z"
+  },
+  {
+    "id": "model-10",
+    "name": "Держатель для телефона",
+    "description": "Универсальная подставка для смартфонов и планшетов. Регулируемый угол наклона. Помогает детям смотреть обучающие видео.",
+    "category": "Аксессуары",
+    "fileUrl": "/models/phone-holder.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1556656793-08538906a9f8?w=400",
+    "printTime": "3 часа",
+    "materialType": "PETG",
+    "date": "2024-12-01T16:30:00.000Z"
+  },
+  {
+    "id": "model-11",
+    "name": "Шахматные фигуры (комплект)",
+    "description": "Полный набор шахматных фигур. Крупные детали, удобные для детских рук. Отличный способ научить ребенка играть в шахматы.",
+    "category": "Настольные игры",
+    "fileUrl": "/models/chess-set.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1528819622765-d6bcf132f793?w=400",
+    "printTime": "12 часов",
+    "materialType": "PLA",
+    "date": "2024-11-30T10:00:00.000Z"
+  },
+  {
+    "id": "model-12",
+    "name": "Линейка-закладка",
+    "description": "Многофункциональная закладка для книг с разметкой в сантиметрах. Яркие цвета, не повреждает страницы книг.",
+    "category": "Учебные принадлежности",
+    "fileUrl": "/models/ruler-bookmark.stl",
+    "imageUrl": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400",
+    "printTime": "30 минут",
+    "materialType": "PLA",
+    "date": "2024-11-28T14:15:00.000Z"
+  }
+]
+

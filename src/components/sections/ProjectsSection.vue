@@ -9,6 +9,12 @@
       <p class="projects-subtitle">
         История наших проектов в разных университетах, предприятиях<br/>и организациях
       </p>
+      <router-link to="/projects" class="projects-all-link">
+        <span>Смотреть все проекты организации</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </router-link>
     </div>
     <div
       ref="gridRef"
@@ -305,6 +311,37 @@ export default {
   text-align: center;
   margin: 0;
   animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.projects-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, $primary-teal, $primary-mint);
+  border-radius: $border-radius-full;
+  color: $white;
+  font-weight: 600;
+  font-size: $text-base;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba($primary-teal, 0.3);
+
+  svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba($primary-teal, 0.4);
+
+    svg {
+      transform: translateX(5px);
+    }
+  }
 }
 
 .projects-grid {

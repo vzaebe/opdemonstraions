@@ -1,4 +1,9 @@
-// Цветовая палитра проекта - фирменные цвета
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 🎨 ЦВЕТОВАЯ ПАЛИТРА - ЕДИНЫЙ ИСТОЧНИК ПРАВДЫ
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Все цвета определены здесь и синхронизированы с constants.ts и CSS переменными
+
+// Основные фирменные цвета
 $primary-teal: #2EACB4; // Основной бирюзовый
 $primary-mint: #1DE9B6; // Мятный
 $primary-orange: #CB8816; // Оранжевый
@@ -136,54 +141,73 @@ $max-w-5xl: 64rem;
 $max-w-6xl: 72rem;
 $max-w-7xl: 80rem;
 
- :root {
-  // Brand Colors
-  --color-primary: #2EACB4;
-  --color-secondary: #CB8816;
-  --color-accent-mint: #1DE9B6;
-  --color-accent-yellow: #EBD36F;
-  --color-accent-coral: #FF5252;
-  --color-accent-cyan: #18FFFF;
-  --color-white: #FFFFFF;
-  --color-black: #000000;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 🌐 CSS ПЕРЕМЕННЫЕ - СИНХРОНИЗИРОВАНЫ С SCSS ПЕРЕМЕННЫМИ
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CSS переменные для использования в компонентах без SCSS
+:root {
+  // Brand Colors (синхронизировано с $primary-* переменными выше)
+  --color-primary: #{$primary-teal};
+  --color-secondary: #{$primary-orange};
+  --color-accent-mint: #{$primary-mint};
+  --color-accent-yellow: #{$primary-yellow};
+  --color-accent-coral: #{$primary-coral};
+  --color-accent-cyan: #{$primary-cyan};
+  --color-white: #{$white};
+  --color-black: #{$black};
 
-  // Gray Scale
-  --color-gray-900: #1A1A1A;
-  --color-gray-800: #2D2D2D;
-  --color-gray-700: #404040;
-  --color-gray-600: #525252;
-  --color-gray-500: #737373;
-  --color-gray-400: #9A9A9A;
-  --color-gray-300: #C4C4C4;
-  --color-gray-200: #E5E5E5;
-  --color-gray-100: #F5F5F5;
+  // Gray Scale (синхронизировано с $gray-* переменными)
+  --color-gray-900: #{$gray-900};
+  --color-gray-800: #{$gray-800};
+  --color-gray-700: #{$gray-700};
+  --color-gray-600: #{$gray-600};
+  --color-gray-500: #{$gray-500};
+  --color-gray-400: #{$gray-400};
+  --color-gray-300: #{$gray-300};
+  --color-gray-200: #{$gray-200};
+  --color-gray-100: #{$gray-100};
+  --color-gray-50: #{$gray-50};
 
-  // Typography
-  --text-2xl: 1.5rem;
-  --text-xl: 1.25rem;
-  --text-lg: 1.125rem;
-  --text-base: 1rem;
-  --text-sm: 0.875rem;
-  --text-xs: 0.75rem;
+  // Typography (синхронизировано с $text-* переменными)
+  --text-xs: #{$text-xs};
+  --text-sm: #{$text-sm};
+  --text-base: #{$text-base};
+  --text-lg: #{$text-lg};
+  --text-xl: #{$text-xl};
+  --text-2xl: #{$text-2xl};
+  --text-3xl: #{$text-3xl};
+  --text-4xl: #{$text-4xl};
+  --text-5xl: #{$text-5xl};
 
-  // Container
-  --container-width: 1200px;
+  // Container (синхронизировано с $container-width)
+  --container-width: #{$container-width};
 
-  // Border Radius
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 1rem;
+  // Border Radius (синхронизировано с $border-radius-* переменными)
+  --radius-sm: #{$border-radius-sm};
+  --radius-md: #{$border-radius-md};
+  --radius-lg: #{$border-radius-lg};
+  --radius-xl: #{$border-radius-xl};
+  --radius-2xl: #{$border-radius-2xl};
+  --radius-full: #{$border-radius-full};
 
-  // Spacing
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-5: 1.25rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
-  --spacing-10: 2.5rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
+  // Spacing (синхронизировано с $spacing-* переменными)
+  --spacing-1: #{$spacing-1};
+  --spacing-2: #{$spacing-2};
+  --spacing-3: #{$spacing-3};
+  --spacing-4: #{$spacing-4};
+  --spacing-5: #{$spacing-5};
+  --spacing-6: #{$spacing-6};
+  --spacing-8: #{$spacing-8};
+  --spacing-10: #{$spacing-10};
+  --spacing-12: #{$spacing-12};
+  --spacing-16: #{$spacing-16};
+  --spacing-20: #{$spacing-20};
+  --spacing-24: #{$spacing-24};
+
+  // Breakpoints (для использования в JS/TS)
+  --breakpoint-sm: #{$breakpoint-sm};
+  --breakpoint-md: #{$breakpoint-md};
+  --breakpoint-lg: #{$breakpoint-lg};
+  --breakpoint-xl: #{$breakpoint-xl};
+  --breakpoint-2xl: #{$breakpoint-2xl};
 }
