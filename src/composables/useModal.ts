@@ -95,6 +95,7 @@ export function useModal(options: ModalOptions = {}) {
 
     const firstElement = focusableElements[0]
     const lastElement = focusableElements[focusableElements.length - 1]
+    if (!firstElement || !lastElement) return
 
     if (event.key === 'Tab') {
       if (event.shiftKey) {

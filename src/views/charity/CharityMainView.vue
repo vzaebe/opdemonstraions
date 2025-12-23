@@ -12,27 +12,27 @@
           <svg class="hero-icon" viewBox="0 0 24 24" fill="none">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
           </svg>
-          <span>Благотворительность через технологии</span>
+          <span>Поддержка через технологии</span>
         </div>
         <h1 class="hero-title">
           Создаём <span class="gradient-text">чудеса</span> на 3D-принтере
         </h1>
         <p class="hero-subtitle">
-          Мы объединяем мейкеров и 3D-печатников для помощи детям. 
-          Печатаем игрушки, развивающие пособия, протезы и средства реабилитации 
-          для детских домов и нуждающихся семей — совершенно бесплатно.
+          Мы объединяем мейкеров и 3D-печатников, чтобы поддерживать детей и молодёжь через полезные изделия.
+          Печатаем игрушки, развивающие пособия и адаптивные приспособления
+          для семей и организаций, которым нужна поддержка — бесплатно.
         </p>
         <div class="hero-stats-mini">
           <div class="stat-mini">
-            <span class="stat-mini-icon">🎨</span>
+            <Icon class="stat-mini-icon" name="palette" :size="20" />
             <span class="stat-mini-text">{{ store.totalCompletedWorks }}+ работ</span>
           </div>
           <div class="stat-mini">
-            <span class="stat-mini-icon">👥</span>
+            <Icon class="stat-mini-icon" name="users" :size="20" />
             <span class="stat-mini-text">{{ store.totalPartners }} мейкеров</span>
           </div>
           <div class="stat-mini">
-            <span class="stat-mini-icon">💝</span>
+            <Icon class="stat-mini-icon" name="heart" :size="20" />
             <span class="stat-mini-text">100% бесплатно</span>
           </div>
         </div>
@@ -84,7 +84,9 @@
         <div class="steps-grid">
           <div class="step" v-for="(step, index) in stepsData" :key="index">
             <div class="step-number">{{ index + 1 }}</div>
-            <div class="step-icon">{{ step.emoji }}</div>
+            <div class="step-icon">
+              <Icon :name="step.icon" :size="34" :title="step.title" />
+            </div>
             <h3 class="step-title">{{ step.title }}</h3>
             <p class="step-description">{{ step.description }}</p>
             <div class="step-details">
@@ -102,7 +104,7 @@
       <div class="gallery-section">
         <div class="gallery-header">
           <h2 class="section-title">Галерея выполненных работ</h2>
-          <p class="section-subtitle">Проекты, которые уже помогли детям</p>
+          <p class="section-subtitle">Проекты, которые уже помогли людям</p>
         </div>
         <div class="gallery-preview">
           <div v-for="(work, index) in store.doneWorks.slice(0, 6)" :key="work.id" class="gallery-item" :style="{ animationDelay: `${index * 0.1}s` }">
@@ -134,14 +136,16 @@
       <div class="help-cta">
         <div class="help-content">
           <div class="help-badge">
-            <span class="help-badge-icon">🤝</span>
+            <Icon class="help-badge-icon" name="handshake" :size="18" />
             <span>Наша миссия</span>
           </div>
           <h2 class="help-title">Кому мы помогаем?</h2>
-          <p class="help-intro">Мы верим, что каждый ребенок заслуживает заботы и возможностей для развития</p>
+          <p class="help-intro">Мы верим, что дети и молодёжь заслуживают заботы и возможностей для развития</p>
           <div class="help-categories">
             <div class="help-category" v-for="(category, index) in helpCategories" :key="index">
-              <div class="help-category-icon">{{ category.icon }}</div>
+              <div class="help-category-icon">
+                <Icon :name="category.icon" :size="30" :title="category.title" />
+              </div>
               <div class="help-category-content">
                 <h3>{{ category.title }}</h3>
                 <p>{{ category.description }}</p>
@@ -184,6 +188,7 @@ import { onMounted, computed, h } from 'vue'
 import { useCharityStore } from '@/stores/charity'
 import UiSection from '@/components/ui/Section.vue'
 import ButtonPrimary from '@/components/ButtonPrimary.vue'
+import Icon from '@/components/ui/Icon.vue'
 
 const store = useCharityStore()
 
@@ -191,7 +196,7 @@ const statsData = computed(() => [
   {
     value: store.totalCompletedWorks,
     label: 'Выполненных работ',
-    description: 'Напечатано и передано детям',
+    description: 'Напечатано и передано получателям',
     color: 'linear-gradient(135deg, #0694a2, #0e9f6e)',
     icon: () => h('svg', { viewBox: '0 0 24 24', fill: 'none', class: 'icon' }, [
       h('path', { d: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })
@@ -208,9 +213,9 @@ const statsData = computed(() => [
   },
   {
     value: '0₽',
-    label: 'Стоимость для детей',
+    label: 'Стоимость для получателей',
     description: 'Полностью бесплатно',
-    color: 'linear-gradient(135deg, #9061f9, #c084fc)',
+    color: 'linear-gradient(135deg, #2EACB4, #1DE9B6)',
     icon: () => h('svg', { viewBox: '0 0 24 24', fill: 'none', class: 'icon' }, [
       h('path', { d: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z', fill: 'currentColor' })
     ])
@@ -219,51 +224,51 @@ const statsData = computed(() => [
 
 const stepsData = [
   {
-    emoji: '📝',
+    icon: 'file',
     title: 'Заявка',
-    description: 'Детский дом или родители оставляют заявку на сайте',
+    description: 'Организация или семья оставляет заявку на сайте',
     details: ['Прикрепите 3D-модель', 'Или опишите желаемое', 'Укажите детали']
   },
   {
-    emoji: '🖨️',
+    icon: 'printer',
     title: 'Печать',
     description: 'Волонтёры берут заказ в работу',
     details: ['Выбор материала', 'Настройка принтера', 'Контроль качества']
   },
   {
-    emoji: '🚚',
+    icon: 'truck',
     title: 'Доставка',
     description: 'Готовое изделие отправляется получателю',
     details: ['Упаковка', 'Почта России', 'Или личная передача']
   },
   {
-    emoji: '🎉',
+    icon: 'party',
     title: 'Радость',
-    description: 'Ребенок получает нужную вещь',
-    details: ['Фотоотчет', 'Благодарность', 'Счастливые дети']
+    description: 'Получатель получает нужную вещь',
+    details: ['Фотоотчёт', 'Благодарность', 'Обратная связь']
   }
 ]
 
 const helpCategories = [
   {
-    icon: '🏠',
-    title: 'Детским домам и интернатам',
-    description: 'Игрушки, развивающие пособия и учебные материалы для детей'
+    icon: 'school',
+    title: 'Организациям, работающим с детьми и молодёжью',
+    description: 'Игрушки, развивающие пособия и учебные материалы'
   },
   {
-    icon: '♿',
-    title: 'Детям с особенностями развития',
-    description: 'Адаптированные игрушки, средства реабилитации, протезы'
+    icon: 'puzzle',
+    title: 'Тем, кому нужны адаптивные решения',
+    description: 'Адаптивные приспособления и аксессуары для повседневных задач'
   },
   {
-    icon: '🤲',
-    title: 'Благотворительным фондам',
-    description: 'Сотрудничество с организациями для масштабной помощи'
+    icon: 'hands',
+    title: 'НКО и общественным организациям',
+    description: 'Сотрудничество с организациями для масштабирования проектов поддержки'
   },
   {
-    icon: '👨‍👩‍👧',
-    title: 'Малообеспеченным семьям',
-    description: 'Поддержка семей, которым нужна помощь с изготовлением изделий'
+    icon: 'family',
+    title: 'Семьям, которым нужна дополнительная поддержка',
+    description: 'Помощь с изготовлением полезных изделий по запросу'
   }
 ]
 
@@ -407,7 +412,7 @@ onMounted(() => {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #fff, #ffed4e);
+  background: linear-gradient(135deg, #fff, $primary-yellow);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -458,7 +463,7 @@ onMounted(() => {
 }
 
 .stat-mini-icon {
-  font-size: 1.5rem;
+  color: $white;
 }
 
 .stat-mini-text {
@@ -706,7 +711,7 @@ onMounted(() => {
 .step-number {
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, $primary-orange, #ffb347);
+  background: linear-gradient(135deg, $primary-orange, $primary-yellow);
   color: $white;
   font-size: $text-2xl;
   font-weight: 800;
@@ -722,7 +727,9 @@ onMounted(() => {
 }
 
 .step-icon {
-  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  color: $primary-teal;
   margin-bottom: $spacing-3;
   transition: transform 0.4s ease;
 }
@@ -929,7 +936,7 @@ onMounted(() => {
 }
 
 .help-badge-icon {
-  font-size: 1.25rem;
+  color: $white;
 }
 
 .help-title {
@@ -969,7 +976,7 @@ onMounted(() => {
 }
 
 .help-category-icon {
-  font-size: 2.5rem;
+  color: $primary-teal;
   flex-shrink: 0;
 }
 

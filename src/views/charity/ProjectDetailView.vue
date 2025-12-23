@@ -20,14 +20,14 @@
       <!-- Project Info Cards -->
       <div class="info-cards">
         <div class="info-card">
-          <div class="icon">💰</div>
+          <div class="icon"><Icon name="money" :size="22" /></div>
           <div class="info-content">
             <div class="label">Бюджет проекта</div>
             <div class="value">{{ formatMoney(project.budget || 0) }}</div>
           </div>
         </div>
         <div class="info-card">
-          <div class="icon">📊</div>
+          <div class="icon"><Icon name="chart" :size="22" /></div>
           <div class="info-content">
             <div class="label">Собрано</div>
             <div class="value">{{ formatMoney(project.raised || 0) }}</div>
@@ -37,14 +37,14 @@
           </div>
         </div>
         <div class="info-card">
-          <div class="icon">👥</div>
+          <div class="icon"><Icon name="users" :size="22" /></div>
           <div class="info-content">
             <div class="label">Благополучатели</div>
             <div class="value-text">{{ project.beneficiaries || 'Данные уточняются' }}</div>
           </div>
         </div>
         <div class="info-card">
-          <div class="icon">📅</div>
+          <div class="icon"><Icon name="calendar" :size="22" /></div>
           <div class="info-content">
             <div class="label">Период</div>
             <div class="value-text">
@@ -63,7 +63,7 @@
           :class="['tab-btn', { active: currentTab === tab.id }]"
           @click="currentTab = tab.id"
         >
-          <span class="tab-icon">{{ tab.icon }}</span>
+          <span class="tab-icon"><Icon :name="tab.icon" :size="18" /></span>
           <span class="tab-label">{{ tab.label }}</span>
           <span v-if="getTabCount(tab.id) > 0" class="tab-count">{{ getTabCount(tab.id) }}</span>
         </button>
@@ -110,15 +110,18 @@
             </div>
           </div>
           <div v-else class="empty-tab">
-            <p>📸 Фотографии скоро появятся</p>
+            <p class="empty-row"><Icon name="camera" :size="18" /> Фотографии скоро появятся</p>
           </div>
         </div>
 
         <!-- Videos Tab -->
         <div v-if="currentTab === 'videos'" class="tab-pane">
-          <div v-if="project.videos && project.videos.length > 0" class="videos-grid">
+          <div
+            v-if="project.videos && project.videos.filter(v => isSupportedVideoEmbed(v.url)).length > 0"
+            class="videos-grid"
+          >
             <div 
-              v-for="video in project.videos" 
+              v-for="video in project.videos.filter(v => isSupportedVideoEmbed(v.url))" 
               :key="video.id"
               class="video-card"
             >
@@ -137,7 +140,7 @@
             </div>
           </div>
           <div v-else class="empty-tab">
-            <p>🎥 Видео скоро появятся</p>
+            <p class="empty-row"><Icon name="video" :size="18" /> Видео будет добавлено позже (сейчас мы не показываем YouTube-встраивания)</p>
           </div>
         </div>
 
@@ -151,7 +154,7 @@
               target="_blank"
               class="report-item"
             >
-              <div class="report-icon">📄</div>
+              <div class="report-icon"><Icon name="file" :size="18" /></div>
               <div class="report-content">
                 <h4>{{ report.title }}</h4>
                 <p v-if="report.description">{{ report.description }}</p>
@@ -160,15 +163,18 @@
             </a>
           </div>
           <div v-else class="empty-tab">
-            <p>📄 Отчёты скоро появятся</p>
+            <p class="empty-row"><Icon name="file" :size="18" /> Отчёты скоро появятся</p>
           </div>
         </div>
 
         <!-- Video Reports Tab -->
         <div v-if="currentTab === 'video-reports'" class="tab-pane">
-          <div v-if="project.videoReports && project.videoReports.length > 0" class="videos-grid">
+          <div
+            v-if="project.videoReports && project.videoReports.filter(v => isSupportedVideoEmbed(v.url)).length > 0"
+            class="videos-grid"
+          >
             <div 
-              v-for="videoReport in project.videoReports" 
+              v-for="videoReport in project.videoReports.filter(v => isSupportedVideoEmbed(v.url))" 
               :key="videoReport.id"
               class="video-card"
             >
@@ -187,7 +193,7 @@
             </div>
           </div>
           <div v-else class="empty-tab">
-            <p>🎬 Видеоотчёты скоро появятся</p>
+            <p class="empty-row"><Icon name="clapper" :size="18" /> Видеоотчёты будут добавлены позже (сейчас мы не показываем YouTube-встраивания)</p>
           </div>
         </div>
 
@@ -201,7 +207,7 @@
               target="_blank"
               class="media-link-item"
             >
-              <div class="link-icon">{{ getMediaIcon(link.type) }}</div>
+              <div class="link-icon"><Icon :name="getMediaIcon(link.type)" :size="18" /></div>
               <div class="link-content">
                 <h4>{{ link.title }}</h4>
                 <span class="link-type">{{ getMediaTypeLabel(link.type) }}</span>
@@ -210,7 +216,7 @@
             </a>
           </div>
           <div v-else class="empty-tab">
-            <p>🔗 Упоминания в СМИ скоро появятся</p>
+            <p class="empty-row"><Icon name="link" :size="18" /> Упоминания в СМИ скоро появятся</p>
           </div>
         </div>
       </div>
@@ -226,6 +232,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCharityStore } from '@/stores/charity'
+import Icon from '@/components/ui/Icon.vue'
 
 const route = useRoute()
 const store = useCharityStore()
@@ -233,12 +240,12 @@ const store = useCharityStore()
 const currentTab = ref('overview')
 
 const tabs = [
-  { id: 'overview', label: 'Обзор', icon: '📋' },
-  { id: 'photos', label: 'Фото', icon: '📸' },
-  { id: 'videos', label: 'Видео', icon: '🎥' },
-  { id: 'reports', label: 'Отчёты', icon: '📄' },
-  { id: 'video-reports', label: 'Видеоотчёты', icon: '🎬' },
-  { id: 'media-links', label: 'СМИ о нас', icon: '🔗' }
+  { id: 'overview', label: 'Обзор', icon: 'file' },
+  { id: 'photos', label: 'Фото', icon: 'camera' },
+  { id: 'videos', label: 'Видео', icon: 'video' },
+  { id: 'reports', label: 'Отчёты', icon: 'file' },
+  { id: 'video-reports', label: 'Видеоотчёты', icon: 'clapper' },
+  { id: 'media-links', label: 'СМИ о нас', icon: 'link' }
 ]
 
 const project = computed(() => {
@@ -281,9 +288,9 @@ const getTabCount = (tabId: string) => {
   
   const counts: Record<string, number> = {
     photos: project.value.photos?.length || 0,
-    videos: project.value.videos?.length || 0,
+    videos: project.value.videos?.filter(v => isSupportedVideoEmbed(v.url))?.length || 0,
     reports: project.value.reports?.length || 0,
-    'video-reports': project.value.videoReports?.length || 0,
+    'video-reports': project.value.videoReports?.filter(v => isSupportedVideoEmbed(v.url))?.length || 0,
     'media-links': project.value.mediaLinks?.length || 0
   }
   
@@ -292,12 +299,12 @@ const getTabCount = (tabId: string) => {
 
 const getMediaIcon = (type: string) => {
   const icons: Record<string, string> = {
-    article: '📰',
-    video: '🎥',
-    audio: '🎙️',
-    podcast: '🎧'
+    article: 'file',
+    video: 'video',
+    audio: 'link',
+    podcast: 'link'
   }
-  return icons[type] || '🔗'
+  return icons[type] || 'link'
 }
 
 const getMediaTypeLabel = (type: string) => {
@@ -308,6 +315,14 @@ const getMediaTypeLabel = (type: string) => {
     podcast: 'Подкаст'
   }
   return labels[type] || 'Ссылка'
+}
+
+const isSupportedVideoEmbed = (url: string) => {
+  const u = (url || '').toLowerCase()
+  // YouTube часто недоступен части аудитории; до появления альтернатив (VK Video / RuTube)
+  // не показываем такие встраивания, чтобы не выглядело "сломано".
+  if (u.includes('youtube.com') || u.includes('youtu.be')) return false
+  return true
 }
 
 const openLightbox = (photo: any) => {
@@ -778,4 +793,7 @@ onMounted(async () => {
   color: $gray-600;
 }
 </style>
+
+
+
 

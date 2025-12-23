@@ -15,10 +15,10 @@
         <router-link :to="{ name: 'about' }" class="nav-link" @click="closeMenu">О нас</router-link>
         <router-link :to="{ name: 'organization-projects' }" class="nav-link" @click="closeMenu">Проекты</router-link>
         
-        <!-- Благотворительность с выпадающим меню -->
+        <!-- Социальная 3D-печать с выпадающим меню -->
         <div class="nav-dropdown" @mouseenter="showCharityDropdown = true" @mouseleave="showCharityDropdown = false">
           <router-link :to="{ name: 'charity' }" class="nav-link" @click="closeMenu">
-            Благотворительность
+            Социальная 3D-печать
             <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -101,25 +101,6 @@
 
       <!-- Правая секция: поиск и контакты -->
       <div class="right-section">
-        <!-- Поисковая строка -->
-        <div class="search-container">
-          <div class="search-input">
-            <input
-              type="text"
-              class="search-field"
-              placeholder="Поиск"
-              @focus="onSearchFocus"
-              @blur="onSearchBlur"
-              v-model="searchQuery"
-            />
-            <button class="search-button" @click="performSearch">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
         <!-- Контактная информация -->
         <div class="contact-container">
           <a href="tel:+79150033935" class="contact-link" aria-label="Телефон">
@@ -139,9 +120,28 @@
         </div>
 
         <!-- Кнопка бургера (видна только на мобильных) -->
-        <button class="burger-button" @click="toggleMenu" aria-label="Открыть меню">
+        <button
+          class="burger-button"
+          @click="toggleMenu"
+          :aria-label="isMenuOpen ? 'Закрыть меню' : 'Открыть меню'"
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path
+              v-if="!isMenuOpen"
+              d="M3 6h18M3 12h18M3 18h18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              v-else
+              d="M18 6L6 18M6 6l12 12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </button>
       </div>
@@ -153,10 +153,25 @@
     class="floating-burger"
     v-show="showFloatingBurger"
     @click="toggleMenu"
-    aria-label="Меню"
+    :aria-label="isMenuOpen ? 'Закрыть меню' : 'Меню'"
   >
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path
+        v-if="!isMenuOpen"
+        d="M3 6h18M3 12h18M3 18h18"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        v-else
+        d="M18 6L6 18M6 6l12 12"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
   </button>
 
@@ -167,39 +182,13 @@
     @click.self="closeMenu"
   >
     <nav class="overlay-menu" @click.stop>
-      <!-- Кнопка закрытия -->
-      <button class="close-button" @click="closeMenu" aria-label="Закрыть меню">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-
-      <!-- Мобильный поиск -->
-      <div class="mobile-search">
-        <div class="search-input">
-          <input
-            type="text"
-            class="search-field"
-            placeholder="Поиск"
-            @focus="onSearchFocus"
-            @blur="onSearchBlur"
-            v-model="searchQuery"
-          />
-          <button class="search-button" @click="performSearch">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
       <!-- Навигационные ссылки -->
       <router-link :to="{ name: 'about' }" class="nav-link" @click="closeMenu">О нас</router-link>
       <router-link :to="{ name: 'organization-projects' }" class="nav-link" @click="closeMenu">Проекты</router-link>
       
-      <!-- Благотворительность с подменю -->
+      <!-- Социальная 3D-печать с подменю -->
       <div class="mobile-nav-section">
-        <router-link :to="{ name: 'charity' }" class="nav-link" @click="closeMenu">Благотворительность</router-link>
+        <router-link :to="{ name: 'charity' }" class="nav-link" @click="closeMenu">Социальная 3D-печать</router-link>
         <div class="mobile-submenu">
           <router-link :to="{ name: 'charity-articles' }" class="submenu-link" @click="closeMenu">• Статьи</router-link>
           <router-link :to="{ name: 'charity-videos' }" class="submenu-link" @click="closeMenu">• Видео</router-link>
@@ -252,19 +241,20 @@ export default {
   },
   data() {
     return {
-      searchQuery: '',
-      isSearchFocused: false,
       isMenuOpen: false,
       showFloatingBurger: false,
       showCharityDropdown: false,
-      headerObserver: null as IntersectionObserver | null
+      headerObserver: null as IntersectionObserver | null,
+      keydownHandler: null as ((e: KeyboardEvent) => void) | null
     }
   },
   mounted() {
     const header = this.$refs.headerEl as HTMLElement | undefined
     if (header) {
       this.headerObserver = new IntersectionObserver(
-        ([entry]) => {
+        (entries) => {
+          const entry = entries[0]
+          if (!entry) return
           this.showFloatingBurger = !entry.isIntersecting
           if (!entry.isIntersecting) {
             this.isMenuOpen = false
@@ -274,10 +264,22 @@ export default {
       )
       this.headerObserver.observe(header)
     }
+
+    // Закрытие меню по ESC
+    this.keydownHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && this.isMenuOpen) {
+        this.closeMenu()
+      }
+    }
+    document.addEventListener('keydown', this.keydownHandler)
   },
   beforeUnmount() {
     if (this.headerObserver) {
       this.headerObserver.disconnect()
+    }
+    if (this.keydownHandler) {
+      document.removeEventListener('keydown', this.keydownHandler)
+      this.keydownHandler = null
     }
   },
   methods: {
@@ -287,18 +289,6 @@ export default {
     closeMenu() {
       this.isMenuOpen = false
     },
-    onSearchFocus() {
-      this.isSearchFocused = true
-    },
-    onSearchBlur() {
-      this.isSearchFocused = false
-    },
-    performSearch() {
-      if (this.searchQuery.trim()) {
-        console.log('Поиск:', this.searchQuery)
-        this.$emit('search', this.searchQuery)
-      }
-    }
   }
 }
 </script>
@@ -984,9 +974,11 @@ export default {
   }
 }
 
-@media (min-width: $breakpoint-md) {
+@media (max-width: $breakpoint-md) {
   .burger-button {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -1011,19 +1003,4 @@ export default {
   }
 }
 
-.close-button {
-  background: none;
-  border: none;
-  color: $white;
-  align-self: flex-end;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  padding: 0.25rem;
-  border-radius: $border-radius-sm;
-  transition: background 0.3s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-}
 </style>

@@ -3,7 +3,7 @@
     <UiSection>
       <h1 class="page-title">Статьи</h1>
       <p class="page-description">
-        Читайте наши статьи о благотворительной 3D-печати, опыте волонтеров и историях помощи
+        Читайте наши статьи о социальной 3D-печати, опыте волонтёров и историях поддержки
       </p>
 
       <div v-if="store.articles.length === 0" class="empty-state">

@@ -193,6 +193,20 @@ $max-w-7xl: 80rem;
   --text-4xl: #{$text-4xl};
   --text-5xl: #{$text-5xl};
 
+  // Font weights (единая шкала)
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  // Type scale (responsive)
+  --text-h1: clamp(2rem, 4.5vw, 3.25rem);
+  --text-h2: clamp(1.625rem, 3.2vw, 2.5rem);
+  --text-h3: clamp(1.25rem, 2.2vw, 1.75rem);
+  --text-body: var(--text-base);
+  --text-small: var(--text-sm);
+
   // Container (синхронизировано с $container-width)
   --container-width: #{$container-width};
 

@@ -1,5 +1,5 @@
 <template>
-  <section class="contact-section">
+  <section id="contact" class="contact-section">
     <div class="map-container">
       <iframe
         :src="mapUrl"
@@ -91,7 +91,8 @@
           <div class="contact-details">
             <div class="contact-item">
               <a :href="`tel:${CONTACT.PHONE}`" :title="CONTACT.PHONE">
-                {{ CONTACT.PHONE }}
+                <Icon name="phone" :size="20" class="contact-icon" />
+                <span>{{ CONTACT.PHONE }}</span>
               </a>
             </div>
             <div class="contact-item">
@@ -116,6 +117,7 @@ import { ref, reactive } from 'vue'
 import { CONTACT, VALIDATION } from '../../config'
 import { contactService } from '../../services/api/contact'
 import { useAnalytics } from '../../composables/useAnalytics'
+import Icon from '../ui/Icon.vue'
 import type { ContactFormData, FormValidationError } from '../../types/models'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -373,6 +375,9 @@ export default {
     border-radius: 8px;
     font-size: 0.875rem;
     transition: all 0.2s;
+    background-color: #ffffff;
+    color: #111827; // тёмный текст
+    caret-color: var(--color-primary);
 
     &:focus {
       outline: none;
@@ -440,12 +445,19 @@ button {
       text-decoration: none;
       font-size: 1.125rem;
       font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
 
       &:hover {
         text-decoration: underline;
       }
     }
   }
+}
+
+.contact-icon {
+  flex-shrink: 0;
 }
 
 /* Consent text styling */
@@ -599,10 +611,7 @@ button {
   .contact-item a {
     font-size: 1rem;
     padding: 0.5rem 0;
-    display: block;
     min-height: 44px; // touch-friendly
-    display: flex;
-    align-items: center;
   }
 
   .form-group {

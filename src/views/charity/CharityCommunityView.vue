@@ -91,7 +91,7 @@
             :name="partner.name"
             :type="partner.type"
             :printer-model="partner.printer_model"
-            :capabilities="partner.capabilities"
+            :capabilities="partner.capabilities || partner.materials"
             :completed-works="partner.completed_works"
             :city="partner.city"
             :style="{ animationDelay: `${index * 0.1}s` }"
@@ -122,13 +122,21 @@ const form = reactive({
   type: 'individual',
   city: '',
   printer_model: '',
-  capabilities: ['PLA']
+  materials: ['PLA']
 })
 
 const handleJoin = () => {
-  store.addPartner({ ...form })
+  store.addPartner({
+    name: form.name,
+    type: form.type,
+    city: form.city,
+    printer_model: form.printer_model,
+    materials: form.materials,
+    about: '',
+    contact: ''
+  })
   showJoinForm.value = false
-  alert('🎉 Спасибо! Вы добавлены в список партнёров. Мы скоро с вами свяжемся!')
+  alert('Спасибо! Вы добавлены в список партнёров. Мы скоро с вами свяжемся!')
   form.name = ''
   form.city = ''
   form.printer_model = ''
@@ -144,7 +152,7 @@ const handleJoin = () => {
 
 .community-hero {
   position: relative;
-  background: linear-gradient(135deg, #9061f9 0%, #c084fc 100%);
+  background: linear-gradient(135deg, $primary-teal 0%, $primary-mint 100%);
   color: $white;
   padding: $spacing-16 $spacing-4 $spacing-20;
   text-align: center;
@@ -307,7 +315,7 @@ const handleJoin = () => {
   z-index: 2;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   animation: slideDown 0.5s ease-out;
-  border: 2px solid rgba(#9061f9, 0.2);
+  border: 2px solid rgba($primary-teal, 0.22);
 }
 
 @keyframes slideDown {
@@ -342,7 +350,7 @@ const handleJoin = () => {
     display: block;
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, #9061f9, #c084fc);
+    background: linear-gradient(90deg, $primary-teal, $primary-mint);
     margin: $spacing-3 auto 0;
     border-radius: 2px;
   }
@@ -390,8 +398,8 @@ const handleJoin = () => {
 
   &:focus {
     outline: none;
-    border-color: #9061f9;
-    box-shadow: 0 0 0 3px rgba(#9061f9, 0.1);
+    border-color: $primary-teal;
+    box-shadow: 0 0 0 3px rgba($primary-teal, 0.12);
     background: $white;
   }
 
@@ -430,7 +438,7 @@ const handleJoin = () => {
     transform: translateX(-50%);
     width: 60px;
     height: 4px;
-    background: linear-gradient(90deg, #9061f9, #c084fc);
+    background: linear-gradient(90deg, $primary-teal, $primary-mint);
     border-radius: 2px;
   }
 }

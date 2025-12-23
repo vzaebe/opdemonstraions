@@ -30,7 +30,9 @@
             :class="['tab', { active: activeCategory === category.id }]"
             @click="activeCategory = category.id"
           >
-            <span class="tab-icon">{{ category.icon }}</span>
+            <span class="tab-icon">
+              <Icon :name="iconNameFromEmoji(category.icon) || 'target'" :size="20" />
+            </span>
             <span class="tab-name">{{ category.name }}</span>
           </button>
         </div>
@@ -45,9 +47,15 @@
             v-for="project in filteredProjects" 
             :key="project.id"
             class="project-card"
+            @click="goToProject(project.slug)"
+            role="link"
+            tabindex="0"
+            @keydown.enter="goToProject(project.slug)"
           >
             <div class="project-header">
-              <div class="project-icon">{{ project.icon }}</div>
+              <div class="project-icon">
+                <Icon :name="iconNameFromEmoji(project.icon) || 'target'" :size="40" :title="project.title" />
+              </div>
               <div class="project-status" :class="project.status">
                 {{ getStatusText(project.status) }}
               </div>
@@ -88,12 +96,16 @@
               </div>
 
               <div class="project-footer">
-                <button class="btn-primary" @click="openProjectModal(project)">
-                  Подробнее
+                <router-link
+                  class="btn-primary"
+                  :to="{ name: 'organization-project-detail', params: { slug: project.slug } }"
+                  @click.stop
+                >
+                  Смотреть проект
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                </button>
+                </router-link>
               </div>
             </div>
           </div>
@@ -110,80 +122,26 @@
             Станьте частью команды единомышленников и помогите нам менять мир к лучшему
           </p>
           <div class="cta-buttons">
-            <router-link to="/contacts" class="cta-button primary">Связаться с нами</router-link>
+            <router-link :to="{ name: 'contacts', hash: '#contact-form' }" class="cta-button primary">Связаться с нами</router-link>
             <router-link to="/charity/help" class="cta-button secondary">Поддержать проект</router-link>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- Project Detail Modal -->
-    <transition name="modal-fade">
-      <div v-if="selectedProject" class="modal-backdrop" @click="closeProjectModal">
-        <div class="modal-content" @click.stop>
-          <button class="modal-close" @click="closeProjectModal">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="modal-header">
-            <div class="modal-icon">{{ selectedProject.icon }}</div>
-            <h2 class="modal-title">{{ selectedProject.title }}</h2>
-            <div class="modal-status" :class="selectedProject.status">
-              {{ getStatusText(selectedProject.status) }}
-            </div>
-          </div>
-          <div class="modal-body">
-            <img v-if="selectedProject.image" :src="selectedProject.image" :alt="selectedProject.title" class="modal-image" />
-            <p class="modal-description">{{ selectedProject.fullDescription || selectedProject.description }}</p>
-            
-            <div class="modal-details">
-              <div class="modal-detail-item" v-if="selectedProject.participants">
-                <strong>Участников:</strong> {{ selectedProject.participants }}+
-              </div>
-              <div class="modal-detail-item" v-if="selectedProject.duration">
-                <strong>Длительность:</strong> {{ selectedProject.duration }}
-              </div>
-              <div class="modal-detail-item" v-if="selectedProject.location">
-                <strong>Локация:</strong> {{ selectedProject.location }}
-              </div>
-            </div>
-
-            <div class="modal-tags">
-              <span class="tag" v-for="tag in selectedProject.tags" :key="tag">{{ tag }}</span>
-            </div>
-
-            <div class="modal-actions">
-              <router-link to="/contacts" class="modal-button primary">Узнать больше</router-link>
-              <button class="modal-button secondary" @click="closeProjectModal">Закрыть</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import Icon from '@/components/ui/Icon.vue'
+import { iconNameFromEmoji } from '@/utils/icon'
+import { http, trackApiError } from '@/services/api/http'
+import type { OrganizationProject } from '@/data/organization_projects'
 
-interface Project {
-  id: number
-  title: string
-  description: string
-  fullDescription?: string
-  icon: string
-  image?: string
-  category: string
-  status: 'active' | 'completed' | 'planned'
-  participants?: number
-  duration?: string
-  location?: string
-  tags: string[]
-}
-
+const router = useRouter()
 const activeCategory = ref('all')
-const selectedProject = ref<Project | null>(null)
+const projects = ref<OrganizationProject[]>([])
 
 const categories = [
   { id: 'all', name: 'Все проекты', icon: '🎯' },
@@ -193,172 +151,11 @@ const categories = [
   { id: 'innovation', name: 'Инновации', icon: '💡' }
 ]
 
-const projects: Project[] = [
-  {
-    id: 1,
-    title: 'Летние интенсивы в Бауманке',
-    description: 'Трехдневная программа погружения в студенческую жизнь МГТУ им. Баумана через диалоги, практические занятия и 3D-печать.',
-    fullDescription: 'Летние интенсивы в МГТУ им. Баумана - это уникальная возможность для школьников погрузиться в атмосферу ведущего технического вуза страны. В течение трех дней участники знакомятся с направлениями обучения, посещают лаборатории, общаются со студентами и преподавателями, участвуют в практических занятиях по 3D-моделированию и печати.',
-    icon: '🏛️',
-    image: '/src/assets/png/Projects/Photo.png',
-    category: 'events',
-    status: 'active',
-    participants: 150,
-    duration: '3 дня',
-    location: 'МГТУ им. Баумана',
-    tags: ['Профориентация', 'МГТУ', 'Интенсив', '3D-печать']
-  },
-  {
-    id: 2,
-    title: 'Грант Росмолодежи',
-    description: 'Масштабный проект 2024 года: 11 мероприятий, около 400 участников. Реализация образовательных и социальных инициатив.',
-    fullDescription: 'В 2024 году наш проект выиграл грант Росмолодежи, что позволило реализовать масштабную программу мероприятий. Было проведено 11 различных событий, охватывающих образовательные лекции, практические мастер-классы, профориентационные встречи и социальные проекты. Общее количество участников составило около 400 человек из разных регионов России.',
-    icon: '🏆',
-    image: '/src/assets/png/Projects/Photo-1.png',
-    category: 'social',
-    status: 'completed',
-    participants: 400,
-    duration: '2024 год',
-    location: 'Россия',
-    tags: ['Грант', 'Росмолодежь', 'Образование', 'Социальное развитие']
-  },
-  {
-    id: 3,
-    title: 'Инклюзивные лекции',
-    description: 'Цикл лекций об интеграции в реальный сектор экономики, инновациях и способах реализации для людей с ограниченными возможностями.',
-    fullDescription: 'Серия специализированных лекций, направленных на помощь людям с ограниченными возможностями в профессиональной интеграции. Темы включают современные технологии адаптации, успешные кейсы трудоустройства, инновационные подходы к обучению и развитию карьеры. Все мероприятия адаптированы для различных категорий участников.',
-    icon: '♿',
-    image: '/src/assets/png/Projects/Photo-2.png',
-    category: 'education',
-    status: 'active',
-    participants: 200,
-    duration: 'Ежемесячно',
-    location: 'Онлайн/Офлайн',
-    tags: ['Инклюзия', 'Образование', 'Интеграция', 'Профориентация']
-  },
-  {
-    id: 4,
-    title: 'Перевод науки на РЖЯ',
-    description: 'Делаем научные знания доступными для глухих и слабослышащих через перевод на русский жестовый язык.',
-    fullDescription: 'Инновационный проект по переводу научно-популярных лекций, образовательных материалов и технических текстов на русский жестовый язык. Мы сотрудничаем с профессиональными переводчиками РЖЯ и создаем видеоматериалы, делая науку и технологии доступными для глухих и слабослышащих людей.',
-    icon: '🤟',
-    image: '/src/assets/png/Projects/Photo-3.png',
-    category: 'social',
-    status: 'active',
-    participants: 50,
-    duration: 'Постоянно',
-    location: 'Онлайн',
-    tags: ['РЖЯ', 'Инклюзия', 'Наука', 'Доступность']
-  },
-  {
-    id: 5,
-    title: 'Программа наставничества',
-    description: 'Персональное сопровождение молодых специалистов опытными менторами из индустрии технологий и инженерии.',
-    fullDescription: 'Долгосрочная программа менторства, где опытные специалисты из IT, инженерии и смежных областей помогают молодым людям развивать профессиональные навыки, строить карьеру и находить свое место в индустрии. Программа включает индивидуальные встречи, групповые сессии и практические проекты.',
-    icon: '👨‍🏫',
-    category: 'education',
-    status: 'active',
-    participants: 80,
-    duration: '6 месяцев',
-    location: 'Онлайн',
-    tags: ['Менторство', 'Карьера', 'Развитие', 'IT']
-  },
-  {
-    id: 6,
-    title: 'Технологические мастер-классы',
-    description: 'Практические занятия по современным технологиям: программирование, робототехника, 3D-моделирование, AR/VR.',
-    fullDescription: 'Серия интерактивных мастер-классов, где участники получают практические навыки работы с современными технологиями. От основ программирования до создания прототипов на 3D-принтерах, от базовой робототехники до разработки AR/VR приложений. Все занятия проводятся в формате "обучение через практику".',
-    icon: '🛠️',
-    category: 'education',
-    status: 'active',
-    participants: 300,
-    duration: 'Еженедельно',
-    location: 'Москва, Санкт-Петербург',
-    tags: ['3D-печать', 'Робототехника', 'Программирование', 'AR/VR']
-  },
-  {
-    id: 7,
-    title: 'Открытые диалоги с экспертами',
-    description: 'Встречи с ведущими специалистами индустрии: обмен опытом, обсуждение трендов и открытые вопросы.',
-    fullDescription: 'Ежемесячные встречи в формате открытого диалога с экспертами из различных областей: технологии, образование, бизнес, наука. Участники могут задать любые вопросы, обсудить актуальные темы и получить инсайты от профессионалов. Формат способствует свободному обмену идеями и нетворкингу.',
-    icon: '💬',
-    category: 'events',
-    status: 'active',
-    participants: 120,
-    duration: 'Ежемесячно',
-    location: 'Онлайн',
-    tags: ['Диалоги', 'Эксперты', 'Нетворкинг', 'Развитие']
-  },
-  {
-    id: 8,
-    title: 'Фаблаб для школьников',
-    description: 'Открытая лаборатория цифрового производства для детей и подростков: доступ к оборудованию и обучение.',
-    fullDescription: 'Создание сети открытых лабораторий (фаблабов) на базе школ и молодежных центров. Школьники получают доступ к современному оборудованию (3D-принтеры, лазерные станки, паяльные станции) и могут реализовывать свои проекты под руководством опытных наставников. Программа развивает технические навыки и инженерное мышление.',
-    icon: '🔬',
-    category: 'innovation',
-    status: 'active',
-    participants: 250,
-    duration: 'Постоянно',
-    location: '10 регионов России',
-    tags: ['Фаблаб', 'Школьники', 'Инженерия', 'Производство']
-  },
-  {
-    id: 9,
-    title: 'Хакатоны социальных инноваций',
-    description: 'Командные соревнования по созданию технологических решений для социальных проблем.',
-    fullDescription: 'Регулярные хакатоны, где команды участников за 48 часов создают прототипы решений для реальных социальных проблем. Проекты могут касаться доступности образования, помощи людям с ограниченными возможностями, экологии, здравоохранения. Лучшие проекты получают поддержку для дальнейшей реализации.',
-    icon: '💻',
-    category: 'innovation',
-    status: 'active',
-    participants: 180,
-    duration: '48 часов',
-    location: 'Москва',
-    tags: ['Хакатон', 'Инновации', 'Социальные проекты', 'Команды']
-  },
-  {
-    id: 10,
-    title: 'Стажировки в партнерских компаниях',
-    description: 'Программа стажировок для студентов и выпускников в технологических компаниях-партнерах.',
-    fullDescription: 'Организация стажировок в ведущих технологических компаниях для талантливой молодежи. Участники программы проходят отбор и получают возможность реальной работы в компаниях на срок от 3 до 6 месяцев. Многие стажеры после успешного прохождения программы получают предложения о постоянной работе.',
-    icon: '🚀',
-    category: 'education',
-    status: 'active',
-    participants: 60,
-    duration: '3-6 месяцев',
-    location: 'Партнерские компании',
-    tags: ['Стажировка', 'Карьера', 'IT-компании', 'Трудоустройство']
-  },
-  {
-    id: 11,
-    title: 'Всероссийский конкурс проектов',
-    description: 'Ежегодный конкурс инновационных проектов молодых инженеров и изобретателей.',
-    fullDescription: 'Масштабный всероссийский конкурс, где молодые инженеры, изобретатели и предприниматели представляют свои инновационные проекты. Конкурс проходит в несколько этапов: региональный отбор, полуфинал и финал. Победители получают гранты на реализацию проектов, наставническую поддержку и возможность презентации на крупных выставках.',
-    icon: '🏅',
-    category: 'innovation',
-    status: 'planned',
-    duration: 'Ноябрь 2025',
-    location: 'Вся Россия',
-    tags: ['Конкурс', 'Инновации', 'Проекты', 'Гранты']
-  },
-  {
-    id: 12,
-    title: 'Летняя школа технологий',
-    description: 'Двухнедельная интенсивная программа для школьников с погружением в мир современных технологий.',
-    fullDescription: 'Летний образовательный лагерь, где школьники 14-17 лет в течение двух недель изучают различные направления современных технологий. Программа включает лекции, практические занятия, работу над групповыми проектами, экскурсии в технологические компании и научные центры. Участники живут в кампусе и полностью погружаются в образовательную атмосферу.',
-    icon: '☀️',
-    category: 'events',
-    status: 'planned',
-    duration: '2 недели',
-    location: 'Подмосковье',
-    tags: ['Летняя школа', 'Школьники', 'Интенсив', 'Технологии']
-  }
-]
-
 const filteredProjects = computed(() => {
   if (activeCategory.value === 'all') {
-    return projects
+    return projects.value
   }
-  return projects.filter(p => p.category === activeCategory.value)
+  return projects.value.filter((p: OrganizationProject) => p.category === activeCategory.value)
 })
 
 const getStatusText = (status: string) => {
@@ -370,15 +167,18 @@ const getStatusText = (status: string) => {
   return statusMap[status] || status
 }
 
-const openProjectModal = (project: Project) => {
-  selectedProject.value = project
-  document.body.style.overflow = 'hidden'
+const goToProject = (slug: string) => {
+  router.push({ name: 'organization-project-detail', params: { slug } })
 }
 
-const closeProjectModal = () => {
-  selectedProject.value = null
-  document.body.style.overflow = ''
-}
+onMounted(async () => {
+  try {
+    projects.value = await http.get<OrganizationProject[]>('/organization-projects')
+  } catch (error) {
+    trackApiError(error, 'OrganizationProjectsView.fetch')
+    projects.value = []
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -1080,4 +880,7 @@ const closeProjectModal = () => {
   }
 }
 </style>
+
+
+
 

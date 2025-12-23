@@ -297,7 +297,7 @@ watch(() => props.isOpen, (newValue) => {
   width: 100px;
   height: 100px;
   border-radius: $border-radius-xl;
-  background: linear-gradient(135deg, #9061f9, #c084fc);
+  background: linear-gradient(135deg, $primary-teal, $primary-mint);
   color: $white;
   display: flex;
   align-items: center;
@@ -336,13 +336,13 @@ watch(() => props.isOpen, (newValue) => {
   color: $gray-700;
 
   &.company {
-    background: rgba(#14b8a6, 0.1);
-    color: #14b8a6;
+    background: rgba($primary-teal, 0.12);
+    color: $primary-teal-dark;
   }
 
   &.individual {
-    background: rgba(#9061f9, 0.1);
-    color: #9061f9;
+    background: rgba($primary-orange, 0.12);
+    color: $primary-orange;
   }
 }
 
@@ -357,7 +357,7 @@ watch(() => props.isOpen, (newValue) => {
   gap: $spacing-4;
   margin-bottom: $spacing-8;
   padding: $spacing-6;
-  background: linear-gradient(135deg, rgba(#9061f9, 0.05), rgba(#14b8a6, 0.05));
+  background: linear-gradient(135deg, rgba($primary-teal, 0.06), rgba($primary-mint, 0.06));
   border-radius: $border-radius-xl;
 }
 
@@ -557,4 +557,7 @@ watch(() => props.isOpen, (newValue) => {
   }
 }
 </style>
+
+
+
 

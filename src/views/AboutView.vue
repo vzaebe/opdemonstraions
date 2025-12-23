@@ -27,7 +27,7 @@
           <h2 class="section-title">Наша миссия</h2>
           <div class="mission-cards">
             <div class="mission-card" v-for="(mission, index) in missions" :key="index">
-              <div class="card-icon">{{ mission.icon }}</div>
+              <Icon class="card-icon" :name="mission.icon" :title="mission.title" />
               <h3 class="card-title">{{ mission.title }}</h3>
               <p class="card-text">{{ mission.text }}</p>
             </div>
@@ -77,7 +77,7 @@
         <div class="values-grid">
           <div class="value-card" v-for="(value, index) in values" :key="index">
             <div class="value-icon-wrapper">
-              <div class="value-icon">{{ value.icon }}</div>
+              <Icon class="value-icon" :name="value.icon" :title="value.title" />
             </div>
             <h3 class="value-title">{{ value.title }}</h3>
             <p class="value-description">{{ value.description }}</p>
@@ -110,7 +110,7 @@
           <h2 class="section-title white-title">Наше видение будущего</h2>
           <div class="vision-text">
             <p>
-              Мы стремимся к миру, где технологии служат людям, а не наоборот. Где каждый ребенок имеет доступ 
+              Мы стремимся к миру, где технологии служат людям, а не наоборот. Где каждый человек имеет доступ 
               к современному образованию и инструментам для реализации своего потенциала.
             </p>
             <p>
@@ -133,10 +133,24 @@
         <h2 class="section-title">Как мы работаем</h2>
         <div class="approach-grid">
           <div class="approach-item" v-for="(item, index) in approaches" :key="index">
-            <div class="approach-number">{{ index + 1 }}</div>
-            <h3 class="approach-title">{{ item.title }}</h3>
-            <p class="approach-description">{{ item.description }}</p>
+            <div class="approach-number" aria-hidden="true">{{ index + 1 }}</div>
+            <div class="approach-body">
+              <h3 class="approach-title">{{ item.title }}</h3>
+              <p class="approach-description">{{ item.description }}</p>
+            </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Director Quote -->
+    <section class="director-quote-section">
+      <div class="container">
+        <div class="director-quote">
+          <p class="director-quote-text">
+            «Мы строим процессы так, чтобы помощь была не разовой акцией, а устойчивой системой — с понятными шагами, ответственностью и результатом».
+          </p>
+          <p class="director-quote-author">Ольга Иванова, руководитель проекта</p>
         </div>
       </div>
     </section>
@@ -150,7 +164,7 @@
             Станьте частью истории. Вместе мы можем создать будущее, которым будем гордиться
           </p>
           <div class="cta-buttons">
-            <router-link to="/charity/help" class="cta-button primary">Помочь проекту</router-link>
+            <router-link to="/support" class="cta-button primary">Помочь проекту</router-link>
             <router-link to="/contacts" class="cta-button secondary">Связаться с нами</router-link>
           </div>
         </div>
@@ -160,19 +174,21 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '@/components/ui/Icon.vue'
+
 const missions = [
   {
-    icon: '🎓',
+    icon: 'school',
     title: 'Образование',
     text: 'Делаем современные технологии доступными для детей и подростков через образовательные программы и мастер-классы'
   },
   {
-    icon: '🤝',
+    icon: 'handshake',
     title: 'Помощь',
     text: 'Создаем реальные решения для детских домов, школ и социальных учреждений с помощью 3D-печати и технологий'
   },
   {
-    icon: '🚀',
+    icon: 'bolt',
     title: 'Инновации',
     text: 'Развиваем открытые технологии и делимся знаниями для создания устойчивого будущего'
   }
@@ -231,32 +247,32 @@ const timelineEvents = [
 
 const values = [
   {
-    icon: '💎',
+    icon: 'globe',
     title: 'Открытость',
     description: 'Мы открыты для всех: делимся знаниями, опытом и технологиями. Наши проекты и решения доступны каждому'
   },
   {
-    icon: '🌟',
+    icon: 'target',
     title: 'Качество',
     description: 'Мы стремимся к высочайшему качеству во всем: от образовательных программ до каждого напечатанного изделия'
   },
   {
-    icon: '❤️',
+    icon: 'heart',
     title: 'Забота',
-    description: 'В центре нашей работы — люди. Мы заботимся о каждом ребенке, партнере и волонтере'
+    description: 'В центре нашей работы — люди. Мы заботимся о каждом человеке, партнёре и волонтёре'
   },
   {
-    icon: '🔬',
+    icon: 'puzzle',
     title: 'Инновации',
     description: 'Мы постоянно ищем новые решения и не боимся экспериментировать, чтобы найти лучшие способы помощи'
   },
   {
-    icon: '🤲',
+    icon: 'handshake',
     title: 'Сотрудничество',
     description: 'Мы верим в силу командной работы и строим долгосрочные партнерские отношения'
   },
   {
-    icon: '🎯',
+    icon: 'chart',
     title: 'Результат',
     description: 'Мы фокусируемся на реальных, измеримых результатах, которые улучшают жизнь людей'
   }
@@ -266,11 +282,11 @@ const achievements = [
   {
     number: '15000+',
     label: 'Изделий напечатано',
-    description: 'Игрушки, пособия, протезы'
+    description: 'Игрушки, пособия, адаптивные приспособления'
   },
   {
     number: '50+',
-    label: 'Детских учреждений',
+    label: 'Учреждений',
     description: 'По всей России'
   },
   {
@@ -280,7 +296,7 @@ const achievements = [
   },
   {
     number: '5000+',
-    label: 'Детей обучено',
+    label: 'Участников обучено',
     description: '3D-технологиям'
   },
   {
@@ -298,7 +314,7 @@ const achievements = [
 const approaches = [
   {
     title: 'Слушаем потребности',
-    description: 'Мы начинаем с диалога: узнаем, что действительно нужно детским учреждениям и их воспитанникам'
+    description: 'Мы начинаем с диалога: узнаём, что действительно нужно учреждениям и их участникам'
   },
   {
     title: 'Разрабатываем решения',
@@ -306,7 +322,7 @@ const approaches = [
   },
   {
     title: 'Вовлекаем сообщество',
-    description: 'Привлекаем волонтеров, партнеров и благотворителей к реализации проектов'
+    description: 'Привлекаем волонтёров, партнёров и сторонников к реализации проектов'
   },
   {
     title: 'Обучаем и вдохновляем',
@@ -808,9 +824,10 @@ const approaches = [
 }
 
 .approach-item {
-  position: relative;
+  display: flex;
+  gap: $spacing-5;
+  align-items: flex-start;
   padding: $spacing-8;
-  padding-left: $spacing-16;
   background: $white;
   border-radius: $border-radius-2xl;
   box-shadow: $shadow-md;
@@ -822,9 +839,7 @@ const approaches = [
 }
 
 .approach-number {
-  position: absolute;
-  left: $spacing-6;
-  top: $spacing-6;
+  flex: 0 0 auto;
   width: 50px;
   height: 50px;
   display: flex;
@@ -835,6 +850,10 @@ const approaches = [
   background: linear-gradient(135deg, $primary-teal, $primary-mint);
   color: $white;
   border-radius: 50%;
+}
+
+.approach-body {
+  min-width: 0;
 }
 
 .approach-title {
@@ -848,6 +867,36 @@ const approaches = [
   font-size: $text-base;
   line-height: $leading-relaxed;
   color: $gray-700;
+}
+
+// Director quote
+.director-quote-section {
+  padding: $spacing-20 0;
+  background: $white;
+}
+
+.director-quote {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $spacing-10 $spacing-10;
+  border-radius: $border-radius-2xl;
+  background: linear-gradient(135deg, rgba($primary-teal, 0.06), rgba($primary-mint, 0.08));
+  border-left: 5px solid $primary-mint;
+}
+
+.director-quote-text {
+  margin: 0 0 $spacing-4 0;
+  font-size: $text-2xl;
+  line-height: $leading-relaxed;
+  color: $gray-800;
+  font-style: italic;
+}
+
+.director-quote-author {
+  margin: 0;
+  font-size: $text-base;
+  color: $gray-600;
+  font-weight: 600;
 }
 
 // CTA Section
@@ -1021,6 +1070,18 @@ const approaches = [
   .achievements-grid,
   .approach-grid {
     grid-template-columns: 1fr;
+  }
+
+  .approach-item {
+    padding: $spacing-6;
+  }
+
+  .director-quote {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  .director-quote-text {
+    font-size: $text-xl;
   }
 
   .cta-buttons {

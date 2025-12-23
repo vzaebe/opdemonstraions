@@ -8,10 +8,10 @@
     <div v-else-if="employee.id" class="profile-content">
       <div class="profile-header">
         <div class="profile-photo">
-          <img :src="getImagePath(employee.id, 'photo')" :alt="`Фото ${employee.name}`" />
+          <img :src="employee.photoUrl" :alt="`Фото ${employee.name}`" />
         </div>
         <div class="profile-background">
-          <img :src="getImagePath(employee.id, 'background')" alt="Фон" class="background-image" />
+          <img :src="employee.backgroundUrl" alt="Фон" class="background-image" />
         </div>
       </div>
 
@@ -38,7 +38,7 @@
             @click="selectColleague(colleague.id)"
             :class="{ active: colleague.id === employee.id }"
           >
-            <img :src="getImagePath(colleague.id, 'photo')" :alt="`Фото ${colleague.name}`" />
+            <img :src="colleague.photoUrl" :alt="`Фото ${colleague.name}`" />
             <p class="colleague-name">{{ colleague.name }}</p>
             <p class="colleague-role">{{ colleague.role }}</p>
           </div>
@@ -54,64 +54,42 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import employeeData from '@/data/employees.json'
-// Импортируем изображения напрямую
-import komarovPhoto from '@/assets/png/face/komarov pic.png'
-import ivanovaPhoto from '@/assets/png/face/ivanova pic.png'
-import mironovaPhoto from '@/assets/png/face/mironova pic.png'
+import { http, trackApiError } from '@/services/api/http'
 
 interface Employee {
-  id: string;
-  name: string;
-  role: string;
-  photo: string;
-  background: string;
-  bio: string;
-  details: string[];
+  id: string
+  name: string
+  role: string
+  photoUrl: string
+  backgroundUrl: string
+  bio: string
+  details: string[]
 }
 
 const employee = ref<Employee>({} as Employee)
+const employees = ref<Employee[]>([])
 const colleagues = ref<Employee[]>([])
 const isLoading = ref(true)
 
-// Объект с правильными путями к изображениям
-const imageMap = {
-  'dmitriy': {
-    photo: komarovPhoto,
-    background: komarovPhoto
-  },
-  'olga': {
-    photo: ivanovaPhoto,
-    background: ivanovaPhoto
-  },
-  'sofia': {
-    photo: mironovaPhoto,
-    background: mironovaPhoto
-  }
-}
-
-// Функция для получения правильного пути к изображению
-function getImagePath(employeeId: string, type: 'photo' | 'background'): string {
-  return imageMap[employeeId as keyof typeof imageMap]?.[type] || ''
-}
-
 function selectColleague(id: string) {
-  const selected = employeeData.find((e: Employee) => e.id === id)
+  const selected = employees.value.find((e) => e.id === id)
   if (selected) {
     employee.value = selected
     // Обновляем список коллег
-    colleagues.value = employeeData.filter((e: Employee) => e.id !== employee.value.id)
+    colleagues.value = employees.value.filter((e) => e.id !== employee.value.id)
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  isLoading.value = true
   try {
-    // По умолчанию показывает Ольга Иванова
-    employee.value = employeeData.find((e: Employee) => e.id === 'olga') || employeeData[0]
-    // Фильтрует коллег (исключает текущего)
-    colleagues.value = employeeData.filter((e: Employee) => e.id !== employee.value.id)
+    employees.value = await http.get<Employee[]>('/employees')
+    employee.value = employees.value.find((e) => e.id === 'olga') || employees.value[0] || ({} as Employee)
+    colleagues.value = employees.value.filter((e) => e.id !== employee.value.id)
   } catch (error) {
-    console.error('Ошибка загрузки данных сотрудников:', error)
+    trackApiError(error, 'EmployeeProfile.fetchEmployees')
+    employee.value = {} as Employee
+    colleagues.value = []
   } finally {
     isLoading.value = false
   }

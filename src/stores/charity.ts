@@ -1,7 +1,7 @@
 /**
- * Store для модуля благотворительности
+ * Store для модуля социальной 3D-печати
  * 
- * Управляет состоянием всех данных связанных с благотворительным модулем:
+ * Управляет состоянием всех данных связанных с модулем социальной 3D-печати:
  * - Заявки на печать
  * - Выполненные работы
  * - Партнёры и волонтёры
@@ -33,28 +33,15 @@ import type {
   Project
 } from '@/types/charity'
 
-// Fallback данные для офлайн режима
-import doneData from '@/data/done.json'
-import partnersData from '@/data/partners.json'
-import donationsData from '@/data/donations.json'
-import resourcesData from '@/data/resources.json'
-import materialDonationsData from '@/data/material_donations.json'
-import fundraisingData from '@/data/fundraising.json'
-import articlesData from '@/data/articles.json'
-import videosData from '@/data/videos.json'
-import materialsData from '@/data/materials.json'
-import printModelsData from '@/data/print_models.json'
-import projectsData from '@/data/projects.json'
-
 export const useCharityStore = defineStore('charity', () => {
   // State
   const requests = ref<Request[]>([])
   const doneWorks = ref<Work[]>([])
   const partners = ref<Partner[]>([])
-  const donations = ref<Donations>(donationsData as Donations)
-  const resources = ref<Resource[]>(resourcesData as Resource[])
-  const materialDonations = ref<MaterialDonation[]>(materialDonationsData as MaterialDonation[])
-  const fundraisingGoals = ref<FundraisingGoal[]>(fundraisingData as FundraisingGoal[]) // legacy display
+  const donations = ref<Donations>({ financial: [], material: [] } as Donations)
+  const resources = ref<Resource[]>([])
+  const materialDonations = ref<MaterialDonation[]>([])
+  const fundraisingGoals = ref<FundraisingGoal[]>([]) // legacy display
   const campaigns = ref<Campaign[]>([])
   const articles = ref<Article[]>([])
   const videos = ref<Video[]>([])
@@ -74,12 +61,93 @@ export const useCharityStore = defineStore('charity', () => {
       doneWorks.value = data
     } catch (error) {
       trackApiError(error, 'fetchDoneWorks')
-      // fallback to bundled data for offline/demo
-      // Convert id from number to string if needed
-      doneWorks.value = (doneData as unknown as Work[]).map(work => ({
-        ...work,
-        id: String(work.id)
-      }))
+      doneWorks.value = []
+    }
+  }
+
+  async function fetchResources() {
+    try {
+      const data = await http.get<Resource[]>('/resources')
+      resources.value = data
+    } catch (error) {
+      trackApiError(error, 'fetchResources')
+      resources.value = []
+    }
+  }
+
+  async function createResource(payload: Omit<Resource, 'id'>) {
+    try {
+      const created = await http.post<Resource>('/admin/resources', payload)
+      resources.value.push(created)
+      return created
+    } catch (error) {
+      trackApiError(error, 'createResource')
+      throw error
+    }
+  }
+
+  async function updateResource(id: number | string, updates: Partial<Resource>) {
+    try {
+      const updated = await http.patch<Resource>(`/admin/resources/${id}`, updates)
+      const idx = resources.value.findIndex((r) => String(r.id) === String(id))
+      if (idx !== -1) resources.value[idx] = updated
+      return updated
+    } catch (error) {
+      trackApiError(error, 'updateResource')
+      throw error
+    }
+  }
+
+  async function deleteResource(id: number | string) {
+    try {
+      await http.delete(`/admin/resources/${id}`)
+      const idx = resources.value.findIndex((r) => String(r.id) === String(id))
+      if (idx !== -1) resources.value.splice(idx, 1)
+    } catch (error) {
+      trackApiError(error, 'deleteResource')
+      throw error
+    }
+  }
+
+  async function fetchDonations() {
+    try {
+      const data = await http.get<Donations>('/donations')
+      donations.value = data
+    } catch (error) {
+      trackApiError(error, 'fetchDonations')
+      donations.value = { financial: [], material: [] } as Donations
+    }
+  }
+
+  async function fetchFundraisingGoals() {
+    try {
+      const data = await http.get<FundraisingGoal[]>('/fundraising-goals')
+      fundraisingGoals.value = data
+    } catch (error) {
+      trackApiError(error, 'fetchFundraisingGoals')
+      fundraisingGoals.value = []
+    }
+  }
+
+  async function fetchMaterialDonations(admin = false) {
+    try {
+      const url = admin ? '/admin/material-donations' : '/material-donations'
+      const data = await http.get<MaterialDonation[]>(url)
+      materialDonations.value = data
+    } catch (error) {
+      trackApiError(error, 'fetchMaterialDonations')
+      materialDonations.value = []
+    }
+  }
+
+  async function createMaterialDonation(payload: Omit<MaterialDonation, 'id' | 'date'> & { date?: string }) {
+    try {
+      const created = await http.post<MaterialDonation>('/material-donations', payload)
+      materialDonations.value.push(created)
+      return created
+    } catch (error) {
+      trackApiError(error, 'createMaterialDonation')
+      throw error
     }
   }
 
@@ -176,7 +244,7 @@ export const useCharityStore = defineStore('charity', () => {
       partners.value = data
     } catch (error) {
       trackApiError(error, 'fetchPartners')
-      partners.value = partnersData as Partner[]
+      partners.value = []
     }
   }
 
@@ -302,23 +370,7 @@ export const useCharityStore = defineStore('charity', () => {
     doneWorks.value.push(newWork)
   }
 
-  function addResource(resource: Omit<Resource, 'id'>) {
-    resources.value.push({ ...resource, id: Date.now() })
-  }
-
-  function removeResource(id: number) {
-    const index = resources.value.findIndex(r => r.id === id)
-    if (index !== -1) resources.value.splice(index, 1)
-  }
-  
-  function addMaterialDonation(donation: Omit<MaterialDonation, 'id'> & { date?: string }) {
-    const { date, ...rest } = donation
-    materialDonations.value.push({
-      ...rest,
-      id: Date.now(),
-      date: (date || new Date().toISOString().split('T')[0]) as string
-    })
-  }
+  // NOTE: legacy local-only mutations removed: use API
   
   function updateFundraising(id: number, updates: Partial<FundraisingGoal>) {
     const goal = fundraisingGoals.value.find(g => g.id === id)
@@ -334,8 +386,7 @@ export const useCharityStore = defineStore('charity', () => {
       articles.value = data
     } catch (error) {
       trackApiError(error, 'fetchArticles')
-      // fallback to bundled data for offline/demo
-      articles.value = articlesData as Article[]
+      articles.value = []
     }
   }
 
@@ -383,8 +434,7 @@ export const useCharityStore = defineStore('charity', () => {
       videos.value = data
     } catch (error) {
       trackApiError(error, 'fetchVideos')
-      // fallback to bundled data for offline/demo
-      videos.value = videosData as Video[]
+      videos.value = []
     }
   }
 
@@ -432,8 +482,7 @@ export const useCharityStore = defineStore('charity', () => {
       materials.value = data
     } catch (error) {
       trackApiError(error, 'fetchMaterials')
-      // fallback to bundled data for offline/demo
-      materials.value = materialsData as Material[]
+      materials.value = []
     }
   }
 
@@ -481,8 +530,7 @@ export const useCharityStore = defineStore('charity', () => {
       printModels.value = data
     } catch (error) {
       trackApiError(error, 'fetchPrintModels')
-      // fallback to bundled data for offline/demo
-      printModels.value = printModelsData as PrintModel[]
+      printModels.value = []
     }
   }
 
@@ -530,8 +578,7 @@ export const useCharityStore = defineStore('charity', () => {
       projects.value = data
     } catch (error) {
       trackApiError(error, 'fetchProjects')
-      // fallback to bundled data for offline/demo
-      projects.value = projectsData as Project[]
+      projects.value = []
     }
   }
 
@@ -590,6 +637,14 @@ export const useCharityStore = defineStore('charity', () => {
     fetchRequests,
     fetchPartners,
     fetchDoneWorks,
+    fetchResources,
+    createResource,
+    updateResource,
+    deleteResource,
+    fetchDonations,
+    fetchFundraisingGoals,
+    fetchMaterialDonations,
+    createMaterialDonation,
     addRequest,
     updateRequestStatus,
     updateRequest,
@@ -598,9 +653,6 @@ export const useCharityStore = defineStore('charity', () => {
     updatePartner,
     removePartner,
     addWork,
-    addResource,
-    removeResource,
-    addMaterialDonation,
     updateFundraising,
     fetchCampaigns,
     createCampaign,

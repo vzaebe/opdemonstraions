@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import supportGoalsData from '@/data/support_goals.json'
 import { http, trackApiError } from '@/services/api/http'
 
 interface SupportGoal {
@@ -17,7 +16,7 @@ interface SupportGoal {
 
 export const useSupportStore = defineStore('support', () => {
   // State
-  const supportGoals = ref<SupportGoal[]>(supportGoalsData as SupportGoal[])
+  const supportGoals = ref<SupportGoal[]>([])
 
   // Actions
   async function fetchSupportGoals() {
@@ -26,8 +25,7 @@ export const useSupportStore = defineStore('support', () => {
       supportGoals.value = data
     } catch (error) {
       trackApiError(error, 'fetchSupportGoals')
-      // fallback to bundled data for offline/demo
-      supportGoals.value = supportGoalsData as SupportGoal[]
+      supportGoals.value = []
     }
   }
 
@@ -76,4 +74,7 @@ export const useSupportStore = defineStore('support', () => {
     deleteSupportGoal
   }
 })
+
+
+
 

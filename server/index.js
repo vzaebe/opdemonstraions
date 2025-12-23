@@ -2,22 +2,19 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { readFile, writeFile } from 'fs/promises'
-import { randomUUID, createHmac } from 'crypto'
+import { mkdirSync } from 'fs'
+import { randomUUID } from 'crypto'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import multer from 'multer'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const DATA_PATH = path.join(__dirname, 'data.json')
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'change-me-secret'
-const TOKEN_NAME = 'admin_token'
+const UPLOADS_DIR = path.join(__dirname, 'uploads')
 
 // Helpers --------------------------------------------------------------------
-const signToken = () =>
-  createHmac('sha256', ADMIN_SECRET).update(ADMIN_PASSWORD).digest('hex')
-
 async function readData() {
   const raw = await readFile(DATA_PATH, 'utf-8')
   return JSON.parse(raw)
@@ -30,6 +27,47 @@ function writeData(data) {
   })
   return writeQueue
 }
+
+function ensureArray(data, key) {
+  if (!Array.isArray(data[key])) data[key] = []
+  return data[key]
+}
+
+function ensureObject(data, key, fallback = {}) {
+  const value = data[key]
+  if (!value || typeof value !== 'object' || Array.isArray(value)) data[key] = fallback
+  return data[key]
+}
+
+function generateId(items) {
+  const ids = (items || []).map((x) => x?.id).filter((x) => x !== undefined && x !== null)
+  const allNumbers = ids.length > 0 && ids.every((x) => typeof x === 'number')
+  if (allNumbers) {
+    const max = Math.max(0, ...ids)
+    return max + 1
+  }
+  return randomUUID()
+}
+
+const ADMIN_COLLECTIONS = new Set([
+  'printRequests',
+  'volunteers',
+  'campaigns',
+  'doneWorks',
+  'partners',
+  'articles',
+  'videos',
+  'materials',
+  'printModels',
+  'projects',
+  'resources',
+  'materialDonations',
+  'fundraisingGoals',
+  'supportGoals',
+  'generalPartners',
+  'employees',
+  'organizationProjects'
+])
 
 // Сейчас доступ в админку открыт (требование: убрать пароль)
 function requireAdmin(_req, _res, next) {
@@ -47,12 +85,471 @@ function createServer() {
   app.use(cookieParser())
   app.use(express.json({ limit: '1mb' }))
 
+  // Static uploads (for admin-managed media)
+  mkdirSync(UPLOADS_DIR, { recursive: true })
+  app.use('/uploads', express.static(UPLOADS_DIR))
+
+  const upload = multer({
+    storage: multer.diskStorage({
+      destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+      filename: (_req, file, cb) => {
+        const ext = path.extname(file.originalname || '')
+        cb(null, `${randomUUID()}${ext}`)
+      }
+    }),
+    limits: { fileSize: 10 * 1024 * 1024 } // 10MB
+  })
+
   // Auth (заглушка, пароль отключен)
   app.post('/api/auth/login', (_req, res) => {
     res.json({ ok: true })
   })
 
   app.get('/api/auth/me', (_req, res) => {
+    res.json({ ok: true })
+  })
+
+  // Admin: upload media -------------------------------------------------------
+  app.post('/api/admin/upload', requireAdmin, upload.single('file'), (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ error: { message: 'File is required (field name: file)' } })
+    }
+    res.json({
+      ok: true,
+      filename: req.file.filename,
+      originalName: req.file.originalname,
+      url: `/uploads/${req.file.filename}`
+    })
+  })
+
+  // Public/Admin: Support goals ----------------------------------------------
+  app.get('/api/support-goals', async (_req, res) => {
+    const data = await readData()
+    res.json(data.supportGoals || [])
+  })
+
+  app.get('/api/admin/support-goals', requireAdmin, async (_req, res) => {
+    const data = await readData()
+    res.json(data.supportGoals || [])
+  })
+
+  app.post('/api/admin/support-goals', requireAdmin, async (req, res) => {
+    const payload = req.body || {}
+    const data = await readData()
+    const list = ensureArray(data, 'supportGoals')
+    const item = {
+      id: generateId(list),
+      title: payload.title || '',
+      description: payload.description || '',
+      target_amount: payload.target_amount || 0,
+      current_amount: payload.current_amount || 0,
+      category: payload.category || '',
+      priority: payload.priority || 'medium',
+      icon: payload.icon || '',
+      examples: payload.examples || []
+    }
+    list.push(item)
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.patch('/api/admin/support-goals/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'supportGoals')
+    const item = list.find((x) => String(x.id) === String(req.params.id))
+    if (!item) return res.status(404).json({ error: { message: 'Not found' } })
+    Object.assign(item, req.body || {})
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.delete('/api/admin/support-goals/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'supportGoals')
+    const before = list.length
+    data.supportGoals = list.filter((x) => String(x.id) !== String(req.params.id))
+    if (data.supportGoals.length === before) {
+      return res.status(404).json({ error: { message: 'Not found' } })
+    }
+    await writeData(data)
+    res.json({ ok: true })
+  })
+
+  // Public/Admin: Organization projects --------------------------------------
+  app.get('/api/organization-projects', async (_req, res) => {
+    const data = await readData()
+    res.json(data.organizationProjects || [])
+  })
+
+  app.get('/api/organization-projects/:slug', async (req, res) => {
+    const data = await readData()
+    const item = (data.organizationProjects || []).find((p) => p.slug === req.params.slug)
+    if (!item) return res.status(404).json({ error: { message: 'Not found' } })
+    res.json(item)
+  })
+
+  app.get('/api/admin/organization-projects', requireAdmin, async (_req, res) => {
+    const data = await readData()
+    res.json(data.organizationProjects || [])
+  })
+
+  app.post('/api/admin/organization-projects', requireAdmin, async (req, res) => {
+    const payload = req.body || {}
+    const data = await readData()
+    const list = ensureArray(data, 'organizationProjects')
+    const item = {
+      id: generateId(list),
+      slug: payload.slug || `project-${Date.now()}`,
+      title: payload.title || '',
+      description: payload.description || '',
+      fullDescription: payload.fullDescription || '',
+      icon: payload.icon || '🎯',
+      image: payload.image || '',
+      category: payload.category || 'education',
+      status: payload.status || 'planned',
+      participants: payload.participants || undefined,
+      duration: payload.duration || undefined,
+      location: payload.location || undefined,
+      tags: payload.tags || []
+    }
+    list.push(item)
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.patch('/api/admin/organization-projects/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'organizationProjects')
+    const item = list.find((x) => String(x.id) === String(req.params.id))
+    if (!item) return res.status(404).json({ error: { message: 'Not found' } })
+    Object.assign(item, req.body || {})
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.delete('/api/admin/organization-projects/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'organizationProjects')
+    const before = list.length
+    data.organizationProjects = list.filter((x) => String(x.id) !== String(req.params.id))
+    if (data.organizationProjects.length === before) {
+      return res.status(404).json({ error: { message: 'Not found' } })
+    }
+    await writeData(data)
+    res.json({ ok: true })
+  })
+
+  // Public/Admin: General partners -------------------------------------------
+  app.get('/api/general-partners', async (_req, res) => {
+    const data = await readData()
+    res.json(data.generalPartners || [])
+  })
+
+  app.get('/api/admin/general-partners', requireAdmin, async (_req, res) => {
+    const data = await readData()
+    res.json(data.generalPartners || [])
+  })
+
+  app.post('/api/admin/general-partners', requireAdmin, async (req, res) => {
+    const payload = req.body || {}
+    const data = await readData()
+    const list = ensureArray(data, 'generalPartners')
+    const item = {
+      id: generateId(list),
+      name: payload.name || '',
+      type: payload.type || 'company',
+      logo: payload.logo || '',
+      industry: payload.industry || '',
+      assistanceType: payload.assistanceType || '',
+      description: payload.description || '',
+      fullDescription: payload.fullDescription || '',
+      website: payload.website || '',
+      email: payload.email || '',
+      phone: payload.phone || '',
+      city: payload.city || '',
+      foundedYear: payload.foundedYear || undefined,
+      completedProjects: payload.completedProjects || 0
+    }
+    list.push(item)
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.patch('/api/admin/general-partners/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'generalPartners')
+    const item = list.find((x) => String(x.id) === String(req.params.id))
+    if (!item) return res.status(404).json({ error: { message: 'Not found' } })
+    Object.assign(item, req.body || {})
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.delete('/api/admin/general-partners/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'generalPartners')
+    const before = list.length
+    data.generalPartners = list.filter((x) => String(x.id) !== String(req.params.id))
+    if (data.generalPartners.length === before) {
+      return res.status(404).json({ error: { message: 'Not found' } })
+    }
+    await writeData(data)
+    res.json({ ok: true })
+  })
+
+  // Public/Admin: Employees ---------------------------------------------------
+  app.get('/api/employees', async (_req, res) => {
+    const data = await readData()
+    res.json(data.employees || [])
+  })
+
+  app.get('/api/admin/employees', requireAdmin, async (_req, res) => {
+    const data = await readData()
+    res.json(data.employees || [])
+  })
+
+  app.post('/api/admin/employees', requireAdmin, async (req, res) => {
+    const payload = req.body || {}
+    const data = await readData()
+    const list = ensureArray(data, 'employees')
+    const item = {
+      id: payload.id || generateId(list),
+      name: payload.name || '',
+      role: payload.role || '',
+      photoUrl: payload.photoUrl || '',
+      backgroundUrl: payload.backgroundUrl || '',
+      bio: payload.bio || '',
+      details: payload.details || []
+    }
+    list.push(item)
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.patch('/api/admin/employees/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'employees')
+    const item = list.find((x) => String(x.id) === String(req.params.id))
+    if (!item) return res.status(404).json({ error: { message: 'Not found' } })
+    Object.assign(item, req.body || {})
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.delete('/api/admin/employees/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'employees')
+    const before = list.length
+    data.employees = list.filter((x) => String(x.id) !== String(req.params.id))
+    if (data.employees.length === before) {
+      return res.status(404).json({ error: { message: 'Not found' } })
+    }
+    await writeData(data)
+    res.json({ ok: true })
+  })
+
+  // Public/Admin: Site content (key/value) -----------------------------------
+  app.get('/api/site-content/:key', async (req, res) => {
+    const data = await readData()
+    const siteContent = ensureObject(data, 'siteContent', {})
+    const value = siteContent[req.params.key]
+    if (!value) return res.status(404).json({ error: { message: 'Not found' } })
+    res.json(value)
+  })
+
+  app.get('/api/admin/site-content/:key', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const siteContent = ensureObject(data, 'siteContent', {})
+    const value = siteContent[req.params.key]
+    if (!value) return res.status(404).json({ error: { message: 'Not found' } })
+    res.json(value)
+  })
+
+  app.put('/api/admin/site-content/:key', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const siteContent = ensureObject(data, 'siteContent', {})
+    siteContent[req.params.key] = req.body || {}
+    await writeData(data)
+    res.json(siteContent[req.params.key])
+  })
+
+  // Admin: raw collections editor (replace whole collection) ------------------
+  app.get('/api/admin/collections/:key', requireAdmin, async (req, res) => {
+    const key = req.params.key
+    if (!ADMIN_COLLECTIONS.has(key)) {
+      return res.status(400).json({ error: { message: 'Collection not allowed' } })
+    }
+    const data = await readData()
+    res.json(data[key] || [])
+  })
+
+  app.put('/api/admin/collections/:key', requireAdmin, async (req, res) => {
+    const key = req.params.key
+    if (!ADMIN_COLLECTIONS.has(key)) {
+      return res.status(400).json({ error: { message: 'Collection not allowed' } })
+    }
+    if (!Array.isArray(req.body)) {
+      return res.status(400).json({ error: { message: 'Body must be an array' } })
+    }
+    const data = await readData()
+    data[key] = req.body
+    await writeData(data)
+    res.json({ ok: true, count: data[key].length })
+  })
+
+  // Public/Admin: Resources ---------------------------------------------------
+  app.get('/api/resources', async (_req, res) => {
+    const data = await readData()
+    res.json(data.resources || [])
+  })
+
+  app.get('/api/admin/resources', requireAdmin, async (_req, res) => {
+    const data = await readData()
+    res.json(data.resources || [])
+  })
+
+  app.post('/api/admin/resources', requireAdmin, async (req, res) => {
+    const payload = req.body || {}
+    const data = await readData()
+    const list = ensureArray(data, 'resources')
+    const item = {
+      id: generateId(list),
+      category: payload.category || '',
+      title: payload.title || '',
+      url: payload.url || '',
+      description: payload.description || ''
+    }
+    list.push(item)
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.patch('/api/admin/resources/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'resources')
+    const item = list.find((x) => String(x.id) === String(req.params.id))
+    if (!item) return res.status(404).json({ error: { message: 'Not found' } })
+    Object.assign(item, req.body || {})
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.delete('/api/admin/resources/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'resources')
+    const before = list.length
+    data.resources = list.filter((x) => String(x.id) !== String(req.params.id))
+    if (data.resources.length === before) return res.status(404).json({ error: { message: 'Not found' } })
+    await writeData(data)
+    res.json({ ok: true })
+  })
+
+  // Public/Admin: Donations ---------------------------------------------------
+  app.get('/api/donations', async (_req, res) => {
+    const data = await readData()
+    res.json(data.donations || { financial: [], material: [] })
+  })
+
+  app.get('/api/admin/donations', requireAdmin, async (_req, res) => {
+    const data = await readData()
+    res.json(data.donations || { financial: [], material: [] })
+  })
+
+  app.put('/api/admin/donations', requireAdmin, async (req, res) => {
+    const data = await readData()
+    data.donations = req.body || { financial: [], material: [] }
+    await writeData(data)
+    res.json(data.donations)
+  })
+
+  // Public/Admin: Material donations -----------------------------------------
+  app.get('/api/material-donations', async (_req, res) => {
+    const data = await readData()
+    res.json(data.materialDonations || [])
+  })
+
+  // Public submission (help page)
+  app.post('/api/material-donations', async (req, res) => {
+    const payload = req.body || {}
+    const data = await readData()
+    const list = ensureArray(data, 'materialDonations')
+    const item = {
+      id: generateId(list),
+      name: payload.name || '',
+      item: payload.item || '',
+      type: payload.type || 'plastic',
+      comment: payload.comment || '',
+      date: new Date().toISOString().split('T')[0]
+    }
+    list.push(item)
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.get('/api/admin/material-donations', requireAdmin, async (_req, res) => {
+    const data = await readData()
+    res.json(data.materialDonations || [])
+  })
+
+  app.delete('/api/admin/material-donations/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'materialDonations')
+    const before = list.length
+    data.materialDonations = list.filter((x) => String(x.id) !== String(req.params.id))
+    if (data.materialDonations.length === before) {
+      return res.status(404).json({ error: { message: 'Not found' } })
+    }
+    await writeData(data)
+    res.json({ ok: true })
+  })
+
+  // Public/Admin: Fundraising goals ------------------------------------------
+  app.get('/api/fundraising-goals', async (_req, res) => {
+    const data = await readData()
+    res.json(data.fundraisingGoals || [])
+  })
+
+  app.get('/api/admin/fundraising-goals', requireAdmin, async (_req, res) => {
+    const data = await readData()
+    res.json(data.fundraisingGoals || [])
+  })
+
+  app.post('/api/admin/fundraising-goals', requireAdmin, async (req, res) => {
+    const payload = req.body || {}
+    const data = await readData()
+    const list = ensureArray(data, 'fundraisingGoals')
+    const item = {
+      id: generateId(list),
+      title: payload.title || '',
+      description: payload.description || '',
+      target_amount: payload.target_amount || 0,
+      current_amount: payload.current_amount || 0,
+      image: payload.image || ''
+    }
+    list.push(item)
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.patch('/api/admin/fundraising-goals/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'fundraisingGoals')
+    const item = list.find((x) => String(x.id) === String(req.params.id))
+    if (!item) return res.status(404).json({ error: { message: 'Not found' } })
+    Object.assign(item, req.body || {})
+    await writeData(data)
+    res.json(item)
+  })
+
+  app.delete('/api/admin/fundraising-goals/:id', requireAdmin, async (req, res) => {
+    const data = await readData()
+    const list = ensureArray(data, 'fundraisingGoals')
+    const before = list.length
+    data.fundraisingGoals = list.filter((x) => String(x.id) !== String(req.params.id))
+    if (data.fundraisingGoals.length === before) {
+      return res.status(404).json({ error: { message: 'Not found' } })
+    }
+    await writeData(data)
     res.json({ ok: true })
   })
 
@@ -74,7 +571,7 @@ function createServer() {
       status: 'new',
       date: new Date().toISOString().split('T')[0]
     }
-    data.printRequests.push(newRequest)
+    ensureArray(data, 'printRequests').push(newRequest)
     await writeData(data)
     res.json(newRequest)
   })
@@ -102,7 +599,7 @@ function createServer() {
       status: 'new',
       createdAt: new Date().toISOString()
     }
-    data.volunteers.push(volunteer)
+    ensureArray(data, 'volunteers').push(volunteer)
     await writeData(data)
     res.json(volunteer)
   })
@@ -241,7 +738,7 @@ function createServer() {
       method: payload.method || 'transfer',
       comment: payload.comment || ''
     }
-    data.donationsHistory.push(donation)
+    ensureArray(data, 'donationsHistory').push(donation)
     await writeData(data)
     res.json(donation)
   })

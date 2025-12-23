@@ -3,129 +3,115 @@
     <div class="support-container">
       <div class="support-content">
         <div class="support-title-wrapper">
-          <span class="support-title-icon">🤝</span>
-          <h2 class="support-title">Поддержите наш проект</h2>
+          <Icon class="support-title-icon" name="handshake" :size="32" title="Поддержка" />
+          <h2 class="support-title">{{ content?.title || 'Поддержите наш проект' }}</h2>
         </div>
-        <p class="support-subtitle">
-          Ваша поддержка помогает нам создавать инклюзивное будущее для всех
-        </p>
+        <p class="support-subtitle">{{ content?.subtitle || '' }}</p>
         <div class="support-options">
-          <div class="support-option support-option--volunteer">
-            <span class="support-option-icon">👐</span>
-            <h3>Волонтёрство</h3>
-            <p>Помогите нам в организации мероприятий и проектов</p>
-            <a href="#" class="support-link" @click.prevent="openModal('volunteer')">Стать волонтёром</a>
-          </div>
-          <div class="support-option support-option--partner">
-            <span class="support-option-icon">🤝</span>
-            <h3>Партнёрство</h3>
-            <p>Сотрудничайте с нами для создания инклюзивной среды</p>
-            <a href="#" class="support-link" @click.prevent="openModal('partner')">Стать партнёром</a>
-          </div>
-          <div class="support-option support-option--donate">
-            <span class="support-option-icon">💸</span>
-            <h3>Пожертвования</h3>
-            <p>Финансовая поддержка для развития наших проектов</p>
-            <router-link :to="{ name: 'support' }" class="support-link">Сделать пожертвование</router-link>
+          <div
+            v-for="opt in (content?.options || [])"
+            :key="opt.key"
+            class="support-option"
+          >
+            <Icon class="support-option-icon" :name="opt.iconName || 'handshake'" :size="30" :title="opt.title" />
+            <h3>{{ opt.title }}</h3>
+            <p>{{ opt.text }}</p>
+            <router-link
+              class="support-link"
+              :to="{ name: opt.routeName, hash: opt.routeHash || undefined }"
+            >
+              {{ opt.linkText || 'Перейти' }}
+            </router-link>
           </div>
         </div>
 
-        <!-- Отзывы
-        <div class="support-testimonials">
+        <div v-if="currentTestimonial" class="support-testimonials">
           <transition name="testimonial-slide" mode="out-in">
-            <TestimonialCard :key="currentSlide" :testimonial="testimonials[currentSlide]" />
-          </transition>
-        </div> -->
-
-        <!-- Модальное окно -->
-        <teleport to="body">
-          <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
-            <div class="modal-content">
-              <h3>Спасибо за вашу поддержку!</h3>
-              <p v-if="modalType === 'volunteer'">Мы свяжемся с вами для участия в волонтёрских программах.</p>
-              <p v-else-if="modalType === 'partner'">Наш менеджер свяжется с вами для обсуждения партнёрства.</p>
-              <p v-else-if="modalType === 'donate'">Спасибо за ваш вклад! Вместе мы делаем мир лучше.</p>
-              <button class="modal-close" @click="closeModal">Закрыть</button>
+            <div :key="currentSlide" class="support-testimonial">
+              <img class="testimonial-avatar" :src="currentTestimonial.avatarUrl" :alt="currentTestimonial.author" />
+              <div class="testimonial-content">
+                <div class="testimonial-role">{{ currentTestimonial.role }}</div>
+                <p class="testimonial-text">{{ currentTestimonial.text }}</p>
+                <p class="testimonial-author">{{ currentTestimonial.author }}</p>
+              </div>
+              <Icon class="testimonial-icon" :name="currentTestimonial.iconName || 'handshake'" :size="20" />
             </div>
-          </div>
-        </teleport>
+          </transition>
+        </div>
+
       </div>
     </div>
   </section>
 </template>
 
-<script lang="ts">
-/**
- * Секция «Поддержка» (SupportSection).
- * Предлагает три варианта поддержки: волонтёрство, партнёрство, пожертвование.
- * Секция содержит собственное модальное окно и автослайдер отзывов.
- */
-import { defineComponent } from 'vue'
-import ivanovaPic from '../../assets/png/face/ivanova pic.png'
-import komarovPic from '../../assets/png/face/komarov pic.png'
-import mironovaPic from '../../assets/png/face/mironova pic.png'
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import Icon from '@/components/ui/Icon.vue'
+import { http, trackApiError } from '@/services/api/http'
 
-export default defineComponent({
-  name: 'SupportSection',
-  components: {},
-  data() {
-    return {
-      showModal: false,
-      modalType: null as string | null,
-      currentSlide: 0,
-      slideInterval: null as number | null,
-      testimonials: [
-        {
-          avatar: ivanovaPic,
-          role: 'Волонтёр',
-          text: 'Быть частью команды — это вдохновляет! Я помогаю другим и развиваюсь сама.',
-          author: 'Алла Гурнова',
-          icon: '👐'
-        },
-        {
-          avatar: komarovPic,
-          role: 'Партнёр',
-          text: 'Совместные проекты с вами — это вклад в будущее, которым мы гордимся.',
-          author: 'Евгений Баранов',
-          icon: '🤝'
-        },
-        {
-          avatar: mironovaPic,
-          role: 'Донор',
-          text: 'Я вижу реальные результаты своей поддержки. Это важно для меня!',
-          author: 'Елена Долина',
-          icon: '💸'
-        }
-      ]
-    }
-  },
-  mounted() {
-    this.startAutoSlide()
-  },
-  beforeUnmount() {
-    this.stopAutoSlide()
-  },
-  methods: {
-    openModal(type: string) {
-      this.modalType = type
-      this.showModal = true
-    },
-    closeModal() {
-      this.showModal = false
-      this.modalType = null
-    },
-    startAutoSlide() {
-      this.slideInterval = window.setInterval(() => {
-        this.currentSlide = (this.currentSlide + 1) % this.testimonials.length
-      }, 5000)
-    },
-    stopAutoSlide() {
-      if (this.slideInterval) {
-        clearInterval(this.slideInterval)
-        this.slideInterval = null
-      }
-    }
+type SupportSectionOption = {
+  key: string
+  iconName?: string
+  title: string
+  text: string
+  routeName: string
+  routeHash?: string
+  linkText?: string
+}
+
+type SupportSectionTestimonial = {
+  avatarUrl: string
+  role: string
+  text: string
+  author: string
+  iconName?: string
+}
+
+type SupportSectionContent = {
+  title: string
+  subtitle: string
+  options: SupportSectionOption[]
+  testimonials: SupportSectionTestimonial[]
+}
+
+const content = ref<SupportSectionContent | null>(null)
+const currentSlide = ref(0)
+const slideInterval = ref<number | null>(null)
+
+const testimonials = computed(() => content.value?.testimonials || [])
+const currentTestimonial = computed(() => testimonials.value[currentSlide.value] || null)
+
+async function loadContent() {
+  try {
+    content.value = await http.get<SupportSectionContent>('/site-content/supportSection')
+  } catch (error) {
+    trackApiError(error, 'SupportSection.fetchSiteContent')
+    content.value = null
   }
+}
+
+function startAutoSlide() {
+  if (slideInterval.value) return
+  if (testimonials.value.length < 2) return
+  slideInterval.value = window.setInterval(() => {
+    currentSlide.value = (currentSlide.value + 1) % testimonials.value.length
+  }, 5000)
+}
+
+function stopAutoSlide() {
+  if (slideInterval.value) {
+    clearInterval(slideInterval.value)
+    slideInterval.value = null
+  }
+}
+
+onMounted(async () => {
+  await loadContent()
+  startAutoSlide()
+})
+
+onBeforeUnmount(() => {
+  stopAutoSlide()
 })
 </script>
 
@@ -166,7 +152,7 @@ export default defineComponent({
 }
 
 .support-title-icon {
-  font-size: 2.5rem;
+  color: $primary-teal;
   filter: drop-shadow(0 2px 8px rgba($primary-teal, 0.2));
 }
 
@@ -219,10 +205,9 @@ export default defineComponent({
 }
 
 .support-option-icon {
-  font-size: 2.2rem;
+  color: $white;
   margin-bottom: 0.5rem;
-  filter: brightness(0) invert(1);
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .support-option h3 {
@@ -330,9 +315,8 @@ export default defineComponent({
   position: absolute;
   right: 1rem;
   bottom: 1rem;
-  font-size: 1.5rem;
-  opacity: 0.5;
-  filter: brightness(0) invert(1);
+  opacity: 0.55;
+  color: $white;
 }
 
 .modal-overlay {

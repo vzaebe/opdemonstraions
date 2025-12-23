@@ -5,19 +5,9 @@
       <p class="team-subtitle">
         Любая организация это в первую очередь люди, без которых наши проекты невозможно было бы реализовать
       </p>
-      <ButtonPrimary
-        :variant="showProfile ? 'secondary' : 'primary'"
-        @click="toggleProfileView"
-      >
-        {{ showProfile ? 'Скрыть профили' : 'Показать профили' }}
-      </ButtonPrimary>
     </div>
 
-    <div v-if="showProfile" class="profile-container">
-      <EmployeeProfile />
-    </div>
-
-    <div v-else class="team-grid">
+    <div class="team-grid">
       <div
         v-for="member in teamMembers"
         :key="member.id"
@@ -82,11 +72,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useAnalytics } from '@/composables/useAnalytics'
 import MemberModal from '../MemberModal.vue'
-import EmployeeProfile from '../EmployeeProfile.vue'
-import ButtonPrimary from '../ButtonPrimary.vue'
 import type { TeamMember } from '@/types/models'
 // Import team member photos
 import komarovPhoto from '@/assets/png/face/komarov pic.png'
@@ -96,10 +84,9 @@ import mironovaPhoto from '@/assets/png/face/mironova pic.png'
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // Композабли
-const { trackButtonClick, trackProfileView } = useAnalytics()
+const { trackProfileView } = useAnalytics()
 
 // Состояние
-const showProfile = ref(false)
 const selectedMember = ref<TeamMember | null>(null)
 const showModal = ref(false)
 
@@ -155,14 +142,6 @@ const teamMembers: TeamMember[] = [
 ]
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-/**
- * Переключить вид профилей
- */
-function toggleProfileView(): void {
-  showProfile.value = !showProfile.value
-  trackButtonClick(showProfile.value ? 'show_profiles' : 'hide_profiles')
-}
 
 /**
  * Выбрать члена команды

@@ -22,7 +22,7 @@
             :alt="card.title"
             :class="{ 'hovered': hoveredCard === index }"
           />
-          <div class="image-overlay">
+          <div v-if="index === 2" class="image-overlay">
             <div class="overlay-content">
               <span class="overlay-text">Узнать больше</span>
             </div>

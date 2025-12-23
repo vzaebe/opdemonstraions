@@ -1,0 +1,1 @@
+const E={PHONE:"+7 915 003 39 35",PHONE_DISPLAY:"+7 915 003 39 35",EMAIL:"info@openperspectives.ru",TELEGRAM_URL:"https://t.me/openperspectives",TELEGRAM_HANDLE:"openperspectives"},e={EMAIL_REGEX:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,PHONE_REGEX:/^\+?[\d\s\-()]+$/,NAME_MIN_LENGTH:2,NAME_MAX_LENGTH:100,MESSAGE_MIN_LENGTH:10,MESSAGE_MAX_LENGTH:5e3};export{E as C,e as V};

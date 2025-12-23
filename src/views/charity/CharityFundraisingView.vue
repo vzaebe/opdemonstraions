@@ -15,7 +15,7 @@
         <h1 class="fundraising-hero-title">Целевые сборы</h1>
         <p class="fundraising-hero-subtitle">
           На этой странице мы публикуем текущие потребности проекта. 
-          Каждое пожертвование приближает нас к цели и помогает детям получить необходимую помощь.
+          Каждое пожертвование приближает нас к цели и помогает делать изделия для тех, кому нужна поддержка.
         </p>
       </div>
     </div>
@@ -103,11 +103,16 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useCharityStore } from '@/stores/charity'
 import UiSection from '@/components/ui/Section.vue'
 import ButtonPrimary from '@/components/ButtonPrimary.vue'
 
 const store = useCharityStore()
+
+onMounted(() => {
+  store.fetchFundraisingGoals()
+})
 
 const formatMoney = (amount: number) => {
   return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 }).format(amount)
@@ -365,7 +370,7 @@ const getBadgeText = (current: number, target: number) => {
   }
 
   &.badge-active {
-    background: linear-gradient(135deg, #9061f9, #c084fc);
+    background: linear-gradient(135deg, $primary-teal, $primary-mint);
     color: $white;
   }
 }

@@ -6,22 +6,27 @@
       <p class="testimonial-text">{{ testimonial.text }}</p>
       <p class="testimonial-author">{{ testimonial.author }}</p>
     </div>
-    <span class="testimonial-icon">{{ testimonial.icon }}</span>
+    <Icon v-if="iconName" class="testimonial-icon" :name="iconName" :size="22" :title="testimonial.role" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { defineProps } from 'vue'
+import Icon from '@/components/ui/Icon.vue'
+import { iconNameFromEmoji, type UiIconName } from '@/utils/icon'
 
 interface Testimonial {
   avatar: string
   role: string
   text: string
   author: string
-  icon: string
+  icon?: string
+  iconName?: UiIconName
 }
 
-defineProps<{ testimonial: Testimonial }>()
+const props = defineProps<{ testimonial: Testimonial }>()
+
+const iconName = (props.testimonial.iconName || iconNameFromEmoji(props.testimonial.icon)) as UiIconName | undefined
 </script>
 
 <style lang="scss" scoped>

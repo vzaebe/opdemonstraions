@@ -18,17 +18,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useCharityStore } from '@/stores/charity'
 import UiSection from '@/components/ui/Section.vue'
+import type { Resource } from '@/types/charity'
 
 const store = useCharityStore()
 
+onMounted(() => {
+  store.fetchResources()
+})
+
 const groupedResources = computed(() => {
-  const groups: Record<string, typeof store.resources> = {}
-  store.resources.forEach(r => {
-    if (!groups[r.category]) groups[r.category] = []
-    groups[r.category].push(r)
+  const groups: Record<string, Resource[]> = {}
+  store.resources.forEach((r) => {
+    ;(groups[r.category] ||= []).push(r)
   })
   return groups
 })

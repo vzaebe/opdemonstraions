@@ -60,7 +60,7 @@
                 <td>
                   <select 
                     :value="req.status" 
-                    @change="e => updateStatus(req.id, (e.target as HTMLSelectElement).value)"
+                    @change="onRequestStatusChange(req.id, $event)"
                     class="status-select"
                     :class="req.status"
                   >
@@ -486,7 +486,7 @@
                 <td>{{ res.category }}</td>
                 <td><a :href="res.url" target="_blank">{{ res.title }}</a></td>
                 <td>
-                  <button @click="store.removeResource(res.id)" class="btn-danger">Удалить</button>
+                  <button @click="store.deleteResource(res.id)" class="btn-danger">Удалить</button>
                 </td>
               </tr>
             </tbody>
@@ -1086,13 +1086,97 @@
         </div>
       </div>
 
+      <!-- Content Tab (raw JSON editor) -->
+      <div v-if="currentTab === 'content'" class="content-section">
+        <div class="section-header">
+          <h1>Контент</h1>
+        </div>
+
+        <div class="admin-card">
+          <h3>Редактор контента (JSON)</h3>
+          <p class="text-sm text-gray">
+            Этот раздел позволяет управлять всеми списками/контентом через API (без хардкода).
+          </p>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Раздел</label>
+              <select v-model="contentKey" class="input-std" @change="loadContent">
+                <option value="organizationProjects">Проекты организации (/projects)</option>
+                <option value="generalPartners">Партнёры (/partners)</option>
+                <option value="employees">Сотрудники</option>
+                <option value="supportGoals">Цели поддержки (/support)</option>
+                <option value="siteContent.supportSection">Секция “Поддержите наш проект” (лендинг)</option>
+                <option value="projects">Charity: проекты</option>
+                <option value="partners">Charity: партнёры</option>
+                <option value="campaigns">Charity: сборы</option>
+                <option value="doneWorks">Charity: галерея</option>
+                <option value="articles">Charity: статьи</option>
+                <option value="videos">Charity: видео</option>
+                <option value="materials">Charity: файлы</option>
+                <option value="printModels">Charity: 3D модели</option>
+                <option value="resources">Charity: ресурсы</option>
+                <option value="fundraisingGoals">Charity: целевые сборы (legacy)</option>
+                <option value="donations">Charity: история поступлений</option>
+                <option value="materialDonations">Заявки: материалы/техника</option>
+                <option value="printRequests">Заявки: печать</option>
+                <option value="volunteers">Заявки: волонтёры</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Загрузка файла (вернёт URL)</label>
+              <input type="file" class="input-std" @change="onFileChange" />
+              <div v-if="uploadedUrl" class="text-sm text-gray">URL: {{ uploadedUrl }}</div>
+            </div>
+          </div>
+
+          <div class="admin-card mt-6" style="padding: 14px">
+            <h3 style="margin-bottom: 10px">Формы для заполнения</h3>
+            <p class="text-sm text-gray" style="margin-top: -6px; margin-bottom: 12px">
+              При выборе раздела показываются доступные поля. Изменения в форме автоматически обновят JSON.
+            </p>
+            <ContentSchemaEditor
+              :schema="contentSchema"
+              :value="contentParsed"
+              :disabled="contentJsonInvalid"
+              @update:value="onContentEditorUpdate"
+            />
+          </div>
+
+          <div class="form-group mt-6">
+            <label style="display: flex; align-items: center; gap: 8px;">
+              <input type="checkbox" v-model="showRawJson" />
+              Показать Raw JSON
+            </label>
+          </div>
+
+          <div v-if="showRawJson || !contentSchema" class="form-group">
+            <label>JSON</label>
+            <textarea v-model="contentJson" rows="18" class="input-std"></textarea>
+            <div v-if="contentJsonInvalid" class="text-sm" style="color: #b91c1c; margin-top: 6px">
+              JSON невалидный — форма отключена (исправьте Raw JSON).
+            </div>
+          </div>
+
+          <button class="btn-primary" @click="saveContent">Сохранить</button>
+          <button class="link-sm" @click="loadContent">Перезагрузить</button>
+          <div v-if="contentStatus" class="text-sm text-gray" style="margin-top: 10px">
+            {{ contentStatus }}
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useCharityStore } from '@/stores/charity'
+import { trackApiError } from '@/services/api/http'
+import ContentSchemaEditor from '@/components/admin/ContentSchemaEditor.vue'
+import { CONTENT_SCHEMAS } from '@/components/admin/contentSchemas'
 
 const store = useCharityStore()
 
@@ -1107,7 +1191,8 @@ const tabs = [
       { id: 'articles', label: 'Статьи' },
       { id: 'videos', label: 'Видео' },
       { id: 'files', label: 'Файлы' },
-      { id: 'models', label: '3D Модели' }
+      { id: 'models', label: '3D Модели' },
+      { id: 'content', label: 'Контент' }
 ]
 
 const currentTab = ref('requests')
@@ -1195,8 +1280,181 @@ const editingMaterial = ref<any | null>(null)
 const editingModel = ref<any | null>(null)
 const editingProject = ref<any | null>(null)
 
+// Content editor (raw JSON)
+const contentKey = ref<
+  | 'organizationProjects'
+  | 'generalPartners'
+  | 'employees'
+  | 'supportGoals'
+  | 'resources'
+  | 'fundraisingGoals'
+  | 'projects'
+  | 'partners'
+  | 'campaigns'
+  | 'doneWorks'
+  | 'articles'
+  | 'videos'
+  | 'materials'
+  | 'printModels'
+  | 'materialDonations'
+  | 'printRequests'
+  | 'volunteers'
+  | 'donations'
+  | 'siteContent.supportSection'
+>('organizationProjects')
+
+const contentJson = ref('')
+const contentStatus = ref<string | null>(null)
+const uploadedUrl = ref<string | null>(null)
+const showRawJson = ref(false)
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+
+const contentSchema = computed(() => CONTENT_SCHEMAS[String(contentKey.value)] || null)
+
+const contentJsonInvalid = computed(() => {
+  try {
+    JSON.parse(contentJson.value || 'null')
+    return false
+  } catch {
+    return true
+  }
+})
+
+const contentParsed = computed(() => {
+  try {
+    return JSON.parse(contentJson.value || 'null')
+  } catch {
+    return null
+  }
+})
+
+function onContentEditorUpdate(v: unknown) {
+  contentJson.value = JSON.stringify(v, null, 2)
+  contentStatus.value = 'Изменено (через форму) — не забудьте нажать “Сохранить”'
+}
+
+async function loadContent() {
+  contentStatus.value = null
+  uploadedUrl.value = null
+  try {
+    if (contentKey.value === 'donations') {
+      const data = await store.fetchDonations().then(() => store.donations)
+      contentJson.value = JSON.stringify(data, null, 2)
+      contentStatus.value = 'Загружено (donations)'
+      return
+    }
+
+    if (contentKey.value === 'siteContent.supportSection') {
+      // pull via direct fetch to keep this file simple
+      const res = await fetch(`${API_BASE_URL}/admin/site-content/supportSection`, {
+        method: 'GET',
+        credentials: 'include'
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json?.error?.message || 'Failed to load')
+      contentJson.value = JSON.stringify(json, null, 2)
+      contentStatus.value = 'Загружено (siteContent.supportSection)'
+      return
+    }
+
+    const res = await fetch(`${API_BASE_URL}/admin/collections/${contentKey.value}`, {
+      method: 'GET',
+      credentials: 'include'
+    })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json?.error?.message || 'Failed to load')
+    contentJson.value = JSON.stringify(json, null, 2)
+    contentStatus.value = `Загружено (${contentKey.value})`
+  } catch (error) {
+    trackApiError(error, 'AdminDashboardView.loadContent')
+    contentStatus.value = 'Ошибка загрузки'
+  }
+}
+
+async function saveContent() {
+  contentStatus.value = null
+  try {
+    const parsed = JSON.parse(contentJson.value || 'null')
+
+    if (contentKey.value === 'donations') {
+      const res = await fetch(`${API_BASE_URL}/admin/donations`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parsed)
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json?.error?.message || 'Failed to save')
+      await store.fetchDonations()
+      contentStatus.value = 'Сохранено (donations)'
+      return
+    }
+
+    if (contentKey.value === 'siteContent.supportSection') {
+      const res = await fetch(`${API_BASE_URL}/admin/site-content/supportSection`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parsed)
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json?.error?.message || 'Failed to save')
+      contentStatus.value = 'Сохранено (siteContent.supportSection)'
+      return
+    }
+
+    const res = await fetch(`${API_BASE_URL}/admin/collections/${contentKey.value}`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(parsed)
+    })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json?.error?.message || 'Failed to save')
+    contentStatus.value = `Сохранено (${contentKey.value})`
+  } catch (error) {
+    trackApiError(error, 'AdminDashboardView.saveContent')
+    contentStatus.value = 'Ошибка сохранения (проверь JSON)'
+  }
+}
+
+async function uploadFile(file: File) {
+  uploadedUrl.value = null
+  contentStatus.value = null
+  try {
+    const form = new FormData()
+    form.append('file', file)
+    const res = await fetch(`${API_BASE_URL}/admin/upload`, {
+      method: 'POST',
+      credentials: 'include',
+      body: form
+    })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json?.error?.message || 'Upload failed')
+    uploadedUrl.value = json.url
+    contentStatus.value = 'Файл загружен — вставьте URL в JSON'
+  } catch (error) {
+    trackApiError(error, 'AdminDashboardView.uploadFile')
+    contentStatus.value = 'Ошибка загрузки файла'
+  }
+}
+
+function onFileChange(e: Event) {
+  const input = e.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
+  uploadFile(file)
+  input.value = ''
+}
+
 const updateStatus = (id: string, status: string) => {
   store.updateRequestStatus(id, status)
+}
+
+const onRequestStatusChange = (id: string, e: Event) => {
+  const target = e.target as HTMLSelectElement | null
+  updateStatus(id, target?.value || 'new')
 }
 
 onMounted(async () => {
@@ -1204,11 +1462,16 @@ onMounted(async () => {
   await store.fetchPartners()
   await store.fetchCampaigns(true)
   await store.fetchDoneWorks()
+  await store.fetchResources()
+  await store.fetchDonations()
+  await store.fetchFundraisingGoals()
+  await store.fetchMaterialDonations(true)
   await store.fetchArticles()
   await store.fetchVideos()
   await store.fetchMaterials()
   await store.fetchPrintModels()
   await store.fetchProjects()
+  await loadContent()
 })
 
 const createCampaign = async () => {
@@ -1241,8 +1504,7 @@ const createPartner = () => {
       .map(s => s.trim())
       .filter(Boolean),
     about: '',
-    contact: partnerForm.value.contact,
-    completed_works: 0
+    contact: partnerForm.value.contact
   })
   partnerForm.value.name = ''
   partnerForm.value.city = ''
@@ -1316,7 +1578,7 @@ const createDone = async () => {
     title: doneForm.value.title,
     image: doneForm.value.image,
     description: doneForm.value.description,
-    date: doneForm.value.date || new Date().toISOString().split('T')[0]
+    date: doneForm.value.date || new Date().toISOString().slice(0, 10)
   })
   doneForm.value.title = ''
   doneForm.value.image = ''

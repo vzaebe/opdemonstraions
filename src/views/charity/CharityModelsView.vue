@@ -3,7 +3,7 @@
     <UiSection>
       <h1 class="page-title">Список моделей для 3D-печати</h1>
       <p class="page-description">
-        Скачайте STL-файлы моделей для благотворительной печати
+        Скачайте STL-файлы моделей для социальной 3D-печати
       </p>
 
       <div v-if="store.printModels.length === 0" class="empty-state">

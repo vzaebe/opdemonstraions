@@ -20,46 +20,46 @@
       <!-- Сетка логотипов партнеров -->
       <div class="partners-grid">
         <!-- Партнер 1 - Techencon -->
-        <div class="partner-card">
+        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '1' } }" aria-label="Техэнкон">
           <div class="partner-logo-container">
             <img class="partner-logo" src="@/assets/images/partners/techencon.svg" alt="Techencon" loading="lazy" />
           </div>
-        </div>
+        </router-link>
 
         <!-- Партнер 2 - COG -->
-        <div class="partner-card">
+        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '2' } }" aria-label="COG">
           <div class="partner-logo-container">
             <img class="partner-logo" src="@/assets/images/partners/cog.svg" alt="COG" loading="lazy" />
           </div>
-        </div>
+        </router-link>
 
         <!-- Партнер 3 - ПКБ МГТУ -->
-        <div class="partner-card">
+        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '3' } }" aria-label="ПКБ МГТУ им. Баумана">
           <div class="partner-logo-container">
             <img class="partner-logo" src="@/assets/images/partners/pkbmstu.svg" alt="ПКБ МГТУ" loading="lazy" />
           </div>
-        </div>
+        </router-link>
 
         <!-- Партнер 4 - МСС (текст) -->
-        <div class="partner-card">
+        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '4' } }" aria-label="МСС">
           <div class="partner-logo-container partner-text-container">
             <span class="partner-text">МСС</span>
           </div>
-        </div>
+        </router-link>
 
         <!-- Партнер 5 - Simtech -->
-        <div class="partner-card">
+        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '5' } }" aria-label="Simtech">
           <div class="partner-logo-container">
             <img class="partner-logo" src="@/assets/images/partners/simtech.svg" alt="Simtech" loading="lazy" />
           </div>
-        </div>
+        </router-link>
 
         <!-- Партнер 6 - Akzent -->
-        <div class="partner-card">
+        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '6' } }" aria-label="Akzent">
           <div class="partner-logo-container">
             <img class="partner-logo" src="@/assets/images/partners/akzent.svg" alt="Akzent" loading="lazy" />
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </UiSection>
@@ -190,6 +190,7 @@ import UiSection from '../ui/Section.vue'
 .partner-card {
   width: 100%;
   height: 160px;
+  text-decoration: none;
 }
 
 .partner-logo-container {

@@ -130,7 +130,7 @@
       <div v-if="activeTab === 'financial'" class="help-content fade-in">
         <div class="financial-block">
           <h2>Финансовая поддержка</h2>
-          <p>Все средства идут на закупку пластика для волонтеров и логистику (отправку посылок детям).</p>
+          <p>Все средства идут на закупку пластика для волонтёров и логистику (отправку посылок получателям).</p>
           
           <div class="donate-options">
             <div class="donate-card">
@@ -162,13 +162,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
 import { useCharityStore } from '@/stores/charity'
 import UiSection from '@/components/ui/Section.vue'
 import DonationList from '@/components/charity/DonationList.vue'
 import ButtonPrimary from '@/components/ButtonPrimary.vue'
 
 const store = useCharityStore()
+
+onMounted(() => {
+  store.fetchDonations()
+})
 
 const tabs = [
   { id: 'volunteer', label: 'Стать волонтёром', icon: '🖨️' },
@@ -213,11 +217,17 @@ const materialForm = reactive({
 })
 
 const handleMaterialSubmit = () => {
-  store.addMaterialDonation({ ...materialForm })
-  alert('Спасибо за предложение! Мы свяжемся с вами для уточнения деталей.')
-  materialForm.name = ''
-  materialForm.item = ''
-  materialForm.comment = ''
+  store
+    .createMaterialDonation({ ...materialForm })
+    .then(() => {
+      alert('Спасибо за предложение! Мы свяжемся с вами для уточнения деталей.')
+      materialForm.name = ''
+      materialForm.item = ''
+      materialForm.comment = ''
+    })
+    .catch(() => {
+      alert('Не удалось отправить. Попробуйте позже.')
+    })
 }
 </script>
 

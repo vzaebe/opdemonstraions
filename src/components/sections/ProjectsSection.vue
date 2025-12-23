@@ -21,7 +21,14 @@
       class="projects-grid"
       :class="{ 'animate-in': isGridVisible }"
     >
-      <div class="project-card" style="animation-delay: 0s">
+      <div
+        class="project-card"
+        style="animation-delay: 0s"
+        role="link"
+        tabindex="0"
+        @click="goToProject('bauman-summer-intensives')"
+        @keydown.enter="goToProject('bauman-summer-intensives')"
+      >
         <div class="project-image-container">
           <img
             class="project-image"
@@ -37,14 +44,25 @@
         <div class="project-content">
           <h3 class="project-title">Летние интенсивы в Бауманке</h3>
           <p class="project-description">Три дня невероятного погружения в бауманскую атмосферу через диалоги и 3D печать</p>
-          <a href="#" class="project-link">
+          <router-link
+            class="project-link"
+            :to="{ name: 'organization-project-detail', params: { slug: 'bauman-summer-intensives' } }"
+            @click.stop
+          >
             <span class="link-text">Узнать больше о мероприятии</span>
             <span class="link-arrow">→</span>
-          </a>
+          </router-link>
         </div>
       </div>
 
-      <div class="project-card" style="animation-delay: 0.2s">
+      <div
+        class="project-card"
+        style="animation-delay: 0.2s"
+        role="link"
+        tabindex="0"
+        @click="goToProject('rosmolodezh-grant-2024')"
+        @keydown.enter="goToProject('rosmolodezh-grant-2024')"
+      >
         <div class="project-image-container">
           <img
             class="project-image"
@@ -60,14 +78,25 @@
         <div class="project-content">
           <h3 class="project-title">Грант Росмолодежи</h3>
           <p class="project-description">В 2024 году проект выиграл заявку. Было проведено 11 мероприятий, которые посетило около 400 человек</p>
-          <a href="#" class="project-link">
+          <router-link
+            class="project-link"
+            :to="{ name: 'organization-project-detail', params: { slug: 'rosmolodezh-grant-2024' } }"
+            @click.stop
+          >
             <span class="link-text">Перейти к списку мероприятий и отчету</span>
             <span class="link-arrow">→</span>
-          </a>
+          </router-link>
         </div>
       </div>
 
-      <div class="project-card" style="animation-delay: 0.4s">
+      <div
+        class="project-card"
+        style="animation-delay: 0.4s"
+        role="link"
+        tabindex="0"
+        @click="goToProject('inclusive-lectures')"
+        @keydown.enter="goToProject('inclusive-lectures')"
+      >
         <div class="project-image-container">
           <img
             class="project-image"
@@ -83,14 +112,25 @@
         <div class="project-content">
           <h3 class="project-title">Инклюзивные лекции</h3>
           <p class="project-description">Проводим лекции про интеграцию в реальный сектор, инновации и способы реализации</p>
-          <a href="#" class="project-link">
+          <router-link
+            class="project-link"
+            :to="{ name: 'organization-project-detail', params: { slug: 'inclusive-lectures' } }"
+            @click.stop
+          >
             <span class="link-text">Посмотреть лекции и материалы</span>
             <span class="link-arrow">→</span>
-          </a>
+          </router-link>
         </div>
       </div>
 
-      <div class="project-card" style="animation-delay: 0.6s">
+      <div
+        class="project-card"
+        style="animation-delay: 0.6s"
+        role="link"
+        tabindex="0"
+        @click="goToProject('science-in-rsl')"
+        @keydown.enter="goToProject('science-in-rsl')"
+      >
         <div class="project-image-container">
           <img
             class="project-image"
@@ -106,10 +146,14 @@
         <div class="project-content">
           <h3 class="project-title">Перевод науки на РЖЯ</h3>
           <p class="project-description">Делаем науку доступной с помощью переведения русского жестового языка</p>
-          <a href="#" class="project-link">
+          <router-link
+            class="project-link"
+            :to="{ name: 'organization-project-detail', params: { slug: 'science-in-rsl' } }"
+            @click.stop
+          >
             <span class="link-text">Открыть перечень переводов</span>
             <span class="link-arrow">→</span>
-          </a>
+          </router-link>
         </div>
       </div>
     </div>
@@ -127,10 +171,12 @@
  * props или загрузку с бэкенда.
  */
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'ProjectsSection',
   setup() {
+    const router = useRouter()
     const sectionRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
     const gridRef = ref<HTMLElement>()
@@ -182,12 +228,17 @@ export default {
       }
     })
 
+    const goToProject = (slug: string) => {
+      router.push({ name: 'organization-project-detail', params: { slug } })
+    }
+
     return {
       sectionRef,
       headerRef,
       gridRef,
       isHeaderVisible,
-      isGridVisible
+      isGridVisible,
+      goToProject
     }
   }
 }

@@ -714,7 +714,7 @@ onMounted(async () => {
 // CTA Section
 .cta-section {
   padding: $spacing-12;
-  background: linear-gradient(135deg, rgba(#9061f9, 0.05), rgba(#14b8a6, 0.05));
+  background: linear-gradient(135deg, rgba($primary-teal, 0.06), rgba($primary-mint, 0.06));
   border-radius: $border-radius-2xl;
   text-align: center;
 }
@@ -744,4 +744,7 @@ onMounted(async () => {
   margin-right: 0.5rem;
 }
 </style>
+
+
+
 

@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="handleSubmit" class="request-form">
     <div class="form-group">
-      <label for="name" class="form-label">ФИО ребенка / Получателя</label>
+      <label for="name" class="form-label">ФИО получателя</label>
       <input
         id="name"
         v-model="form.name"
@@ -13,13 +13,13 @@
     </div>
 
     <div class="form-group">
-      <label for="orphanage" class="form-label">Детский дом / Учреждение</label>
+      <label for="orphanage" class="form-label">Организация / учреждение (или семья)</label>
       <input
         id="orphanage"
         v-model="form.orphanage"
         type="text"
         class="form-input"
-        placeholder="Детский дом №1"
+        placeholder="Например: школа, центр поддержки, семья"
         required
       />
     </div>
@@ -31,7 +31,7 @@
         v-model="form.wish"
         type="text"
         class="form-input"
-        placeholder="Например: Протез кисти, фигурка героя"
+        placeholder="Например: держатель для карандаша, обучающая модель, адаптивное приспособление"
         required
       />
     </div>
@@ -170,9 +170,8 @@ watch(() => props.initialComment, (newValue) => {
 
 const handleFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement
-  if (target.files && target.files.length > 0) {
-    form.file_name = target.files[0].name
-  }
+  const file = target.files?.item(0)
+  if (file) form.file_name = file.name
 }
 
 const handleSubmit = async () => {

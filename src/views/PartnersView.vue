@@ -69,8 +69,8 @@
           :key="partner.id"
           class="partner-card"
           :style="{ animationDelay: `${index * 0.1}s` }"
-          @click="openPartnerModal(partner)"
-          @keypress.enter="openPartnerModal(partner)"
+          @click="goToPartner(partner.id)"
+          @keypress.enter="goToPartner(partner.id)"
           tabindex="0"
           role="button"
         >
@@ -134,24 +134,16 @@
             Вместе мы можем изменить будущее к лучшему.
           </p>
           <div class="cta-buttons">
-            <ButtonPrimary size="lg" @click="scrollToContact">
+            <ButtonPrimary size="lg" @click="goToContactForm">
               Связаться с нами
             </ButtonPrimary>
-            <ButtonPrimary variant="secondary" size="lg" @click="$router.push('/about')">
+            <ButtonPrimary variant="secondary" size="lg" @click="goToContactForm">
               Узнать больше
             </ButtonPrimary>
           </div>
         </div>
       </div>
     </UiSection>
-
-    <!-- Partner Detail Modal -->
-    <PartnerDetailModal
-      v-if="selectedPartner"
-      :is-open="selectedPartner !== null"
-      :partner="selectedPartner"
-      @close="closePartnerModal"
-    />
   </div>
 </template>
 
@@ -160,8 +152,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import UiSection from '@/components/ui/Section.vue'
 import ButtonPrimary from '@/components/ButtonPrimary.vue'
-import PartnerDetailModal from '@/components/charity/PartnerDetailModal.vue'
-import partnersData from '@/data/general_partners.json'
+import { http, trackApiError } from '@/services/api/http'
 
 interface Partner {
   id: string
@@ -182,7 +173,6 @@ interface Partner {
 
 const router = useRouter()
 const partners = ref<Partner[]>([])
-const selectedPartner = ref<Partner | null>(null)
 const filterIndustry = ref<string>('all')
 
 // Computed
@@ -202,12 +192,8 @@ const industries = computed(() => {
 })
 
 // Methods
-const openPartnerModal = (partner: Partner) => {
-  selectedPartner.value = partner
-}
-
-const closePartnerModal = () => {
-  selectedPartner.value = null
+const goToPartner = (id: string) => {
+  router.push({ name: 'partner-detail', params: { id } })
 }
 
 const getInitials = (name: string): string => {
@@ -230,13 +216,18 @@ const getLogoUrl = (logoPath: string): string => {
   return logoPath
 }
 
-const scrollToContact = () => {
-  router.push('/#contact')
+const goToContactForm = () => {
+  router.push({ name: 'contacts', hash: '#contact-form' })
 }
 
 // Lifecycle
-onMounted(() => {
-  partners.value = partnersData as Partner[]
+onMounted(async () => {
+  try {
+    partners.value = await http.get<Partner[]>('/general-partners')
+  } catch (error) {
+    trackApiError(error, 'PartnersView.fetchPartners')
+    partners.value = []
+  }
 })
 </script>
 
@@ -703,4 +694,7 @@ onMounted(() => {
   }
 }
 </style>
+
+
+
 

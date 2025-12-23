@@ -8,8 +8,6 @@ import AboutSection from '../components/sections/AboutSection.vue'
 import ServicesSection from '../components/sections/ServicesSection.vue'
 const AdvantagesSection = defineAsyncComponent(() => import('../components/sections/AdvantagesSection.vue'))
 import BestSection from '../components/sections/BestSection.vue'
-const RegistrationSection = defineAsyncComponent(() => import('../components/sections/RegistrationSection.vue'))
-import TestimonialsSection from '../components/sections/TestimonialsSection.vue'
 import ServicesCardsSection from '../components/sections/ServicesCardsSection.vue'
 import ProjectsSection from '../components/sections/ProjectsSection.vue'
 import SocialMediaSection from '../components/sections/SocialMediaSection.vue'
@@ -29,8 +27,6 @@ import SupportSection from '../components/sections/SupportSection.vue'
     <ServicesSection />
     <AdvantagesSection />
     <BestSection />
-    <RegistrationSection />
-    <TestimonialsSection />
     <ServicesCardsSection />
     <ProjectsSection />
     <SocialMediaSection />

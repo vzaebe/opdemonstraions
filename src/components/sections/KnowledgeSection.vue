@@ -88,17 +88,6 @@
           </svg>
           <span>Скоро здесь появится новая информация</span>
         </div>
-
-        <!-- CTA кнопка -->
-        <div class="knowledge-cta">
-          <button class="cta-button" @click="handleNotify">
-            <span class="button-text">Уведомить меня о запуске</span>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <p class="cta-note">Мы сообщим вам, когда база знаний будет готова</p>
-        </div>
       </div>
     </div>
   </section>
@@ -138,10 +127,6 @@ const checkVisibility = () => {
   if (rect.top < windowHeight * 0.75) {
     isVisible.value = true
   }
-}
-
-const handleNotify = () => {
-  alert('Спасибо за интерес! Мы обязательно уведомим вас о запуске базы знаний.')
 }
 
 onMounted(() => {
@@ -445,7 +430,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 0.75rem;
   padding: 1.25rem 2.5rem;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, $primary-teal 0%, $primary-mint 100%);
   color: white;
   border: none;
   border-radius: 50px;
@@ -453,7 +438,7 @@ onUnmounted(() => {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 10px 30px rgba($primary-teal, 0.28);
   position: relative;
   overflow: hidden;
 
@@ -471,7 +456,7 @@ onUnmounted(() => {
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 15px 40px rgba($primary-teal, 0.38);
 
     &::before {
       opacity: 1;

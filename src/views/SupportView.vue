@@ -37,45 +37,22 @@
 
     <UiSection>
       <div class="goals-header">
-        <h2 class="section-title">Направления поддержки</h2>
-        <p class="section-subtitle">Выберите направление, которое вам близко, и помогите нам реализовать наши планы</p>
-      </div>
-
-      <!-- Filter Tabs -->
-      <div class="filter-tabs">
-        <button 
-          class="filter-tab" 
-          :class="{ active: activeFilter === 'all' }"
-          @click="activeFilter = 'all'"
-        >
-          Все направления
-        </button>
-        <button 
-          class="filter-tab" 
-          :class="{ active: activeFilter === 'high' }"
-          @click="activeFilter = 'high'"
-        >
-          🔥 Приоритетные
-        </button>
-        <button 
-          class="filter-tab" 
-          :class="{ active: activeFilter === 'medium' }"
-          @click="activeFilter = 'medium'"
-        >
-          ⚡ Важные
-        </button>
+        <h2 class="section-title">На что пойдут пожертвования</h2>
+        <p class="section-subtitle">Конкретные статьи расходов, которые поддерживают нашу работу</p>
       </div>
 
       <!-- Goals Grid -->
       <div class="goals-grid">
         <div 
-          v-for="(goal, index) in filteredGoals" 
+          v-for="(goal, index) in goals" 
           :key="goal.id" 
           class="goal-card"
           :style="{ animationDelay: `${index * 0.1}s` }"
         >
           <div class="goal-card-header">
-            <div class="goal-icon">{{ goal.icon }}</div>
+            <div class="goal-icon">
+              <Icon :name="goalIconName(goal.icon)" :size="34" :title="goal.title" />
+            </div>
             <div class="goal-priority" :class="`priority-${goal.priority}`">
               {{ getPriorityLabel(goal.priority) }}
             </div>
@@ -123,7 +100,7 @@
           </div>
 
           <div class="goal-card-footer">
-            <ButtonPrimary size="md" class="donate-btn">
+            <ButtonPrimary size="md" class="donate-btn" @click="openDonateModal(goal)">
               <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
                 <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" fill="currentColor"/>
               </svg>
@@ -150,31 +127,76 @@
             вы можете сделать свободное пожертвование на развитие всех наших направлений. 
             Мы направим средства туда, где они наиболее необходимы.
           </p>
-          <ButtonPrimary size="lg" class="general-donate-btn">
+          <ButtonPrimary size="lg" class="general-donate-btn" @click="openDonateModal()">
             Сделать пожертвование
           </ButtonPrimary>
         </div>
       </div>
 
-      <!-- Info Block -->
-      <div class="support-info">
-        <div class="info-card">
-          <div class="info-icon">🔒</div>
-          <h3 class="info-title">Безопасные платежи</h3>
-          <p class="info-text">Все платежи проходят через защищенные каналы</p>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">📊</div>
-          <h3 class="info-title">Прозрачность</h3>
-          <p class="info-text">Мы публикуем отчеты о использовании средств</p>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🤝</div>
-          <h3 class="info-title">Благодарность</h3>
-          <p class="info-text">Каждый жертвователь получает благодарственное письмо</p>
-        </div>
+      <div class="support-notes">
+        <h3 class="support-notes-title">Как поддержать и как мы отчитываемся</h3>
+        <ul class="support-notes-list">
+          <li>Нажмите «Поддержать» — откроется окно с реквизитами и вариантами перевода.</li>
+          <li>Отчётность публикуем в Telegram-канале; при необходимости дадим детализацию по направлениям.</li>
+        </ul>
       </div>
     </UiSection>
+
+    <teleport to="body">
+      <div v-if="isDonateModalOpen" class="donate-modal-overlay" @click.self="closeDonateModal">
+        <div class="donate-modal" role="dialog" aria-modal="true">
+          <button class="donate-modal-close" type="button" @click="closeDonateModal" aria-label="Закрыть">
+            ✕
+          </button>
+
+          <div class="donate-modal-header">
+            <h2 class="donate-modal-title">Поддержать</h2>
+            <p class="donate-modal-subtitle" v-if="selectedGoal">
+              Направление: <strong>{{ selectedGoal.title }}</strong>
+            </p>
+            <p class="donate-modal-subtitle" v-else>Общая поддержка организации</p>
+          </div>
+
+          <div class="donate-modal-content">
+            <div class="donate-block">
+              <h3 class="donate-block-title">Реквизиты организации</h3>
+              <div class="requisites-grid">
+                <div class="req-row">
+                  <span class="req-label">Организация</span>
+                  <span class="req-value">{{ requisites.orgName }}</span>
+                </div>
+                <div class="req-row">
+                  <span class="req-label">ОГРН</span>
+                  <span class="req-value">{{ requisites.ogrn }}</span>
+                </div>
+                <div class="req-row">
+                  <span class="req-label">ИНН / КПП</span>
+                  <span class="req-value">{{ requisites.innKpp }}</span>
+                </div>
+                <div class="req-row">
+                  <span class="req-label">Юр. адрес</span>
+                  <span class="req-value">{{ requisites.legalAddress }}</span>
+                </div>
+              </div>
+
+              <div class="donate-actions">
+                <button class="copy-btn" type="button" @click="copyRequisites">Скопировать</button>
+                <span v-if="copyState" class="copy-state">{{ copyState }}</span>
+              </div>
+            </div>
+
+            <div class="donate-block">
+              <h3 class="donate-block-title">СБП / QR</h3>
+              <p class="donate-hint">
+                Если вам удобнее СБП/QR — напишите нам в
+                <a :href="telegramUrl" target="_blank" rel="noopener noreferrer">Telegram</a>,
+                пришлём актуальные варианты.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </teleport>
   </div>
 </template>
 
@@ -183,20 +205,17 @@ import { ref, computed, onMounted } from 'vue'
 import { useSupportStore } from '@/stores/support'
 import UiSection from '@/components/ui/Section.vue'
 import ButtonPrimary from '@/components/ButtonPrimary.vue'
+import Icon from '@/components/ui/Icon.vue'
+import { iconNameFromEmoji } from '@/utils/icon'
+import { CONTACT } from '@/config/constants'
 
 const store = useSupportStore()
-const activeFilter = ref<'all' | 'high' | 'medium' | 'low'>('all')
 
 onMounted(() => {
   store.fetchSupportGoals()
 })
 
-const filteredGoals = computed(() => {
-  if (activeFilter.value === 'all') {
-    return store.supportGoals
-  }
-  return store.supportGoals.filter(goal => goal.priority === activeFilter.value)
-})
+const goals = computed(() => store.supportGoals)
 
 const totalGoals = computed(() => store.supportGoals.length)
 
@@ -239,6 +258,60 @@ const getPriorityLabel = (priority: string) => {
   }
   return labels[priority] || priority
 }
+
+const goalIconName = (icon?: string) => iconNameFromEmoji(icon) ?? 'target'
+
+type SupportGoal = {
+  id: number
+  title: string
+  description: string
+  target_amount: number
+  current_amount: number
+  category: string
+  priority: 'high' | 'medium' | 'low'
+  icon?: string
+  examples?: string[]
+}
+
+const isDonateModalOpen = ref(false)
+const selectedGoal = ref<SupportGoal | null>(null)
+const copyState = ref<string | null>(null)
+const telegramUrl = CONTACT.TELEGRAM_URL
+
+const requisites = {
+  orgName:
+    'Автономная некоммерческая организация содействия профориентации и интеграции в реальный сектор экономики молодежи из незащищенных слоев населения «Открытые Перспективы» (АНО «Открытые Перспективы»)',
+  ogrn: '1257700115551',
+  innKpp: '9726095312 / 772601001',
+  legalAddress: '117105, г. Москва, вн.тер.г. муниципальный округ Донской, ш Варшавское, д. 33'
+} as const
+
+function openDonateModal(goal?: SupportGoal) {
+  selectedGoal.value = goal ?? null
+  isDonateModalOpen.value = true
+  copyState.value = null
+}
+
+function closeDonateModal() {
+  isDonateModalOpen.value = false
+}
+
+async function copyRequisites() {
+  const text =
+    `Организация: ${requisites.orgName}\n` +
+    `ОГРН: ${requisites.ogrn}\n` +
+    `ИНН/КПП: ${requisites.innKpp}\n` +
+    `Юр. адрес: ${requisites.legalAddress}`
+
+  try {
+    await navigator.clipboard.writeText(text)
+    copyState.value = 'Скопировано'
+    window.setTimeout(() => (copyState.value = null), 2500)
+  } catch {
+    copyState.value = 'Не удалось скопировать'
+    window.setTimeout(() => (copyState.value = null), 2500)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -250,7 +323,7 @@ const getPriorityLabel = (priority: string) => {
 
 .support-hero {
   position: relative;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  background: linear-gradient(135deg, $primary-teal 0%, $primary-mint 55%, $primary-orange 120%);
   color: $white;
   padding: $spacing-16 $spacing-4 $spacing-24;
   text-align: center;
@@ -376,7 +449,7 @@ const getPriorityLabel = (priority: string) => {
     transform: translateX(-50%);
     width: 60px;
     height: 4px;
-    background: linear-gradient(90deg, #6366f1, #d946ef);
+    background: linear-gradient(90deg, $primary-teal, $primary-orange);
     border-radius: 2px;
   }
 }
@@ -389,37 +462,6 @@ const getPriorityLabel = (priority: string) => {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.filter-tabs {
-  display: flex;
-  justify-content: center;
-  gap: $spacing-3;
-  flex-wrap: wrap;
-  margin-bottom: $spacing-12;
-}
-
-.filter-tab {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid $gray-200;
-  background: $white;
-  border-radius: $border-radius-full;
-  font-size: $text-sm;
-  font-weight: 600;
-  color: $gray-700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    border-color: #8b5cf6;
-    color: #8b5cf6;
-  }
-
-  &.active {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: $white;
-    border-color: transparent;
-  }
 }
 
 .goals-grid {
@@ -442,8 +484,8 @@ const getPriorityLabel = (priority: string) => {
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
-    border-color: rgba(#6366f1, 0.3);
+    box-shadow: 0 12px 40px rgba($primary-teal, 0.18);
+    border-color: rgba($primary-teal, 0.25);
   }
 }
 
@@ -466,7 +508,12 @@ const getPriorityLabel = (priority: string) => {
 }
 
 .goal-icon {
-  font-size: 3rem;
+  color: $primary-teal;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .goal-priority {
@@ -517,7 +564,7 @@ const getPriorityLabel = (priority: string) => {
   background: $gray-50;
   padding: $spacing-4;
   border-radius: $border-radius-lg;
-  border-left: 3px solid #6366f1;
+  border-left: 3px solid $primary-teal;
 }
 
 .examples-title {
@@ -533,7 +580,7 @@ const getPriorityLabel = (priority: string) => {
 .examples-icon {
   width: 18px;
   height: 18px;
-  color: #6366f1;
+  color: $primary-teal;
 }
 
 .examples-list {
@@ -580,7 +627,7 @@ const getPriorityLabel = (priority: string) => {
 .progress-fill {
   position: relative;
   height: 100%;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  background: linear-gradient(90deg, $primary-teal, $primary-mint);
   border-radius: $border-radius-full;
   transition: width 1s ease;
   overflow: hidden;
@@ -633,13 +680,13 @@ const getPriorityLabel = (priority: string) => {
 }
 
 .general-support {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, $primary-teal 0%, $primary-mint 100%);
   color: $white;
   padding: $spacing-12 $spacing-8;
   border-radius: $border-radius-2xl;
   text-align: center;
   margin-bottom: $spacing-16;
-  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 20px 60px rgba($primary-teal, 0.25);
 }
 
 .general-support-content {
@@ -671,54 +718,182 @@ const getPriorityLabel = (priority: string) => {
 
 .general-donate-btn {
   background: $white;
-  color: #6366f1;
+  color: $primary-teal;
   
   &:hover {
     background: $gray-100;
   }
 }
 
-.support-info {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: $spacing-6;
-}
-
-.info-card {
-  text-align: center;
-  padding: $spacing-8 $spacing-4;
-  border-radius: $border-radius-lg;
+// Support notes (instead of generic promises)
+.support-notes {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $spacing-8;
+  border-radius: $border-radius-2xl;
   background: $gray-50;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: $white;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  }
+  border: 1px solid $gray-200;
 }
 
-.info-icon {
-  font-size: 3rem;
-  margin-bottom: $spacing-4;
-}
-
-.info-title {
-  font-size: $text-lg;
-  font-weight: 700;
+.support-notes-title {
+  margin: 0 0 $spacing-3 0;
+  font-size: $text-xl;
+  font-weight: 800;
   color: $gray-900;
-  margin-bottom: $spacing-2;
 }
 
-.info-text {
-  font-size: $text-sm;
-  color: $gray-600;
+.support-notes-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: $gray-700;
   line-height: $leading-relaxed;
+}
+
+// Donate modal
+.donate-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-6;
+  z-index: 9999;
+}
+
+.donate-modal {
+  width: 100%;
+  max-width: 760px;
+  background: $white;
+  border-radius: $border-radius-2xl;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.donate-modal-close {
+  position: absolute;
+  top: $spacing-4;
+  right: $spacing-4;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid $gray-200;
+  background: $white;
+  color: $gray-700;
+  cursor: pointer;
+}
+
+.donate-modal-header {
+  padding: $spacing-10 $spacing-10 $spacing-6;
+  background: linear-gradient(135deg, rgba($primary-teal, 0.08), rgba($primary-orange, 0.08));
+  border-bottom: 1px solid $gray-100;
+}
+
+.donate-modal-title {
+  margin: 0 0 $spacing-2 0;
+  font-size: $text-3xl;
+  font-weight: 900;
+  color: $gray-900;
+}
+
+.donate-modal-subtitle {
+  margin: 0;
+  color: $gray-700;
+}
+
+.donate-modal-content {
+  padding: $spacing-8 $spacing-10 $spacing-10;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-8;
+}
+
+.donate-block-title {
+  margin: 0 0 $spacing-4 0;
+  font-size: $text-lg;
+  font-weight: 800;
+  color: $gray-900;
+}
+
+.requisites-grid {
+  display: grid;
+  gap: $spacing-3;
+}
+
+.req-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: $spacing-4;
+  align-items: start;
+}
+
+.req-label {
+  color: $gray-600;
+  font-size: $text-sm;
+  font-weight: 700;
+}
+
+.req-value {
+  color: $gray-900;
+  font-size: $text-sm;
+  line-height: $leading-relaxed;
+}
+
+.donate-actions {
+  margin-top: $spacing-5;
+  display: flex;
+  gap: $spacing-4;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.copy-btn {
+  border: 1px solid $gray-200;
+  background: $white;
+  padding: 0.75rem 1rem;
+  border-radius: $border-radius-lg;
+  cursor: pointer;
+  font-weight: 700;
+  color: $gray-800;
+}
+
+.copy-state {
+  color: $gray-600;
+  font-size: $text-sm;
+}
+
+.donate-hint {
+  margin: 0;
+  color: $gray-700;
+  line-height: $leading-relaxed;
+}
+
+.donate-hint a {
+  color: $primary-teal;
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {
   .goals-grid {
     grid-template-columns: 1fr;
   }
+
+  .donate-modal-header {
+    padding: $spacing-8 $spacing-6 $spacing-5;
+  }
+
+  .donate-modal-content {
+    padding: $spacing-6 $spacing-6 $spacing-8;
+  }
+
+  .req-row {
+    grid-template-columns: 1fr;
+    gap: $spacing-2;
+  }
 }
 </style>
+
+
+
 

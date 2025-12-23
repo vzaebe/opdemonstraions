@@ -7,7 +7,7 @@
  *
  * Структура маршрутов:
  * - Публичные маршруты (главная, о нас, проекты, партнёры, контакты, знания, поддержка)
- * - Модуль благотворительности (/charity/*)
+ * - Модуль социальной 3D-печати (/charity/*)
  * - Админ-панель (/admin)
  * - 404 страница
  */
@@ -37,11 +37,23 @@ const publicRoutes: RouteRecordRaw[] = [
     component: () => import('../views/OrganizationProjectsView.vue'), 
     meta: { title: 'Проекты организации' } 
   },
+  {
+    path: '/projects/:slug',
+    name: 'organization-project-detail',
+    component: () => import('../views/OrganizationProjectDetailView.vue'),
+    meta: { title: 'Проект' }
+  },
   { 
     path: '/partners', 
     name: 'partners', 
     component: () => import('../views/PartnersView.vue'), 
     meta: { title: 'Партнёры' } 
+  },
+  {
+    path: '/partners/:id',
+    name: 'partner-detail',
+    component: () => import('../views/PartnerDetailView.vue'),
+    meta: { title: 'Партнёр' }
   },
   { 
     path: '/contacts', 
@@ -69,13 +81,13 @@ const publicRoutes: RouteRecordRaw[] = [
   }
 ]
 
-// Маршруты модуля благотворительности
+// Маршруты модуля социальной 3D-печати
 const charityRoutes: RouteRecordRaw[] = [
   { 
     path: '/charity', 
     name: 'charity', 
     component: () => import('../views/charity/CharityMainView.vue'), 
-    meta: { title: 'Благотворительная 3D-печать' } 
+    meta: { title: 'Социальная 3D-печать' } 
   },
   { 
     path: '/charity/request', 
@@ -192,15 +204,31 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition
     }
-    // Прокрутка к якорю при наличии hash
+    const behavior: ScrollBehavior = 'smooth'
+
+    // Прокрутка к якорю при наличии hash (с учётом sticky header)
     if (to.hash) {
-      return { 
-        el: to.hash,
-        behavior: 'smooth'
-      }
+      return new Promise((resolve) => {
+        // даём DOM обновиться (в т.ч. после смены роутов)
+        window.requestAnimationFrame(() => {
+          const target = document.querySelector(to.hash) as HTMLElement | null
+          if (!target) {
+            resolve({ left: 0, top: 0, behavior })
+            return
+          }
+
+          // фиксированная шапка
+          const header = document.querySelector('header.header') as HTMLElement | null
+          const headerOffset = (header?.offsetHeight ?? 0) + 12
+
+          const top = target.getBoundingClientRect().top + window.scrollY - headerOffset
+          resolve({ left: 0, top: Math.max(0, top), behavior })
+        })
+      })
     }
+
     // Прокрутка в начало страницы
-    return { top: 0, behavior: 'smooth' }
+    return { left: 0, top: 0, behavior }
   },
   routes
 })
