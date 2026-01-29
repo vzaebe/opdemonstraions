@@ -1,1 +1,0 @@
-import{d as s,c as t,n,R as o,o as d,_ as r}from"./index-WJaQwSBb.js";const i=s({__name:"UiBadge",props:{variant:{default:"default"},size:{default:"md"}},setup(a){return(e,c)=>(d(),t("span",{class:n(["ui-badge",[`variant-${a.variant}`,`size-${a.size}`]])},[o(e.$slots,"default",{},void 0)],2))}}),f=r(i,[["__scopeId","data-v-dec6b7a0"]]);export{f as U};
