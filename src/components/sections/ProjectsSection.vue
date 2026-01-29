@@ -9,12 +9,10 @@
       <p class="projects-subtitle">
         История наших проектов в разных университетах, предприятиях<br/>и организациях
       </p>
-      <router-link to="/projects" class="projects-all-link">
+      <UiButton class="projects-all-link" variant="secondary" :to="{ name: 'organization-projects' }">
         <span>Смотреть все проекты организации</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </router-link>
+        <UiIcon name="arrow-right" :size="20" aria-hidden="true" />
+      </UiButton>
     </div>
     <div
       ref="gridRef"
@@ -22,18 +20,20 @@
       :class="{ 'animate-in': isGridVisible }"
     >
       <div
+        v-for="(project, index) in displayedProjects"
+        :key="project.slug"
         class="project-card"
-        style="animation-delay: 0s"
+        :style="{ animationDelay: `${index * 0.2}s` }"
         role="link"
         tabindex="0"
-        @click="goToProject('bauman-summer-intensives')"
-        @keydown.enter="goToProject('bauman-summer-intensives')"
+        @click="goToProject(project.slug)"
+        @keydown.enter="goToProject(project.slug)"
       >
         <div class="project-image-container">
           <img
             class="project-image"
-            src="@/assets/png/Projects/Photo.png"
-            alt="Летние интенсивы в Бауманке"
+            :src="projectCardImage(project)"
+            :alt="project.title"
           />
           <div class="project-image-overlay">
             <div class="overlay-content">
@@ -42,118 +42,12 @@
           </div>
         </div>
         <div class="project-content">
-          <h3 class="project-title">Летние интенсивы в Бауманке</h3>
-          <p class="project-description">Три дня невероятного погружения в бауманскую атмосферу через диалоги и 3D печать</p>
-          <router-link
-            class="project-link"
-            :to="{ name: 'organization-project-detail', params: { slug: 'bauman-summer-intensives' } }"
-            @click.stop
-          >
-            <span class="link-text">Узнать больше о мероприятии</span>
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-description">{{ project.description }}</p>
+          <UiButton class="project-link" variant="ghost" :to="{ name: 'organization-project-detail', params: { slug: project.slug } }" @click.stop>
+            <span class="link-text">Узнать больше</span>
             <span class="link-arrow">→</span>
-          </router-link>
-        </div>
-      </div>
-
-      <div
-        class="project-card"
-        style="animation-delay: 0.2s"
-        role="link"
-        tabindex="0"
-        @click="goToProject('rosmolodezh-grant-2024')"
-        @keydown.enter="goToProject('rosmolodezh-grant-2024')"
-      >
-        <div class="project-image-container">
-          <img
-            class="project-image"
-            src="@/assets/png/Projects/Photo-1.png"
-            alt="Грант Росмолодежи"
-          />
-          <div class="project-image-overlay">
-            <div class="overlay-content">
-              <span class="overlay-text">Смотреть проект</span>
-            </div>
-          </div>
-        </div>
-        <div class="project-content">
-          <h3 class="project-title">Грант Росмолодежи</h3>
-          <p class="project-description">В 2024 году проект выиграл заявку. Было проведено 11 мероприятий, которые посетило около 400 человек</p>
-          <router-link
-            class="project-link"
-            :to="{ name: 'organization-project-detail', params: { slug: 'rosmolodezh-grant-2024' } }"
-            @click.stop
-          >
-            <span class="link-text">Перейти к списку мероприятий и отчету</span>
-            <span class="link-arrow">→</span>
-          </router-link>
-        </div>
-      </div>
-
-      <div
-        class="project-card"
-        style="animation-delay: 0.4s"
-        role="link"
-        tabindex="0"
-        @click="goToProject('inclusive-lectures')"
-        @keydown.enter="goToProject('inclusive-lectures')"
-      >
-        <div class="project-image-container">
-          <img
-            class="project-image"
-            src="@/assets/png/Projects/Photo-2.png"
-            alt="Инклюзивные лекции"
-          />
-          <div class="project-image-overlay">
-            <div class="overlay-content">
-              <span class="overlay-text">Смотреть проект</span>
-            </div>
-          </div>
-        </div>
-        <div class="project-content">
-          <h3 class="project-title">Инклюзивные лекции</h3>
-          <p class="project-description">Проводим лекции про интеграцию в реальный сектор, инновации и способы реализации</p>
-          <router-link
-            class="project-link"
-            :to="{ name: 'organization-project-detail', params: { slug: 'inclusive-lectures' } }"
-            @click.stop
-          >
-            <span class="link-text">Посмотреть лекции и материалы</span>
-            <span class="link-arrow">→</span>
-          </router-link>
-        </div>
-      </div>
-
-      <div
-        class="project-card"
-        style="animation-delay: 0.6s"
-        role="link"
-        tabindex="0"
-        @click="goToProject('science-in-rsl')"
-        @keydown.enter="goToProject('science-in-rsl')"
-      >
-        <div class="project-image-container">
-          <img
-            class="project-image"
-            src="@/assets/png/Projects/Photo-3.png"
-            alt="Перевод науки на РЖЯ"
-          />
-          <div class="project-image-overlay">
-            <div class="overlay-content">
-              <span class="overlay-text">Смотреть проект</span>
-            </div>
-          </div>
-        </div>
-        <div class="project-content">
-          <h3 class="project-title">Перевод науки на РЖЯ</h3>
-          <p class="project-description">Делаем науку доступной с помощью переведения русского жестового языка</p>
-          <router-link
-            class="project-link"
-            :to="{ name: 'organization-project-detail', params: { slug: 'science-in-rsl' } }"
-            @click.stop
-          >
-            <span class="link-text">Открыть перечень переводов</span>
-            <span class="link-arrow">→</span>
-          </router-link>
+          </UiButton>
         </div>
       </div>
     </div>
@@ -170,11 +64,21 @@
  * Карточки статичны, но могут быть заменены на динамический список через
  * props или загрузку с бэкенда.
  */
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { http, trackApiError } from '../../services/api/http'
+import { UiButton } from '../../ui'
+import UiIcon from '../ui/Icon.vue'
+import { resolveApiAssetUrl } from '../../utils/apiAssets'
+import type { OrganizationProject } from '../../data/organization_projects'
+import fallback1 from '@/assets/png/Projects/Photo.png'
+import fallback2 from '@/assets/png/Projects/Photo-1.png'
+import fallback3 from '@/assets/png/Projects/Photo-2.png'
+import fallback4 from '@/assets/png/Projects/Photo-3.png'
 
 export default {
   name: 'ProjectsSection',
+  components: { UiButton, UiIcon },
   setup() {
     const router = useRouter()
     const sectionRef = ref<HTMLElement>()
@@ -183,6 +87,65 @@ export default {
 
     const isHeaderVisible = ref(false)
     const isGridVisible = ref(false)
+    const fallbackProjects: OrganizationProject[] = [
+      {
+        id: 1,
+        slug: 'bauman-summer-intensives',
+        title: 'Летние интенсивы в Бауманке',
+        description: 'Три дня невероятного погружения в бауманскую атмосферу через диалоги и 3D печать',
+        icon: '🎓',
+        category: 'education',
+        status: 'active',
+        tags: [],
+        image: ''
+      },
+      {
+        id: 2,
+        slug: 'rosmolodezh-grant-2024',
+        title: 'Грант Росмолодежи',
+        description: 'В 2024 году проект выиграл заявку. Было проведено 11 мероприятий, которые посетило около 400 человек',
+        icon: '🎯',
+        category: 'events',
+        status: 'active',
+        tags: [],
+        image: ''
+      },
+      {
+        id: 3,
+        slug: 'inclusive-lectures',
+        title: 'Инклюзивные лекции',
+        description: 'Проводим лекции про интеграцию в реальный сектор, инновации и способы реализации',
+        icon: '🤝',
+        category: 'social',
+        status: 'active',
+        tags: [],
+        image: ''
+      },
+      {
+        id: 4,
+        slug: 'science-in-rsl',
+        title: 'Перевод науки на РЖЯ',
+        description: 'Делаем науку доступной с помощью переведения русского жестового языка',
+        icon: '💡',
+        category: 'innovation',
+        status: 'active',
+        tags: [],
+        image: ''
+      }
+    ]
+
+    const projects = ref<OrganizationProject[]>(fallbackProjects)
+
+    const displayedProjects = computed(() => projects.value.slice(0, 4))
+
+    const fallbackImagesByIndex = [fallback1, fallback2, fallback3, fallback4]
+
+    const projectCardImage = (p: OrganizationProject) => {
+      const fromApi = resolveApiAssetUrl(p.image)
+      if (fromApi) return fromApi
+      const idx = displayedProjects.value.findIndex((x) => x.slug === p.slug)
+      return fallbackImagesByIndex[Math.max(0, idx)] || fallbackImagesByIndex[0]
+    }
 
     let headerObserver: IntersectionObserver
     let gridObserver: IntersectionObserver
@@ -232,13 +195,25 @@ export default {
       router.push({ name: 'organization-project-detail', params: { slug } })
     }
 
+    onMounted(async () => {
+      try {
+        const rows = await http.get<OrganizationProject[]>('/organization-projects')
+        projects.value = Array.isArray(rows) && rows.length ? rows : fallbackProjects
+      } catch (error) {
+        trackApiError(error, 'ProjectsSection.fetch')
+        projects.value = fallbackProjects
+      }
+    })
+
     return {
       sectionRef,
       headerRef,
       gridRef,
       isHeaderVisible,
       isGridVisible,
-      goToProject
+      goToProject,
+      displayedProjects,
+      projectCardImage
     }
   }
 }
@@ -290,7 +265,7 @@ export default {
 .projects-section {
   width: 100%;
   padding: 120px 135px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  background: linear-gradient(135deg, $white 0%, $gray-50 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -371,6 +346,7 @@ export default {
   padding: 1rem 2rem;
   margin-top: 1.5rem;
   background: linear-gradient(135deg, $primary-teal, $primary-mint);
+  border: none;
   border-radius: $border-radius-full;
   color: $white;
   font-weight: 600;
@@ -379,9 +355,7 @@ export default {
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba($primary-teal, 0.3);
 
-  svg {
-    width: 20px;
-    height: 20px;
+  :deep(.ui-icon) {
     transition: transform 0.3s ease;
   }
 
@@ -389,7 +363,7 @@ export default {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba($primary-teal, 0.4);
 
-    svg {
+    :deep(.ui-icon) {
       transform: translateX(5px);
     }
   }
@@ -548,6 +522,7 @@ export default {
   gap: 8px;
   transition: all 0.3s ease;
   margin-top: auto;
+  padding: 0;
 
   &:hover {
     text-decoration: none;

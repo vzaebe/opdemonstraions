@@ -1,5 +1,5 @@
 <template>
-  <div class="partner-card">
+  <UiCard class="partner-card" :padded="false">
     <div class="partner-card__header">
       <div class="partner-card__icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,10 +30,12 @@
         <strong>{{ completedWorks }}</strong> работ выполнено
       </span>
     </div>
-  </div>
+  </UiCard>
 </template>
 
 <script setup lang="ts">
+import { UiCard } from '../../ui'
+
 defineProps<{
   name: string
   type: string
@@ -45,12 +47,9 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .partner-card {
-  background: $white;
-  border: 1px solid $gray-200;
-  border-radius: $border-radius-lg;
   padding: $spacing-5;
   transition: all $transition-normal;
 

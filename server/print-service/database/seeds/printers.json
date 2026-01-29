@@ -1,0 +1,83 @@
+[
+  {
+    "name": "Prusa MK4 #1",
+    "type": "FDM",
+    "bed_x": 250,
+    "bed_y": 210,
+    "bed_z": 220,
+    "nozzle_size": 0.4,
+    "price_per_hour": 300,
+    "max_speed": 200,
+    "supported_materials": [1, 2, 3],
+    "status": "available",
+    "metadata": {
+      "location": "Цех 1",
+      "notes": "Основной принтер для PLA/PETG/ABS",
+      "maintenance_date": "2026-01-01"
+    }
+  },
+  {
+    "name": "Ender 3 Pro #1",
+    "type": "FDM",
+    "bed_x": 220,
+    "bed_y": 220,
+    "bed_z": 250,
+    "nozzle_size": 0.4,
+    "price_per_hour": 150,
+    "max_speed": 150,
+    "supported_materials": [1, 2],
+    "status": "available",
+    "metadata": {
+      "location": "Цех 1",
+      "notes": "Бюджетный принтер для простых заказов"
+    }
+  },
+  {
+    "name": "Creality CR-10 #1",
+    "type": "FDM",
+    "bed_x": 300,
+    "bed_y": 300,
+    "bed_z": 400,
+    "nozzle_size": 0.4,
+    "price_per_hour": 400,
+    "max_speed": 180,
+    "supported_materials": [1, 2, 3, 5],
+    "status": "available",
+    "metadata": {
+      "location": "Цех 2",
+      "notes": "Большой формат, для крупных моделей"
+    }
+  },
+  {
+    "name": "Artillery Sidewinder X2 #1",
+    "type": "FDM",
+    "bed_x": 300,
+    "bed_y": 300,
+    "bed_z": 400,
+    "nozzle_size": 0.4,
+    "price_per_hour": 350,
+    "max_speed": 200,
+    "supported_materials": [1, 2, 3],
+    "status": "available",
+    "metadata": {
+      "location": "Цех 2",
+      "notes": "Быстрая печать, подходит для серийных заказов"
+    }
+  },
+  {
+    "name": "Bambu Lab X1 Carbon #1",
+    "type": "FDM",
+    "bed_x": 256,
+    "bed_y": 256,
+    "bed_z": 256,
+    "nozzle_size": 0.4,
+    "price_per_hour": 500,
+    "max_speed": 250,
+    "supported_materials": [1, 2, 3, 4],
+    "status": "available",
+    "metadata": {
+      "location": "Цех 3",
+      "notes": "Премиум принтер с мульти-материалом и высокой скоростью"
+    }
+  }
+]

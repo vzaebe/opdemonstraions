@@ -5,6 +5,8 @@ export interface ModalOptions {
   closeOnOverlay?: boolean
   preventScroll?: boolean
   focusTrap?: boolean
+  /** Called when modal is closed by internal logic (ESC/overlay/etc.) */
+  onClose?: () => void
 }
 
 export function useModal(options: ModalOptions = {}) {
@@ -12,7 +14,8 @@ export function useModal(options: ModalOptions = {}) {
     closeOnEscape = true,
     closeOnOverlay = true,
     preventScroll = true,
-    focusTrap = true
+    focusTrap = true,
+    onClose
   } = options
 
   const isOpen = ref(false)
@@ -62,6 +65,8 @@ export function useModal(options: ModalOptions = {}) {
       previousFocus.value.focus()
       previousFocus.value = null
     }
+
+    onClose?.()
   }
 
   // Обработка клавиши Escape

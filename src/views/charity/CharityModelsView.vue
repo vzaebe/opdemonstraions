@@ -159,7 +159,8 @@ function handleRequestSuccess() {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
+@use 'sass:color';
 
 .page-title {
   font-size: $text-3xl;
@@ -335,7 +336,7 @@ function handleRequestSuccess() {
   min-width: 140px;
 
   &:hover {
-    background: darken($primary-orange, 5%);
+    background: color.adjust($primary-orange, $lightness: -5%);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba($primary-orange, 0.3);
   }

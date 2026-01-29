@@ -68,6 +68,7 @@
 
 <script lang="ts">
 import PlayButton from '@/components/PlayButton.vue'
+import { logInfo } from '@/services/logger'
 
 /**
  * Секция «Содействуем профориентации» (OrientationSection).
@@ -81,7 +82,7 @@ export default {
   },
   methods: {
     handlePlayClick() {
-      console.log('Кнопка воспроизведения нажата');
+      logInfo('orientation', 'Play button clicked', { component: 'OrientationSection' })
     }
   }
 }

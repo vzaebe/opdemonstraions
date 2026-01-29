@@ -1,0 +1,83 @@
+[
+  {
+    "name": "PLA",
+    "type": "FDM",
+    "density": 1.24,
+    "price_per_gram": 1.5,
+    "available_colors": [
+      "Белый",
+      "Черный",
+      "Красный",
+      "Синий",
+      "Зеленый",
+      "Желтый",
+      "Серый",
+      "Оранжевый",
+      "Фиолетовый",
+      "Розовый"
+    ],
+    "slicer_settings": {
+      "print_temperature": 200,
+      "bed_temperature": 60,
+      "speed": 50,
+      "retraction_distance": 5,
+      "retraction_speed": 40
+    }
+  },
+  {
+    "name": "ABS",
+    "type": "FDM",
+    "density": 1.04,
+    "price_per_gram": 1.5,
+    "available_colors": ["Белый", "Черный", "Красный", "Синий", "Натуральный"],
+    "slicer_settings": {
+      "print_temperature": 240,
+      "bed_temperature": 100,
+      "speed": 40,
+      "retraction_distance": 3,
+      "retraction_speed": 30
+    }
+  },
+  {
+    "name": "PETG",
+    "type": "FDM",
+    "density": 1.27,
+    "price_per_gram": 1.8,
+    "available_colors": ["Прозрачный", "Черный", "Синий", "Красный", "Зеленый", "Белый"],
+    "slicer_settings": {
+      "print_temperature": 230,
+      "bed_temperature": 80,
+      "speed": 45,
+      "retraction_distance": 4,
+      "retraction_speed": 35
+    }
+  },
+  {
+    "name": "TPU (Flexible)",
+    "type": "FDM",
+    "density": 1.21,
+    "price_per_gram": 2.5,
+    "available_colors": ["Черный", "Белый", "Красный", "Синий", "Прозрачный"],
+    "slicer_settings": {
+      "print_temperature": 220,
+      "bed_temperature": 50,
+      "speed": 25,
+      "retraction_distance": 2,
+      "retraction_speed": 20
+    }
+  },
+  {
+    "name": "Nylon (PA)",
+    "type": "FDM",
+    "density": 1.14,
+    "price_per_gram": 2.0,
+    "available_colors": ["Натуральный", "Черный", "Белый"],
+    "slicer_settings": {
+      "print_temperature": 250,
+      "bed_temperature": 80,
+      "speed": 40,
+      "retraction_distance": 5,
+      "retraction_speed": 40
+    }
+  }
+]

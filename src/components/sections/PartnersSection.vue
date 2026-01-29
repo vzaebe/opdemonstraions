@@ -9,57 +9,33 @@
         <p class="partners-subtitle">
           Организации, которые сотрудничают с нами в области профориентации и интеграции молодежи из незащищённых слоёв населения в производство
         </p>
-        <router-link to="/partners" class="partners-link">
+        <UiButton class="partners-link" variant="ghost" :to="{ name: 'partners' }">
           <span>Узнать больше о партнёрах</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </router-link>
+          <UiIcon name="arrow-right" :size="20" aria-hidden="true" />
+        </UiButton>
       </div>
 
       <!-- Сетка логотипов партнеров -->
       <div class="partners-grid">
-        <!-- Партнер 1 - Techencon -->
-        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '1' } }" aria-label="Техэнкон">
+        <UiButton
+          v-for="partner in displayedPartners"
+          :key="String(partner.id)"
+          class="partner-card"
+          variant="ghost"
+          :to="{ name: 'partner-detail', params: { id: String(partner.id) } }"
+          :aria-label="partner.name"
+        >
           <div class="partner-logo-container">
-            <img class="partner-logo" src="@/assets/images/partners/techencon.svg" alt="Techencon" loading="lazy" />
+            <img
+              v-if="partner.logo"
+              class="partner-logo"
+              :src="resolveApiAssetUrl(partner.logo)"
+              :alt="partner.name"
+              loading="lazy"
+            />
+            <span v-else class="partner-text">{{ getInitials(partner.name) }}</span>
           </div>
-        </router-link>
-
-        <!-- Партнер 2 - COG -->
-        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '2' } }" aria-label="COG">
-          <div class="partner-logo-container">
-            <img class="partner-logo" src="@/assets/images/partners/cog.svg" alt="COG" loading="lazy" />
-          </div>
-        </router-link>
-
-        <!-- Партнер 3 - ПКБ МГТУ -->
-        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '3' } }" aria-label="ПКБ МГТУ им. Баумана">
-          <div class="partner-logo-container">
-            <img class="partner-logo" src="@/assets/images/partners/pkbmstu.svg" alt="ПКБ МГТУ" loading="lazy" />
-          </div>
-        </router-link>
-
-        <!-- Партнер 4 - МСС (текст) -->
-        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '4' } }" aria-label="МСС">
-          <div class="partner-logo-container partner-text-container">
-            <span class="partner-text">МСС</span>
-          </div>
-        </router-link>
-
-        <!-- Партнер 5 - Simtech -->
-        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '5' } }" aria-label="Simtech">
-          <div class="partner-logo-container">
-            <img class="partner-logo" src="@/assets/images/partners/simtech.svg" alt="Simtech" loading="lazy" />
-          </div>
-        </router-link>
-
-        <!-- Партнер 6 - Akzent -->
-        <router-link class="partner-card" :to="{ name: 'partner-detail', params: { id: '6' } }" aria-label="Akzent">
-          <div class="partner-logo-container">
-            <img class="partner-logo" src="@/assets/images/partners/akzent.svg" alt="Akzent" loading="lazy" />
-          </div>
-        </router-link>
+        </UiButton>
       </div>
     </div>
   </UiSection>
@@ -72,7 +48,40 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { computed, onMounted, ref } from 'vue'
 import UiSection from '../ui/Section.vue'
+import { http, trackApiError } from '../../services/api/http'
+import { UiButton } from '../../ui'
+import UiIcon from '../ui/Icon.vue'
+import { resolveApiAssetUrl } from '../../utils/apiAssets'
+
+type Partner = {
+  id: string | number
+  name: string
+  logo?: string
+}
+
+const partners = ref<Partner[]>([])
+
+const displayedPartners = computed(() => partners.value.slice(0, 6))
+
+function getInitials(name: string): string {
+  return (name || '')
+    .split(' ')
+    .map((w) => (w ? w[0] : ''))
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
+
+onMounted(async () => {
+  try {
+    partners.value = await http.get<Partner[]>('/general-partners')
+  } catch (error) {
+    trackApiError(error, 'PartnersSection.fetchPartners')
+    partners.value = []
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -161,9 +170,7 @@ import UiSection from '../ui/Section.vue'
   text-decoration: none;
   transition: all 0.3s ease;
 
-  svg {
-    width: 20px;
-    height: 20px;
+  :deep(.ui-icon) {
     transition: transform 0.3s ease;
   }
 
@@ -173,7 +180,7 @@ import UiSection from '../ui/Section.vue'
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 
-    svg {
+    :deep(.ui-icon) {
       transform: translateX(5px);
     }
   }
@@ -191,6 +198,22 @@ import UiSection from '../ui/Section.vue'
   width: 100%;
   height: 160px;
   text-decoration: none;
+  padding: 0;
+  border: 2px solid $white;
+  border-radius: $border-radius;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: scale(1.05) translateY(-5px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(29, 233, 182, 0.1));
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    border-color: $primary-cyan;
+  }
 }
 
 .partner-logo-container {
@@ -199,42 +222,33 @@ import UiSection from '../ui/Section.vue'
   justify-content: center;
   width: 100%;
   height: 100%;
-  border: 2px solid $white;
-  border-radius: $border-radius;
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-  position: relative;
+  box-sizing: border-box;
+}
 
-  &:hover {
-    transform: scale(1.05) translateY(-5px);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(29, 233, 182, 0.1));
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-    border-color: $primary-cyan;
-  }
+/* Alternate hover accents per card */
+.partner-card:nth-child(odd):hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(203, 136, 22, 0.1));
+  border-color: $primary-orange;
+}
 
-  &:nth-child(odd):hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(203, 136, 22, 0.1));
-    border-color: $primary-orange;
-  }
-
-  &:nth-child(even):hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 82, 82, 0.1));
-    border-color: $primary-coral;
-  }
+.partner-card:nth-child(even):hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 82, 82, 0.1));
+  border-color: $primary-coral;
 }
 
 .partner-logo {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 180px;
+  max-height: 120px;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
   object-fit: contain;
+  object-position: center;
   filter: brightness(0) invert(1);
-}
-
-.partner-text-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  flex-shrink: 1;
 }
 
 .partner-text {
@@ -275,6 +289,11 @@ import UiSection from '../ui/Section.vue'
     height: 140px;
   }
 
+  .partner-logo {
+    max-width: 160px;
+    max-height: 100px;
+  }
+
   .partner-text {
     font-size: 2.5rem;
   }
@@ -301,6 +320,11 @@ import UiSection from '../ui/Section.vue'
     padding: 1rem;
   }
 
+  .partner-logo {
+    max-width: 140px;
+    max-height: 90px;
+  }
+
   .partner-text {
     font-size: 2rem;
   }
@@ -317,6 +341,15 @@ import UiSection from '../ui/Section.vue'
 
   .partner-card {
     height: 100px;
+  }
+
+  .partner-logo-container {
+    padding: 0.75rem;
+  }
+
+  .partner-logo {
+    max-width: 120px;
+    max-height: 70px;
   }
 
   .partner-text {

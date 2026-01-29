@@ -26,23 +26,26 @@
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
 
                 <div class="nested-toolbar">
-                  <select class="input-std" v-model.number="objectArraySelected[f.key]">
-                    <option v-for="(it, i) in asArray(localObject[f.key])" :key="i" :value="i">
+                  <UiSelect
+                    :model-value="String(objectArraySelected[f.key] ?? -1)"
+                    @update:modelValue="(v) => (objectArraySelected[f.key] = Number(v))"
+                  >
+                    <option v-for="(it, i) in asArray(localObject[f.key])" :key="i" :value="String(i)">
                       #{{ i + 1 }} {{ nestedItemTitle(it) }}
                     </option>
-                    <option :value="-1">+ Новый элемент</option>
-                  </select>
+                    <option value="-1">+ Новый элемент</option>
+                  </UiSelect>
 
                   <div class="toolbar-actions">
-                    <button class="btn" type="button" @click="addObjectArrayItem(localObject, f)">Добавить</button>
-                    <button
-                      class="btn danger"
+                    <UiButton variant="secondary" type="button" @click="addObjectArrayItem(localObject, f)">Добавить</UiButton>
+                    <UiButton
+                      variant="danger"
                       type="button"
-                      :disabled="(objectArraySelected[f.key] ?? -1) < 0"
+                      :disabled="Number(objectArraySelected[f.key] ?? -1) < 0"
                       @click="removeObjectArrayItem(localObject, f)"
                     >
                       Удалить
-                    </button>
+                    </UiButton>
                   </div>
                 </div>
 
@@ -51,40 +54,36 @@
                     <div class="form-group">
                       <label>{{ sf.label }}<span v-if="sf.required"> *</span></label>
 
-                      <textarea
+                      <UiTextarea
                         v-if="sf.type === 'textarea'"
-                        class="input-std"
-                        rows="3"
+                        :rows="3"
                         :placeholder="sf.placeholder || ''"
-                        :value="String(nestedActiveItem(localObject, f)?.[sf.key] ?? '')"
-                        @input="onNestedText(localObject, f, sf.key, $event)"
+                        :model-value="String(nestedActiveItem(localObject, f)?.[sf.key] ?? '')"
+                        @update:modelValue="(v) => onNestedTextValue(localObject, f, sf.key, v)"
                       />
 
-                      <select
+                      <UiSelect
                         v-else-if="sf.type === 'select'"
-                        class="input-std"
-                        :value="String(nestedActiveItem(localObject, f)?.[sf.key] ?? (sf.options?.[0]?.value ?? ''))"
-                        @change="onNestedSelect(localObject, f, sf.key, $event)"
+                        :model-value="String(nestedActiveItem(localObject, f)?.[sf.key] ?? (sf.options?.[0]?.value ?? ''))"
+                        @update:modelValue="(v) => onNestedSelectValue(localObject, f, sf.key, v)"
                       >
                         <option v-for="opt in (sf.options || [])" :key="String(opt.value)" :value="String(opt.value)">
                           {{ opt.label }}
                         </option>
-                      </select>
+                      </UiSelect>
 
-                      <input
+                      <UiInput
                         v-else-if="sf.type === 'number'"
-                        class="input-std"
                         type="number"
-                        :value="Number(nestedActiveItem(localObject, f)?.[sf.key] ?? 0)"
-                        @input="onNestedNumber(localObject, f, sf.key, $event)"
+                        :model-value="Number(nestedActiveItem(localObject, f)?.[sf.key] ?? 0)"
+                        @update:modelValue="(v) => onNestedNumberValue(localObject, f, sf.key, String(v))"
                       />
 
-                      <input
+                      <UiInput
                         v-else
-                        class="input-std"
                         :placeholder="sf.placeholder || ''"
-                        :value="String(nestedActiveItem(localObject, f)?.[sf.key] ?? '')"
-                        @input="onNestedText(localObject, f, sf.key, $event)"
+                        :model-value="String(nestedActiveItem(localObject, f)?.[sf.key] ?? '')"
+                        @update:modelValue="(v) => onNestedTextValue(localObject, f, sf.key, v)"
                       />
                     </div>
                   </template>
@@ -94,72 +93,66 @@
               <!-- stringArray -->
               <div v-else-if="f.type === 'stringArray'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <textarea
-                  class="input-std"
-                  rows="4"
+                <UiTextarea
+                  :rows="4"
                   :placeholder="f.placeholder || ''"
-                  :value="arrayToText(localObject[f.key])"
-                  @input="onFieldStringArray(localObject, f.key, $event)"
+                  :model-value="arrayToText(localObject[f.key])"
+                  @update:modelValue="(v) => onFieldStringArrayValue(localObject, f.key, v)"
                 />
               </div>
 
               <!-- textarea -->
               <div v-else-if="f.type === 'textarea'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <textarea
-                  class="input-std"
-                  rows="4"
+                <UiTextarea
+                  :rows="4"
                   :placeholder="f.placeholder || ''"
-                  :value="String(localObject[f.key] ?? '')"
-                  @input="onFieldText(localObject, f.key, $event)"
+                  :model-value="String(localObject[f.key] ?? '')"
+                  @update:modelValue="(v) => onFieldTextValue(localObject, f.key, v)"
                 />
               </div>
 
               <!-- select -->
               <div v-else-if="f.type === 'select'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <select
-                  class="input-std"
-                  :value="String(localObject[f.key] ?? (f.options?.[0]?.value ?? ''))"
-                  @change="onFieldSelect(localObject, f.key, $event)"
+                <UiSelect
+                  :model-value="String(localObject[f.key] ?? (f.options?.[0]?.value ?? ''))"
+                  @update:modelValue="(v) => onFieldSelectValue(localObject, f.key, v)"
                 >
                   <option v-for="opt in (f.options || [])" :key="String(opt.value)" :value="String(opt.value)">
                     {{ opt.label }}
                   </option>
-                </select>
+                </UiSelect>
               </div>
 
               <!-- number -->
               <div v-else-if="f.type === 'number'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <input
-                  class="input-std"
+                <UiInput
                   type="number"
                   :placeholder="f.placeholder || ''"
-                  :value="Number(localObject[f.key] ?? 0)"
-                  @input="onFieldNumber(localObject, f.key, $event)"
+                  :model-value="Number(localObject[f.key] ?? 0)"
+                  @update:modelValue="(v) => onFieldNumberValue(localObject, f.key, String(v))"
                 />
               </div>
 
               <!-- date -->
               <div v-else-if="f.type === 'date'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <input
-                  class="input-std"
+                <UiInput
                   type="date"
-                  :value="String(localObject[f.key] ?? '')"
-                  @input="onFieldText(localObject, f.key, $event)"
+                  :model-value="String(localObject[f.key] ?? '')"
+                  @update:modelValue="(v) => onFieldTextValue(localObject, f.key, v)"
                 />
               </div>
 
               <!-- string default -->
               <div v-else class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <input
-                  class="input-std"
+                <UiInput
                   :placeholder="f.placeholder || ''"
-                  :value="String(localObject[f.key] ?? '')"
-                  @input="onFieldText(localObject, f.key, $event)"
+                  :model-value="String(localObject[f.key] ?? '')"
+                  @update:modelValue="(v) => onFieldTextValue(localObject, f.key, v)"
                 />
               </div>
             </template>
@@ -172,19 +165,20 @@
             <div class="row">
               <div class="form-group">
                 <label>Элементы</label>
-                <select class="input-std" v-model.number="selectedIndex">
-                  <option v-for="(it, idx) in localArray" :key="idx" :value="idx">
+                <UiSelect
+                  :model-value="String(selectedIndex)"
+                  @update:modelValue="(v) => (selectedIndex = Number(v))"
+                >
+                  <option v-for="(it, idx) in localArray" :key="idx" :value="String(idx)">
                     #{{ idx + 1 }} {{ itemTitle(it) }}
                   </option>
-                  <option :value="-1">+ Новый элемент</option>
-                </select>
+                  <option value="-1">+ Новый элемент</option>
+                </UiSelect>
               </div>
 
               <div class="toolbar-actions">
-                <button class="btn" type="button" @click="addNew">Добавить</button>
-                <button class="btn danger" type="button" :disabled="selectedIndex < 0" @click="removeSelected">
-                  Удалить
-                </button>
+                <UiButton variant="secondary" type="button" @click="addNew">Добавить</UiButton>
+                <UiButton variant="danger" type="button" :disabled="selectedIndex < 0" @click="removeSelected">Удалить</UiButton>
               </div>
             </div>
           </div>
@@ -194,72 +188,66 @@
               <!-- stringArray -->
               <div v-if="f.type === 'stringArray'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <textarea
-                  class="input-std"
-                  rows="4"
+                <UiTextarea
+                  :rows="4"
                   :placeholder="f.placeholder || ''"
-                  :value="arrayToText(activeItem[f.key])"
-                  @input="onFieldStringArray(activeItem, f.key, $event)"
+                  :model-value="arrayToText(activeItem[f.key])"
+                  @update:modelValue="(v) => onFieldStringArrayValue(activeItem, f.key, v)"
                 />
               </div>
 
               <!-- textarea -->
               <div v-else-if="f.type === 'textarea'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <textarea
-                  class="input-std"
-                  rows="4"
+                <UiTextarea
+                  :rows="4"
                   :placeholder="f.placeholder || ''"
-                  :value="String(activeItem[f.key] ?? '')"
-                  @input="onFieldText(activeItem, f.key, $event)"
+                  :model-value="String(activeItem[f.key] ?? '')"
+                  @update:modelValue="(v) => onFieldTextValue(activeItem, f.key, v)"
                 />
               </div>
 
               <!-- select -->
               <div v-else-if="f.type === 'select'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <select
-                  class="input-std"
-                  :value="String(activeItem[f.key] ?? (f.options?.[0]?.value ?? ''))"
-                  @change="onFieldSelect(activeItem, f.key, $event)"
+                <UiSelect
+                  :model-value="String(activeItem[f.key] ?? (f.options?.[0]?.value ?? ''))"
+                  @update:modelValue="(v) => onFieldSelectValue(activeItem, f.key, v)"
                 >
                   <option v-for="opt in (f.options || [])" :key="String(opt.value)" :value="String(opt.value)">
                     {{ opt.label }}
                   </option>
-                </select>
+                </UiSelect>
               </div>
 
               <!-- number -->
               <div v-else-if="f.type === 'number'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <input
-                  class="input-std"
+                <UiInput
                   type="number"
                   :placeholder="f.placeholder || ''"
-                  :value="Number(activeItem[f.key] ?? 0)"
-                  @input="onFieldNumber(activeItem, f.key, $event)"
+                  :model-value="Number(activeItem[f.key] ?? 0)"
+                  @update:modelValue="(v) => onFieldNumberValue(activeItem, f.key, String(v))"
                 />
               </div>
 
               <!-- date -->
               <div v-else-if="f.type === 'date'" class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <input
-                  class="input-std"
+                <UiInput
                   type="date"
-                  :value="String(activeItem[f.key] ?? '')"
-                  @input="onFieldText(activeItem, f.key, $event)"
+                  :model-value="String(activeItem[f.key] ?? '')"
+                  @update:modelValue="(v) => onFieldTextValue(activeItem, f.key, v)"
                 />
               </div>
 
               <!-- string default -->
               <div v-else class="form-group">
                 <label>{{ f.label }}<span v-if="f.required"> *</span></label>
-                <input
-                  class="input-std"
+                <UiInput
                   :placeholder="f.placeholder || ''"
-                  :value="String(activeItem[f.key] ?? '')"
-                  @input="onFieldText(activeItem, f.key, $event)"
+                  :model-value="String(activeItem[f.key] ?? '')"
+                  @update:modelValue="(v) => onFieldTextValue(activeItem, f.key, v)"
                 />
               </div>
             </template>
@@ -273,6 +261,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import type { ContentSchema, FieldSchema } from './contentSchemas'
+import { UiButton, UiInput, UiSelect, UiTextarea } from '../../ui'
 
 type Props = {
   schema: ContentSchema | null
@@ -333,6 +322,22 @@ function onFieldStringArray(obj: Record<string, any>, key: string, e: Event) {
   setField(obj, key, textToArray(getEventValue(e)))
 }
 
+function onFieldTextValue(obj: Record<string, any>, key: string, v: string) {
+  setField(obj, key, v)
+}
+
+function onFieldSelectValue(obj: Record<string, any>, key: string, v: string) {
+  setField(obj, key, v)
+}
+
+function onFieldNumberValue(obj: Record<string, any>, key: string, v: string) {
+  setField(obj, key, toNumber(v))
+}
+
+function onFieldStringArrayValue(obj: Record<string, any>, key: string, v: string) {
+  setField(obj, key, textToArray(v))
+}
+
 function onNestedText(obj: Record<string, any>, f: FieldSchema, key: string, e: Event) {
   setNestedField(obj, f, key, getEventValue(e))
 }
@@ -343,6 +348,18 @@ function onNestedSelect(obj: Record<string, any>, f: FieldSchema, key: string, e
 
 function onNestedNumber(obj: Record<string, any>, f: FieldSchema, key: string, e: Event) {
   setNestedField(obj, f, key, toNumber(getEventValue(e)))
+}
+
+function onNestedTextValue(obj: Record<string, any>, f: FieldSchema, key: string, v: string) {
+  setNestedField(obj, f, key, v)
+}
+
+function onNestedSelectValue(obj: Record<string, any>, f: FieldSchema, key: string, v: string) {
+  setNestedField(obj, f, key, v)
+}
+
+function onNestedNumberValue(obj: Record<string, any>, f: FieldSchema, key: string, v: string) {
+  setNestedField(obj, f, key, toNumber(v))
 }
 
 // Local copies
@@ -595,17 +612,6 @@ label {
   font-weight: 600;
 }
 
-.input-std {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font: inherit;
-}
-
-textarea.input-std {
-  resize: vertical;
-}
 
 .array-toolbar .row {
   display: flex;
@@ -621,25 +627,6 @@ textarea.input-std {
   align-items: center;
 }
 
-.btn {
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  color: #0f172a;
-  border-radius: 8px;
-  padding: 10px 12px;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn.danger {
-  border-color: #fecaca;
-  color: #b91c1c;
-}
 
 .nested-toolbar {
   display: flex;
@@ -656,5 +643,7 @@ textarea.input-std {
   gap: 12px;
 }
 </style>
+
+
 
 

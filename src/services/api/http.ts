@@ -10,8 +10,8 @@
  * Используется всеми services для взаимодействия с backend
  */
 
-import { useAnalytics } from '@/composables/useAnalytics'
 import type { ApiErrorResponse } from '@/types/models'
+import { logApiEvent, logError as logFrontendError, logWarn } from '@/services/logger'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // ⚙️ КОНФИГУРАЦИЯ
@@ -19,6 +19,21 @@ import type { ApiErrorResponse } from '@/types/models'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || '10000'
+export const AUTH_TOKEN_STORAGE_KEY = 'op_auth_token'
+
+export function getStoredAuthToken(): string | null {
+  try {
+    if (typeof window === 'undefined') return null
+    return window.localStorage.getItem(AUTH_TOKEN_STORAGE_KEY)
+  } catch {
+    return null
+  }
+}
+
+export function getAuthHeader(): Record<string, string> {
+  const token = getStoredAuthToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
 
 interface RequestConfig extends RequestInit {
   timeout?: number
@@ -124,6 +139,8 @@ export class HttpClient {
     const controller = new AbortController()
     const timeout = config.timeout || this.defaultTimeout
     const timeoutId = setTimeout(() => controller.abort(), timeout)
+    const startedAt = Date.now()
+    const method = (config.method || 'GET').toString().toUpperCase()
 
     try {
       const response = await fetch(url, {
@@ -133,26 +150,59 @@ export class HttpClient {
       })
 
       clearTimeout(timeoutId)
-      return await handleResponse<T>(response)
+      const result = await handleResponse<T>(response)
+
+      logApiEvent({
+        method,
+        url,
+        status: response.status,
+        durationMs: Date.now() - startedAt,
+        attempt: attemptNumber + 1,
+        requestId: response.headers.get('x-request-id')
+      })
+
+      return result
     } catch (error) {
       clearTimeout(timeoutId)
+      const durationMs = Date.now() - startedAt
 
       // Обработка таймаута
       if (error instanceof Error && error.name === 'AbortError') {
+        logApiEvent({ method, url, durationMs, attempt: attemptNumber + 1, error: 'Request aborted (timeout)' })
         throw new TimeoutError()
       }
 
       // Обработка HTTP ошибок с retry
       if (error instanceof HttpError && shouldRetry(error.status, attemptNumber, maxRetries)) {
         const delay = getRetryDelay(attemptNumber)
-        console.warn(`Retrying request after ${delay}ms (attempt ${attemptNumber + 1}/${maxRetries})`)
-        
+        logApiEvent({
+          method,
+          url,
+          status: error.status,
+          durationMs,
+          attempt: attemptNumber + 1,
+          error: error.message,
+          retryInMs: delay
+        })
+        logWarn('api', `Retrying request in ${delay}ms (attempt ${attemptNumber + 2}/${maxRetries})`, {
+          url,
+          status: error.status
+        })
         await new Promise(resolve => setTimeout(resolve, delay))
         return this.fetchWithRetry<T>(url, config, attemptNumber + 1, maxRetries)
       }
 
+      logApiEvent({
+        method,
+        url,
+        durationMs,
+        attempt: attemptNumber + 1,
+        error
+      })
+
       throw error
     }
+
   }
 
   /**
@@ -177,8 +227,7 @@ export class HttpClient {
    * Получает токен из хранилища (реализовать по необходимости)
    */
   private getAuthToken(): string | null {
-    // TODO: Получить токен из store или localStorage
-    return null
+    return getStoredAuthToken()
   }
 
   /**
@@ -248,6 +297,24 @@ export const http = new HttpClient()
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function trackApiError(error: unknown, context?: string): void {
-  // Log error for debugging
-  console.warn(`API Error [${context || 'unknown'}]:`, error)
+  if (error instanceof HttpError) {
+    logFrontendError('api', `API ${error.status}: ${error.message}`, {
+      context: context || 'unknown',
+      status: error.status,
+      data: error.data
+    })
+    return
+  }
+
+  if (error instanceof TimeoutError) {
+    logWarn('api', 'Request timeout', { context: context || 'unknown' })
+    return
+  }
+
+  const message = error instanceof Error ? error.message : String(error)
+  logFrontendError('api', `Unexpected error${context ? ` in ${context}` : ''}`, {
+    context: context || 'unknown',
+    message,
+    error
+  })
 }

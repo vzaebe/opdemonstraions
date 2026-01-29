@@ -45,25 +45,25 @@
         <div class="filters-container">
           <div class="filter-group">
             <label class="filter-label">Тип</label>
-            <select v-model="filterType" class="filter-select">
+            <UiSelect v-model="filterType" class="filter-select">
               <option value="all">Все типы</option>
               <option value="company">Компании</option>
               <option value="individual">Частные лица</option>
-            </select>
+            </UiSelect>
           </div>
           <div class="filter-group">
             <label class="filter-label">Город</label>
-            <select v-model="filterCity" class="filter-select">
+            <UiSelect v-model="filterCity" class="filter-select">
               <option value="all">Все города</option>
               <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
-            </select>
+            </UiSelect>
           </div>
           <div class="filter-group">
             <label class="filter-label">Отрасль</label>
-            <select v-model="filterIndustry" class="filter-select">
+            <UiSelect v-model="filterIndustry" class="filter-select">
               <option value="all">Все отрасли</option>
               <option v-for="industry in industries" :key="industry" :value="industry">{{ industry }}</option>
-            </select>
+            </UiSelect>
           </div>
         </div>
       </div>
@@ -137,9 +137,7 @@
                   <span class="works-label">работ выполнено</span>
                 </div>
                 <div class="card-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
+                  <UiIcon name="arrow-right" :size="20" aria-hidden="true" />
                 </div>
               </div>
             </div>
@@ -154,12 +152,12 @@
           <p class="cta-text">
             Присоединяйтесь к нашему сообществу и помогайте менять мир к лучшему
           </p>
-          <ButtonPrimary size="lg" @click="$router.push('/charity/community')">
+          <UiButton size="lg" @click="$router.push('/charity/community')">
             <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
               <path d="M12 4v16m8-8H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
             Присоединиться
-          </ButtonPrimary>
+          </UiButton>
         </div>
       </div>
     </UiSection>
@@ -177,8 +175,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { useCharityStore } from '@/stores/charity'
 import UiSection from '@/components/ui/Section.vue'
-import ButtonPrimary from '@/components/ButtonPrimary.vue'
+import { UiButton, UiSelect } from '@/ui'
 import PartnerDetailModal from '@/components/charity/PartnerDetailModal.vue'
+import UiIcon from '@/components/ui/Icon.vue'
 
 interface Partner {
   id: string
@@ -278,7 +277,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .partners-page {
   min-height: 100vh;

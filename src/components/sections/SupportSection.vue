@@ -16,12 +16,13 @@
             <Icon class="support-option-icon" :name="opt.iconName || 'handshake'" :size="30" :title="opt.title" />
             <h3>{{ opt.title }}</h3>
             <p>{{ opt.text }}</p>
-            <router-link
+            <UiButton
               class="support-link"
+              variant="secondary"
               :to="{ name: opt.routeName, hash: opt.routeHash || undefined }"
             >
               {{ opt.linkText || 'Перейти' }}
-            </router-link>
+            </UiButton>
           </div>
         </div>
 
@@ -46,8 +47,9 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import Icon from '@/components/ui/Icon.vue'
-import { http, trackApiError } from '@/services/api/http'
+import Icon from '../ui/Icon.vue'
+import { http, trackApiError } from '../../services/api/http'
+import { UiButton } from '../../ui'
 
 type SupportSectionOption = {
   key: string
@@ -121,7 +123,7 @@ onBeforeUnmount(() => {
 .support-section {
   width: 100%;
   min-height: 520px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%);
+  background: linear-gradient(135deg, $white 0%, $gray-50 50%, $gray-100 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -317,48 +319,6 @@ onBeforeUnmount(() => {
   bottom: 1rem;
   opacity: 0.55;
   color: $white;
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2147483647;
-  pointer-events: all;
-}
-
-.modal-content {
-  background: $white;
-  color: $primary-teal;
-  border-radius: $border-radius-lg;
-  padding: 2rem 3rem;
-  min-width: 320px;
-  text-align: center;
-  box-shadow: 0 8px 32px rgba($primary-teal, 0.15);
-  position: relative;
-  z-index: 10000;
-}
-
-.modal-close {
-  margin-top: 1.5rem;
-  padding: 0.5rem 1.5rem;
-  background: $primary-teal;
-  color: $white;
-  border: none;
-  border-radius: $border-radius-md;
-  font-size: $text-base;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  &:hover {
-    background: color.adjust($primary-teal, $lightness: -10%);
-  }
 }
 
 @media (max-width: $breakpoint-lg) {

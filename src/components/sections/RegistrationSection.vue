@@ -7,6 +7,8 @@
 import { ref } from 'vue'
 import openurfeatures from '@/assets/png/openurfeatures.png'
 import { POLICY_LINKS } from '@/config/links'
+import { UiButton, UiInput } from '../../ui'
+import { logInfo } from '@/services/logger'
 
 const form = ref({
   name: '',
@@ -15,7 +17,7 @@ const form = ref({
 })
 
 function submitForm() {
-  console.log('Registration form submitted:', form.value)
+  logInfo('registration', 'Registration form submitted', { fields: Object.keys(form.value) })
   form.value = { name: '', email: '', password: '' }
 }
 </script>
@@ -38,17 +40,17 @@ export default {
           <form @submit.prevent="submitForm" class="registration-form">
             <div class="form-group">
               <label for="reg-name">ИМЯ</label>
-              <input type="text" id="reg-name" v-model="form.name" placeholder="Ваше имя" />
+              <UiInput type="text" id="reg-name" v-model="form.name" placeholder="Ваше имя" />
             </div>
             <div class="form-group">
               <label for="reg-email">ПОЧТА</label>
-              <input type="email" id="reg-email" v-model="form.email" placeholder="Ваша почта" />
+              <UiInput type="email" id="reg-email" v-model="form.email" placeholder="Ваша почта" />
             </div>
             <div class="form-group">
               <label for="reg-password">ПАРОЛЬ</label>
-              <input type="password" id="reg-password" v-model="form.password" placeholder="Ваш пароль" />
+              <UiInput type="password" id="reg-password" v-model="form.password" placeholder="Ваш пароль" />
             </div>
-            <button type="submit" class="submit-btn">Зайти</button>
+            <UiButton type="submit" class="submit-btn">Зайти</UiButton>
             <p class="consent-text">
               При регистрации вы соглашаетесь с 
               <a :href="POLICY_LINKS.TERMS_OF_USE" class="policy-link" target="_blank" rel="noopener">правилами</a> и 
@@ -511,4 +513,3 @@ export default {
   }
 }
 </style>
-

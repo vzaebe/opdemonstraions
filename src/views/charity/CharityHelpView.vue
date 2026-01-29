@@ -43,25 +43,21 @@
           
           <form @submit.prevent="handleVolunteerSubmit" class="help-form">
             <div class="form-grid">
-              <div class="form-group">
-                <label>Ваше имя / Название организации</label>
-                <input v-model="volunteerForm.name" required class="input-std" />
-              </div>
-              <div class="form-group">
-                <label>Тип участника</label>
-                <select v-model="volunteerForm.type" class="input-std">
+              <UiFormField label="Ваше имя / Название организации" required>
+                <UiInput v-model="volunteerForm.name" />
+              </UiFormField>
+              <UiFormField label="Тип участника">
+                <UiSelect v-model="volunteerForm.type">
                   <option value="individual">Частное лицо</option>
                   <option value="company">Компания</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Город</label>
-                <input v-model="volunteerForm.city" required class="input-std" />
-              </div>
-              <div class="form-group">
-                <label>Модель(и) принтера</label>
-                <input v-model="volunteerForm.printer_model" placeholder="Например: Ender 3, Prusa mk3" required class="input-std" />
-              </div>
+                </UiSelect>
+              </UiFormField>
+              <UiFormField label="Город" required>
+                <UiInput v-model="volunteerForm.city" />
+              </UiFormField>
+              <UiFormField label="Модель(и) принтера" required>
+                <UiInput v-model="volunteerForm.printer_model" placeholder="Например: Ender 3, Prusa mk3" />
+              </UiFormField>
             </div>
 
             <div class="form-group">
@@ -74,17 +70,15 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label>О себе (опыт, возможности)</label>
-              <textarea v-model="volunteerForm.about" rows="3" class="input-std"></textarea>
-            </div>
+            <UiFormField label="О себе (опыт, возможности)">
+              <UiTextarea v-model="volunteerForm.about" :rows="3" />
+            </UiFormField>
             
-            <div class="form-group">
-              <label>Контакт для связи (Telegram / Email)</label>
-              <input v-model="volunteerForm.contact" required class="input-std" />
-            </div>
+            <UiFormField label="Контакт для связи (Telegram / Email)" required>
+              <UiInput v-model="volunteerForm.contact" />
+            </UiFormField>
 
-            <ButtonPrimary type="submit">Отправить анкету</ButtonPrimary>
+            <UiButton type="submit">Отправить анкету</UiButton>
           </form>
         </div>
       </div>
@@ -97,31 +91,27 @@
           
           <form @submit.prevent="handleMaterialSubmit" class="help-form">
             <div class="form-grid">
-              <div class="form-group">
-                <label>Ваше имя</label>
-                <input v-model="materialForm.name" required class="input-std" />
-              </div>
-              <div class="form-group">
-                <label>Тип помощи</label>
-                <select v-model="materialForm.type" class="input-std">
+              <UiFormField label="Ваше имя" required>
+                <UiInput v-model="materialForm.name" />
+              </UiFormField>
+              <UiFormField label="Тип помощи">
+                <UiSelect v-model="materialForm.type">
                   <option value="plastic">Пластик / Расходники</option>
                   <option value="equipment">Оборудование (принтеры)</option>
                   <option value="parts">Запчасти / Ремонт</option>
-                </select>
-              </div>
+                </UiSelect>
+              </UiFormField>
             </div>
             
-            <div class="form-group">
-              <label>Что хотите передать? (описание)</label>
-              <input v-model="materialForm.item" placeholder="Например: 5 катушек PLA, старый Ender 3" required class="input-std" />
-            </div>
+            <UiFormField label="Что хотите передать? (описание)" required>
+              <UiInput v-model="materialForm.item" placeholder="Например: 5 катушек PLA, старый Ender 3" />
+            </UiFormField>
 
-            <div class="form-group">
-              <label>Комментарии (состояние, количество)</label>
-              <textarea v-model="materialForm.comment" rows="3" class="input-std"></textarea>
-            </div>
+            <UiFormField label="Комментарии (состояние, количество)">
+              <UiTextarea v-model="materialForm.comment" :rows="3" />
+            </UiFormField>
 
-            <ButtonPrimary type="submit">Предложить помощь</ButtonPrimary>
+            <UiButton type="submit">Предложить помощь</UiButton>
           </form>
         </div>
       </div>
@@ -136,14 +126,12 @@
             <div class="donate-card">
               <h3>Разовый перевод</h3>
               <p>Любая комфортная сумма через карту или СБП.</p>
-              <ButtonPrimary size="lg">Пожертвовать</ButtonPrimary>
+              <UiButton size="lg">Пожертвовать</UiButton>
             </div>
             <div class="donate-card highlight">
               <h3>Целевой сбор</h3>
               <p>Помогите нам закрыть конкретные потребности проекта.</p>
-              <router-link :to="{ name: 'charity-fundraising' }">
-                <ButtonPrimary variant="secondary" size="lg">Перейти к целям</ButtonPrimary>
-              </router-link>
+              <UiButton variant="secondary" size="lg" :to="{ name: 'charity-fundraising' }">Перейти к целям</UiButton>
             </div>
           </div>
 
@@ -163,10 +151,10 @@
 
 <script setup lang="ts">
 import { onMounted, ref, reactive } from 'vue'
-import { useCharityStore } from '@/stores/charity'
-import UiSection from '@/components/ui/Section.vue'
-import DonationList from '@/components/charity/DonationList.vue'
-import ButtonPrimary from '@/components/ButtonPrimary.vue'
+import { useCharityStore } from '../../stores/charity'
+import UiSection from '../../components/ui/Section.vue'
+import DonationList from '../../components/charity/DonationList.vue'
+import { UiButton, UiFormField, UiInput, UiSelect, UiTextarea } from '../../ui'
 
 const store = useCharityStore()
 
@@ -232,7 +220,7 @@ const handleMaterialSubmit = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .charity-help {
   overflow: hidden;
@@ -457,26 +445,6 @@ const handleMaterialSubmit = () => {
     color: $gray-800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-  }
-}
-
-.input-std {
-  padding: 1rem;
-  border: 2px solid $gray-200;
-  border-radius: $border-radius-lg;
-  transition: all 0.3s ease;
-  font-size: $text-base;
-  background: $gray-50;
-  
-  &:focus {
-    outline: none;
-    border-color: $primary-orange;
-    box-shadow: 0 0 0 3px rgba($primary-orange, 0.1);
-    background: $white;
-  }
-
-  &:hover {
-    border-color: $gray-300;
   }
 }
 

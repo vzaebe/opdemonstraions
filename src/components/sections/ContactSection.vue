@@ -25,7 +25,7 @@
           <form @submit.prevent="handleSubmit">
             <div class="form-group">
               <label for="name">ИМЯ</label>
-              <input
+              <UiInput
                 id="name"
                 v-model="formData.name"
                 type="text"
@@ -38,7 +38,7 @@
 
             <div class="form-group">
               <label for="phone">ТЕЛЕФОН</label>
-              <input
+              <UiInput
                 id="phone"
                 v-model="formData.phone"
                 type="tel"
@@ -50,7 +50,7 @@
 
             <div class="form-group">
               <label for="email">ПОЧТА</label>
-              <input
+              <UiInput
                 id="email"
                 v-model="formData.email"
                 type="email"
@@ -63,19 +63,19 @@
 
             <div class="form-group">
               <label for="message">СООБЩЕНИЕ</label>
-              <textarea
+              <UiTextarea
                 id="message"
                 v-model="formData.message"
                 placeholder="Оставьте своё сообщение"
                 required
                 @blur="validateField('message')"
-              ></textarea>
+              />
               <span v-if="errors.message" class="error-text">{{ errors.message }}</span>
             </div>
 
-            <button type="submit" :disabled="isSubmitting" class="submit-button">
+            <UiButton type="submit" :loading="isSubmitting" class="submit-button">
               {{ isSubmitting ? 'ОТПРАВКА...' : 'ОТПРАВИТЬ' }}
-            </button>
+            </UiButton>
 
             <p class="consent-text">
               Нажимая на кнопку, вы даёте согласие на
@@ -118,6 +118,7 @@ import { CONTACT, VALIDATION } from '../../config'
 import { contactService } from '../../services/api/contact'
 import { useAnalytics } from '../../composables/useAnalytics'
 import Icon from '../ui/Icon.vue'
+import { UiButton, UiInput, UiTextarea } from '../../ui'
 import type { ContactFormData, FormValidationError } from '../../types/models'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

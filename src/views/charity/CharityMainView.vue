@@ -38,20 +38,20 @@
         </div>
         <div class="hero-actions">
           <router-link :to="{ name: 'charity-request' }" class="no-decoration">
-            <ButtonPrimary size="lg" class="pulse-button">
+            <UiButton size="lg" class="pulse-button">
               <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
                 <path d="M9 11H15M12 8V14M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               Подать заявку
-            </ButtonPrimary>
+            </UiButton>
           </router-link>
           <router-link :to="{ name: 'charity-help' }" class="no-decoration">
-            <ButtonPrimary variant="secondary" size="lg">
+            <UiButton variant="secondary" size="lg">
               <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
               </svg>
               Хочу помочь
-            </ButtonPrimary>
+            </UiButton>
           </router-link>
         </div>
         <div class="hero-scroll-hint">
@@ -121,12 +121,12 @@
         </div>
         <div class="gallery-actions">
           <router-link :to="{ name: 'charity-done' }">
-            <ButtonPrimary variant="outline" size="lg">
+            <UiButton variant="ghost" size="lg">
               <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
                 <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
               Смотреть все работы
-            </ButtonPrimary>
+            </UiButton>
           </router-link>
         </div>
       </div>
@@ -154,15 +154,15 @@
           </div>
           <div class="help-actions">
             <router-link :to="{ name: 'charity-request' }">
-              <ButtonPrimary variant="primary" size="lg">
+              <UiButton variant="primary" size="lg">
                 <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
                   <path d="M12 4v16m8-8H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
                 Подать заявку
-              </ButtonPrimary>
+              </UiButton>
             </router-link>
             <router-link :to="{ name: 'charity-community' }">
-              <ButtonPrimary variant="secondary" size="lg">Наше сообщество</ButtonPrimary>
+              <UiButton variant="secondary" size="lg">Наше сообщество</UiButton>
             </router-link>
           </div>
         </div>
@@ -187,7 +187,7 @@
 import { onMounted, computed, h } from 'vue'
 import { useCharityStore } from '@/stores/charity'
 import UiSection from '@/components/ui/Section.vue'
-import ButtonPrimary from '@/components/ButtonPrimary.vue'
+import { UiButton } from '@/ui'
 import Icon from '@/components/ui/Icon.vue'
 
 const store = useCharityStore()
@@ -283,7 +283,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .charity-main {
   overflow: hidden;

@@ -44,6 +44,7 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables.scss' as *;
+@use 'sass:color';
 
 .cookie-banner {
   position: fixed;
@@ -98,7 +99,7 @@ export default {
   transition: background-color $transition-fast;
 
   &:hover {
-    background-color: darken($primary-orange, 7%);
+    background-color: color.adjust($primary-orange, $lightness: -7%);
   }
   &:focus {
     outline: 2px solid rgba($white, 0.8);

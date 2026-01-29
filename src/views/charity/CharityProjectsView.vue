@@ -147,7 +147,8 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
+@use 'sass:color';
 
 .projects-page {
   min-height: 100vh;
@@ -403,7 +404,7 @@ onMounted(async () => {
   transition: all $transition-fast;
 
   &:hover {
-    background: darken($primary-teal, 10%);
+    background: color.adjust($primary-teal, $lightness: -10%);
   }
 }
 

@@ -55,7 +55,7 @@ function getExcerpt(content: string, maxLength: number = 150): string {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .page-title {
   font-size: $text-3xl;

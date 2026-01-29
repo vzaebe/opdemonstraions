@@ -10,6 +10,7 @@
  */
 import './assets/main.css'
 import './assets/styles/global.scss'
+import './assets/styles/main.scss'
 
 import { createApp } from 'vue'
 // Плагин управления состоянием приложения

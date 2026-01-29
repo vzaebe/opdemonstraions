@@ -53,12 +53,12 @@
       <div class="filters-section">
         <div class="filter-group">
           <label class="filter-label">Отрасль</label>
-          <select v-model="filterIndustry" class="filter-select">
+          <UiSelect v-model="filterIndustry" class="filter-select">
             <option value="all">Все отрасли</option>
             <option v-for="industry in industries" :key="industry" :value="industry">
               {{ industry }}
             </option>
-          </select>
+          </UiSelect>
         </div>
       </div>
 
@@ -116,9 +116,7 @@
                 <span class="projects-label">проектов</span>
               </div>
               <div class="card-arrow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
+                <UiIcon name="arrow-right" :size="20" aria-hidden="true" />
               </div>
             </div>
           </div>
@@ -134,12 +132,12 @@
             Вместе мы можем изменить будущее к лучшему.
           </p>
           <div class="cta-buttons">
-            <ButtonPrimary size="lg" @click="goToContactForm">
+            <UiButton size="lg" @click="goToContactForm">
               Связаться с нами
-            </ButtonPrimary>
-            <ButtonPrimary variant="secondary" size="lg" @click="goToContactForm">
+            </UiButton>
+            <UiButton variant="secondary" size="lg" @click="goToContactForm">
               Узнать больше
-            </ButtonPrimary>
+            </UiButton>
           </div>
         </div>
       </div>
@@ -151,7 +149,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import UiSection from '@/components/ui/Section.vue'
-import ButtonPrimary from '@/components/ButtonPrimary.vue'
+import { UiButton, UiSelect } from '@/ui'
+import UiIcon from '@/components/ui/Icon.vue'
 import { http, trackApiError } from '@/services/api/http'
 
 interface Partner {
@@ -232,7 +231,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .partners-page {
   min-height: 100vh;

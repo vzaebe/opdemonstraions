@@ -418,69 +418,6 @@ onUnmounted(() => {
   }
 }
 
-.knowledge-cta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1.25rem 2.5rem;
-  background: linear-gradient(135deg, $primary-teal 0%, $primary-mint 100%);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  font-size: 1.125rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba($primary-teal, 0.28);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 15px 40px rgba($primary-teal, 0.38);
-
-    &::before {
-      opacity: 1;
-    }
-
-    svg {
-      transform: translateX(5px);
-    }
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  svg {
-    transition: transform 0.3s ease;
-  }
-}
-
-.cta-note {
-  font-size: 0.875rem;
-  color: #94a3b8;
-  font-style: italic;
-}
 
 @media (max-width: 768px) {
   .knowledge-section {
@@ -503,10 +440,6 @@ onUnmounted(() => {
     }
   }
 
-  .cta-button {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-  }
 }
 </style>
 

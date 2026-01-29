@@ -96,16 +96,14 @@
               </div>
 
               <div class="project-footer">
-                <router-link
-                  class="btn-primary"
+                <UiButton
+                  variant="primary"
                   :to="{ name: 'organization-project-detail', params: { slug: project.slug } }"
                   @click.stop
                 >
                   Смотреть проект
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </router-link>
+                  <Icon name="arrow-right" :size="16" />
+                </UiButton>
               </div>
             </div>
           </div>
@@ -122,8 +120,12 @@
             Станьте частью команды единомышленников и помогите нам менять мир к лучшему
           </p>
           <div class="cta-buttons">
-            <router-link :to="{ name: 'contacts', hash: '#contact-form' }" class="cta-button primary">Связаться с нами</router-link>
-            <router-link to="/charity/help" class="cta-button secondary">Поддержать проект</router-link>
+            <UiButton size="lg" variant="secondary" :to="{ name: 'contacts', hash: '#contact-form' }">
+              Связаться с нами
+            </UiButton>
+            <UiButton size="lg" variant="ghost" :to="{ name: 'charity-help' }">
+              Поддержать проект
+            </UiButton>
           </div>
         </div>
       </div>
@@ -134,10 +136,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Icon from '@/components/ui/Icon.vue'
-import { iconNameFromEmoji } from '@/utils/icon'
-import { http, trackApiError } from '@/services/api/http'
-import type { OrganizationProject } from '@/data/organization_projects'
+import Icon from '../components/ui/Icon.vue'
+import { UiButton } from '../ui'
+import { iconNameFromEmoji } from '../utils/icon'
+import { http, trackApiError } from '../services/api/http'
+import type { OrganizationProject } from '../data/organization_projects'
 
 const router = useRouter()
 const activeCategory = ref('all')
@@ -183,6 +186,8 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables.scss' as *;
+@use 'sass:color';
+@use 'sass:math';
 
 .organization-projects-page {
   width: 100%;
@@ -242,11 +247,11 @@ onMounted(async () => {
 
     @for $i from 1 through 15 {
       &:nth-child(#{$i}) {
-        left: random(100) * 1%;
-        top: random(100) * 1%;
-        animation-delay: random(15) * 0.1s;
-        animation-duration: (15 + random(10)) * 1s;
-        transform: rotate(random(360) * 1deg);
+        left: math.random(100) * 1%;
+        top: math.random(100) * 1%;
+        animation-delay: math.random(15) * 0.1s;
+        animation-duration: (15 + math.random(10)) * 1s;
+        transform: rotate(math.random(360) * 1deg);
       }
     }
   }
@@ -416,12 +421,12 @@ onMounted(async () => {
 
   &.completed {
     background: rgba($primary-mint, 0.1);
-    color: darken($primary-mint, 20%);
+    color: color.adjust($primary-mint, $lightness: -20%);
   }
 
   &.planned {
     background: rgba($primary-orange, 0.1);
-    color: darken($primary-orange, 10%);
+    color: color.adjust($primary-orange, $lightness: -10%);
   }
 }
 
@@ -515,34 +520,8 @@ onMounted(async () => {
   border-top: 1px solid $gray-200;
 }
 
-.btn-primary {
+.project-footer :deep(.ui-btn) {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: $spacing-2;
-  padding: $spacing-4 $spacing-6;
-  background: linear-gradient(135deg, $primary-teal, $primary-mint);
-  color: $white;
-  border: none;
-  border-radius: $border-radius-md;
-  font-size: $text-base;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba($primary-teal, 0.3);
-  }
-
-  svg {
-    transition: transform 0.3s ease;
-  }
-
-  &:hover svg {
-    transform: translateX(5px);
-  }
 }
 
 // CTA Section
@@ -576,38 +555,6 @@ onMounted(async () => {
   gap: $spacing-6;
   justify-content: center;
   flex-wrap: wrap;
-}
-
-.cta-button {
-  display: inline-block;
-  padding: $spacing-5 $spacing-10;
-  font-size: $text-xl;
-  font-weight: 600;
-  border-radius: $border-radius-full;
-  text-decoration: none;
-  transition: all 0.3s ease;
-
-  &.primary {
-    background: $white;
-    color: $primary-teal;
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  &.secondary {
-    background: transparent;
-    color: $white;
-    border: 2px solid $white;
-
-    &:hover {
-      background: $white;
-      color: $primary-teal;
-      transform: translateY(-5px);
-    }
-  }
 }
 
 // Modal
@@ -866,8 +813,7 @@ onMounted(async () => {
     flex-direction: column;
     align-items: stretch;
   }
-
-  .cta-button {
+  .cta-buttons :deep(.ui-btn) {
     width: 100%;
   }
 

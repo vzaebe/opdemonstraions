@@ -27,7 +27,7 @@
           <p class="member-role">{{ member.role }}</p>
           <div class="member-social">
             <a
-              v-if="member.socials.linkedin"
+              v-if="member.socials?.linkedin"
               :href="member.socials.linkedin"
               target="_blank"
               rel="noopener noreferrer"
@@ -38,7 +38,7 @@
               <i class="fas fa-linkedin"></i>
             </a>
             <a
-              v-if="member.socials.telegram"
+              v-if="member.socials?.telegram"
               :href="member.socials.telegram"
               target="_blank"
               rel="noopener noreferrer"
@@ -49,7 +49,7 @@
               <i class="fab fa-telegram"></i>
             </a>
             <a
-              v-if="member.socials.email"
+              v-if="member.socials?.email"
               :href="`mailto:${member.socials.email}`"
               class="social-link"
               title="Email"
@@ -72,11 +72,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useAnalytics } from '@/composables/useAnalytics'
+import { computed, onMounted, ref } from 'vue'
+import { useAnalytics } from '../../composables/useAnalytics'
+import { http, trackApiError } from '../../services/api/http'
+import { resolveApiAssetUrl } from '../../utils/apiAssets'
 import MemberModal from '../MemberModal.vue'
-import type { TeamMember } from '@/types/models'
-// Import team member photos
+import type { SocialLinks } from '../../types/models'
+// Fallback team member photos
 import komarovPhoto from '@/assets/png/face/komarov pic.png'
 import ivanovaPhoto from '@/assets/png/face/ivanova pic.png'
 import mironovaPhoto from '@/assets/png/face/mironova pic.png'
@@ -87,66 +89,70 @@ import mironovaPhoto from '@/assets/png/face/mironova pic.png'
 const { trackProfileView } = useAnalytics()
 
 // Состояние
-const selectedMember = ref<TeamMember | null>(null)
+type TeamMemberVm = {
+  id: string | number
+  name: string
+  role: string
+  photo: string
+  bio: string
+  socials: SocialLinks
+}
+
+type EmployeeApiRow = {
+  id: string | number
+  name: string
+  role: string
+  photoUrl: string
+  backgroundUrl?: string
+  bio: string
+  details?: string[]
+}
+
+const selectedMember = ref<TeamMemberVm | null>(null)
 const showModal = ref(false)
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// Данные команды (с правильными типами)
-const teamMembers: TeamMember[] = [
+// Fallback (если API пустой/недоступен)
+const fallbackMembers: TeamMemberVm[] = [
   {
     id: 'dmitriy-komarov',
     name: 'Дмитрий Комаров',
     role: 'НАЧАЛЬНИК УПРАВЛЕНИЯ ДОСТУПНОЙ ИНФОРМАЦИОННОЙ СРЕДЫ',
-    position: 'Head of Accessibility',
     photo: komarovPhoto,
     bio: 'Курирует цифровую трансформацию среды. Помогает развивать доступность информационных технологий для всех категорий пользователей. Отвечает за внедрение инновационных решений в области доступности.',
-    socials: {
-      telegram: 'https://t.me/dmitriy_komarov',
-      linkedin: 'https://linkedin.com/in/dmitriy-komarov',
-      email: 'dmitriy@openperspectives.ru'
-    },
-    department: 'Accessibility',
-    yearsInTeam: 5
+    socials: {}
   },
   {
     id: 'olga-ivanova',
     name: 'Ольга Иванова',
     role: 'ДИРЕКТОР',
-    position: 'Director',
     photo: ivanovaPhoto,
     bio: 'Отвечает за общее руководство и стратегическое развитие организации. Координирует все направления деятельности и обеспечивает достижение ключевых показателей эффективности.',
-    socials: {
-      telegram: 'https://t.me/olga_ivanova',
-      linkedin: 'https://linkedin.com/in/olga-ivanova',
-      email: 'olga@openperspectives.ru'
-    },
-    department: 'Management',
-    yearsInTeam: 8
+    socials: {}
   },
   {
     id: 'sofia-mironova',
     name: 'София Миронова',
     role: 'НАЧАЛЬНИК УПРАВЛЕНИЯ ИНКЛЮЗИВНЫХ ПРОГРАММ',
-    position: 'Head of Inclusive Programs',
     photo: mironovaPhoto,
     bio: 'Разрабатывает и реализует инклюзивные программы для молодёжи и школ. Создает образовательные инициативы, направленные на развитие инклюзивной среды в образовательных учреждениях.',
-    socials: {
-      telegram: 'https://t.me/sofia_mironova',
-      linkedin: 'https://linkedin.com/in/sofia-mironova',
-      email: 'sofia@openperspectives.ru'
-    },
-    department: 'Programs',
-    yearsInTeam: 6
+    socials: {}
   }
 ]
+
+const apiMembers = ref<TeamMemberVm[]>([])
+
+const teamMembers = computed(() => {
+  return apiMembers.value.length ? apiMembers.value : fallbackMembers
+})
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /**
  * Выбрать члена команды
  */
-function selectMember(member: TeamMember): void {
+function selectMember(member: TeamMemberVm): void {
   selectedMember.value = member
   showModal.value = true
   
@@ -164,6 +170,23 @@ function closeModal(): void {
     selectedMember.value = null
   }, 300)
 }
+
+onMounted(async () => {
+  try {
+    const rows = await http.get<EmployeeApiRow[]>('/employees')
+    apiMembers.value = (rows || []).map((r) => ({
+      id: r.id,
+      name: r.name || '',
+      role: r.role || '',
+      photo: resolveApiAssetUrl(r.photoUrl),
+      bio: r.bio || '',
+      socials: {}
+    })).filter((x) => x.name && x.role)
+  } catch (error) {
+    trackApiError(error, 'TeamSection.fetchEmployees')
+    apiMembers.value = []
+  }
+})
 </script>
 
 <script lang="ts">
@@ -245,14 +268,14 @@ export default {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(46, 172, 180, 0.1), rgba(29, 233, 182, 0.1));
+    background: linear-gradient(135deg, rgba($primary-teal, 0.1), rgba($primary-mint, 0.1));
     transition: left 0.3s ease;
     z-index: -1;
   }
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(46, 172, 180, 0.15);
+    box-shadow: 0 20px 40px rgba($primary-teal, 0.15);
 
     &::before {
       left: 0;

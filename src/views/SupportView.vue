@@ -100,12 +100,12 @@
           </div>
 
           <div class="goal-card-footer">
-            <ButtonPrimary size="md" class="donate-btn" @click="openDonateModal(goal)">
+            <UiButton size="md" class="donate-btn" @click="openDonateModal(goal)">
               <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
                 <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" fill="currentColor"/>
               </svg>
               Поддержать
-            </ButtonPrimary>
+            </UiButton>
             <span class="remaining-amount">
               Осталось: {{ formatMoney(goal.target_amount - goal.current_amount) }}
             </span>
@@ -127,9 +127,9 @@
             вы можете сделать свободное пожертвование на развитие всех наших направлений. 
             Мы направим средства туда, где они наиболее необходимы.
           </p>
-          <ButtonPrimary size="lg" class="general-donate-btn" @click="openDonateModal()">
+          <UiButton size="lg" class="general-donate-btn" @click="openDonateModal()">
             Сделать пожертвование
-          </ButtonPrimary>
+          </UiButton>
         </div>
       </div>
 
@@ -204,7 +204,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useSupportStore } from '@/stores/support'
 import UiSection from '@/components/ui/Section.vue'
-import ButtonPrimary from '@/components/ButtonPrimary.vue'
+import { UiButton } from '@/ui'
 import Icon from '@/components/ui/Icon.vue'
 import { iconNameFromEmoji } from '@/utils/icon'
 import { CONTACT } from '@/config/constants'
@@ -315,7 +315,7 @@ async function copyRequisites() {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .support-page {
   overflow: hidden;

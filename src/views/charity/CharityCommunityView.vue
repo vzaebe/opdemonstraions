@@ -29,12 +29,12 @@
             <span class="stat-label">Работ выполнено</span>
           </div>
         </div>
-        <ButtonPrimary size="lg" @click="showJoinForm = !showJoinForm" class="hero-cta-button">
+        <UiButton size="lg" @click="showJoinForm = !showJoinForm" class="hero-action-button">
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
             <path d="M12 4v16m8-8H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
           {{ showJoinForm ? 'Скрыть форму' : 'Присоединиться' }}
-        </ButtonPrimary>
+        </UiButton>
       </div>
     </div>
 
@@ -50,32 +50,32 @@
           <div class="form-row">
             <div class="form-field">
               <label class="field-label">Имя / Организация</label>
-              <input v-model="form.name" placeholder="Ваше имя или название компании" required class="input" />
+              <UiInput v-model="form.name" placeholder="Ваше имя или название компании" required class="input" />
             </div>
             <div class="form-field">
               <label class="field-label">Тип участника</label>
-              <select v-model="form.type" class="input">
+              <UiSelect v-model="form.type" class="input">
                 <option value="individual">👤 Частное лицо</option>
                 <option value="company">🏢 Компания</option>
-              </select>
+              </UiSelect>
             </div>
           </div>
           <div class="form-row">
             <div class="form-field">
               <label class="field-label">Город</label>
-              <input v-model="form.city" placeholder="Москва" required class="input" />
+              <UiInput v-model="form.city" placeholder="Москва" required class="input" />
             </div>
             <div class="form-field">
               <label class="field-label">Модель принтера</label>
-              <input v-model="form.printer_model" placeholder="Например: Ender 3, Prusa MK3" required class="input" />
+              <UiInput v-model="form.printer_model" placeholder="Например: Ender 3, Prusa MK3" required class="input" />
             </div>
           </div>
-          <ButtonPrimary type="submit" size="lg" class="submit-button">
+          <UiButton type="submit" size="lg" class="submit-button">
             <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
               <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             Отправить заявку
-          </ButtonPrimary>
+          </UiButton>
         </form>
       </div>
 
@@ -105,10 +105,10 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
-import { useCharityStore } from '@/stores/charity'
-import UiSection from '@/components/ui/Section.vue'
-import PartnerCard from '@/components/charity/PartnerCard.vue'
-import ButtonPrimary from '@/components/ButtonPrimary.vue'
+import { useCharityStore } from '../../stores/charity'
+import UiSection from '../../components/ui/Section.vue'
+import PartnerCard from '../../components/charity/PartnerCard.vue'
+import { UiButton, UiInput, UiSelect } from '../../ui'
 
 const store = useCharityStore()
 const showJoinForm = ref(false)
@@ -144,7 +144,7 @@ const handleJoin = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .charity-community {
   overflow: hidden;
@@ -290,7 +290,7 @@ const handleJoin = () => {
   letter-spacing: 1px;
 }
 
-.hero-cta-button {
+.hero-action-button {
   animation: pulse 2s infinite;
 }
 

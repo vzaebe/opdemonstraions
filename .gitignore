@@ -8,7 +8,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Build output
-
+# NOTE: dist/ is intentionally kept in git (FTP deploy workflow).
 
 # Local env files
 .env*
@@ -34,3 +34,11 @@ cypress/videos/
 
 # Misc
 *.local
+
+# Server runtime artifacts (do not commit)
+server/uploads/
+server/var/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.log

@@ -29,10 +29,30 @@ export default defineConfig(({ mode }) => ({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    port: 5173,
+    strictPort: false, // Allow port fallback if 5173 is busy
+    proxy: {
+      '/api/v1': {
+        target: process.env.VITE_PRINT_API_URL?.replace('/api/v1', '') || 'http://localhost:3100',
+        changeOrigin: true,
+        secure: false,
+      },
+      // Proxy API requests to backend server
+      '/api': {
+        target: process.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3001',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "@/assets/styles/variables.scss" as *;`
+        additionalData: `@use "@/assets/styles/variables.scss" as *;\n`,
+        // Silence Dart Sass deprecation spam (until tooling switches to the modern API)
+        // https://sass-lang.com/documentation/breaking-changes/legacy-js-api/
+        silenceDeprecations: ['legacy-js-api'] as any,
       }
     }
   }

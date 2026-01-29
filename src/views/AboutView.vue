@@ -164,8 +164,8 @@
             Станьте частью истории. Вместе мы можем создать будущее, которым будем гордиться
           </p>
           <div class="cta-buttons">
-            <router-link to="/support" class="cta-button primary">Помочь проекту</router-link>
-            <router-link to="/contacts" class="cta-button secondary">Связаться с нами</router-link>
+            <UiButton size="lg" variant="secondary" :to="{ name: 'support' }">Помочь проекту</UiButton>
+            <UiButton size="lg" variant="ghost" :to="{ name: 'contacts' }">Связаться с нами</UiButton>
           </div>
         </div>
       </div>
@@ -174,7 +174,8 @@
 </template>
 
 <script setup lang="ts">
-import Icon from '@/components/ui/Icon.vue'
+import Icon from '../components/ui/Icon.vue'
+import { UiButton } from '../ui'
 
 const missions = [
   {
@@ -341,6 +342,7 @@ const approaches = [
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables.scss' as *;
+@use 'sass:math';
 
 .about-page {
   width: 100%;
@@ -400,10 +402,10 @@ const approaches = [
 
     @for $i from 1 through 20 {
       &:nth-child(#{$i}) {
-        left: random(100) * 1%;
-        top: random(100) * 1%;
-        animation-delay: random(20) * 0.1s;
-        animation-duration: (15 + random(10)) * 1s;
+        left: math.random(100) * 1%;
+        top: math.random(100) * 1%;
+        animation-delay: math.random(20) * 0.1s;
+        animation-duration: (15 + math.random(10)) * 1s;
       }
     }
   }
@@ -932,37 +934,6 @@ const approaches = [
   flex-wrap: wrap;
 }
 
-.cta-button {
-  display: inline-block;
-  padding: $spacing-5 $spacing-10;
-  font-size: $text-xl;
-  font-weight: 600;
-  border-radius: $border-radius-full;
-  text-decoration: none;
-  transition: all 0.3s ease;
-
-  &.primary {
-    background: $white;
-    color: $primary-teal;
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  &.secondary {
-    background: transparent;
-    color: $white;
-    border: 2px solid $white;
-
-    &:hover {
-      background: $white;
-      color: $primary-teal;
-      transform: translateY(-5px);
-    }
-  }
-}
 
 // Animations
 @keyframes fadeInUp {
@@ -989,7 +960,7 @@ const approaches = [
   10% { opacity: 1; }
   90% { opacity: 1; }
   100% {
-    transform: translate(random(200) - 100px, random(200) - 100px);
+    transform: translate(math.random(200) - 100px, math.random(200) - 100px);
     opacity: 0;
   }
 }
@@ -1089,7 +1060,7 @@ const approaches = [
     align-items: center;
   }
 
-  .cta-button {
+  .cta-buttons :deep(.ui-btn) {
     width: 100%;
     max-width: 300px;
   }

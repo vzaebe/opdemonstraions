@@ -1,5 +1,5 @@
 <template>
-  <div class="work-card">
+  <UiCard class="work-card" :padded="false">
     <div class="work-card__image-wrapper">
       <img :src="image" :alt="title" class="work-card__image" loading="lazy" />
     </div>
@@ -10,11 +10,12 @@
         <span class="work-card__date">{{ formattedDate }}</span>
       </div>
     </div>
-  </div>
+  </UiCard>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { UiCard } from '../../ui'
 
 const props = defineProps<{
   title: string
@@ -33,11 +34,9 @@ const formattedDate = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .work-card {
-  background: $white;
-  border-radius: $border-radius-lg;
   overflow: hidden;
   box-shadow: $shadow;
   transition: transform $transition-normal, box-shadow $transition-normal;

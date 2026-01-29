@@ -2,7 +2,7 @@
   <form @submit.prevent="handleSubmit" class="request-form">
     <div class="form-group">
       <label for="name" class="form-label">ФИО получателя</label>
-      <input
+      <UiInput
         id="name"
         v-model="form.name"
         type="text"
@@ -14,7 +14,7 @@
 
     <div class="form-group">
       <label for="orphanage" class="form-label">Организация / учреждение (или семья)</label>
-      <input
+      <UiInput
         id="orphanage"
         v-model="form.orphanage"
         type="text"
@@ -26,7 +26,7 @@
 
     <div class="form-group">
       <label for="wish" class="form-label">Что нужно напечатать?</label>
-      <input
+      <UiInput
         id="wish"
         v-model="form.wish"
         type="text"
@@ -49,7 +49,7 @@
 
     <div class="form-group">
       <label for="model_link" class="form-label">Ссылка на модель (опционально)</label>
-      <input
+      <UiInput
         id="model_link"
         v-model="form.model_link"
         type="url"
@@ -60,18 +60,18 @@
 
     <div class="form-group">
       <label for="comment" class="form-label">Комментарий / Пожелания</label>
-      <textarea
+      <UiTextarea
         id="comment"
         v-model="form.comment"
         class="form-textarea"
         placeholder="Цвет, размер, особенности..."
-        rows="4"
-      ></textarea>
+        :rows="4"
+      />
     </div>
 
     <div class="form-group">
       <label class="form-label">Контактное лицо</label>
-      <input
+      <UiInput
         v-model="form.contact_name"
         type="text"
         class="form-input"
@@ -82,7 +82,7 @@
 
     <div class="form-group">
       <label class="form-label">Телефон для связи</label>
-      <input
+      <UiInput
         v-model="form.contact_phone"
         type="tel"
         class="form-input"
@@ -93,7 +93,7 @@
 
     <div class="form-group">
       <label class="form-label">Email (опционально)</label>
-      <input
+      <UiInput
         v-model="form.contact_email"
         type="email"
         class="form-input"
@@ -109,9 +109,9 @@
     </div>
 
     <div class="form-actions">
-      <ButtonPrimary type="submit" :loading="loading">
+      <UiButton type="submit" :loading="loading">
         Отправить заявку
-      </ButtonPrimary>
+      </UiButton>
     </div>
   </form>
 </template>
@@ -119,7 +119,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
 import { useCharityStore } from '@/stores/charity'
-import ButtonPrimary from '@/components/ButtonPrimary.vue'
+import { UiButton, UiInput, UiTextarea } from '@/ui'
 
 interface Props {
   initialModelLink?: string
@@ -212,7 +212,8 @@ const handleSubmit = async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
+@use 'sass:color';
 
 .request-form {
   background: $white;
@@ -270,7 +271,7 @@ const handleSubmit = async () => {
   
   &.success {
     background-color: rgba($primary-mint, 0.1);
-    color: darken($primary-teal, 10%);
+    color: color.adjust($primary-teal, $lightness: -10%);
     border: 1px solid $primary-mint;
   }
   &.error {

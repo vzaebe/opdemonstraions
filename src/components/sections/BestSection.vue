@@ -133,11 +133,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/styles/variables.scss' as *;
+@use 'sass:color';
+
 .best-section {
   display: flex;
   width: 100%;
   height: 700px;
-  background: linear-gradient(135deg, $primary-teal 0%, darken($primary-teal, 10%) 100%);
+  background: linear-gradient(135deg, $primary-teal 0%, color.adjust($primary-teal, $lightness: -10%) 100%);
   color: $white;
   position: relative;
   overflow: hidden;

@@ -171,7 +171,29 @@ export const CONTENT_SCHEMAS: Record<string, ContentSchema> = {
         ]
       }
     ]
+  },
+
+  'siteContent.servicesCardsSection': {
+    title: 'Секция “Карточки услуг” (лендинг)',
+    kind: 'object',
+    fields: [
+      {
+        key: 'cards',
+        label: 'Карточки',
+        type: 'objectArray',
+        itemFields: [
+          { key: 'category', label: 'Категория', type: 'string', required: true },
+          { key: 'title', label: 'Заголовок', type: 'string', required: true },
+          { key: 'image', label: 'Картинка (URL/путь)', type: 'string', required: true },
+          { key: 'routeName', label: 'routeName (опц.)', type: 'string', placeholder: 'knowledge' },
+          { key: 'href', label: 'href (опц.)', type: 'string', placeholder: 'https://...' },
+          { key: 'overlayText', label: 'Текст оверлея (опц.)', type: 'string', placeholder: 'Узнать больше' }
+        ]
+      }
+    ]
   }
 }
+
+
 
 

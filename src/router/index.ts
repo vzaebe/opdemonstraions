@@ -12,6 +12,9 @@
  * - 404 страница
  */
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { usePrintAuthStore } from '@/stores/print-auth'
+import { printServiceRoutes } from './print-service-routes'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 📋 ОПРЕДЕЛЕНИЕ МАРШРУТОВ
@@ -171,6 +174,12 @@ const charityRoutes: RouteRecordRaw[] = [
 
 // Админ-панель
 const adminRoutes: RouteRecordRaw[] = [
+  {
+    path: '/admin/login',
+    name: 'admin-login',
+    component: () => import('../views/admin/AdminLoginView.vue'),
+    meta: { title: 'Вход', hideLayout: true }
+  },
   { 
     path: '/admin', 
     name: 'admin', 
@@ -184,6 +193,7 @@ const routes: RouteRecordRaw[] = [
   ...publicRoutes,
   ...charityRoutes,
   ...adminRoutes,
+  ...printServiceRoutes,
   // 404 страница должна быть последней
   { 
     path: '/:pathMatch(.*)*', 
@@ -233,11 +243,69 @@ const router = createRouter({
   routes
 })
 
+// Admin auth guard (JWT token in localStorage)
+router.beforeEach(async (to) => {
+  const path = String(to.path || '')
+  const isPrintArea = path.startsWith('/print')
+  if (isPrintArea) {
+    const printAuth = usePrintAuthStore()
+
+    if (to.meta.requiresAuth && !printAuth.isAuthenticated) {
+      return { name: 'print-calculator', query: { redirect: to.fullPath } }
+    }
+
+    if (to.meta.requiresAdmin && printAuth.user?.role !== 'admin' && printAuth.user?.role !== 'superadmin') {
+      return { name: 'print-calculator' }
+    }
+
+    return true
+  }
+
+  const isAdminArea = path.startsWith('/admin')
+  if (!isAdminArea) return true
+
+  const auth = useAuthStore()
+
+  // Allow opening login page, but redirect away if already authenticated.
+  if (to.name === 'admin-login') {
+    if (auth.isAuthenticated) {
+      const ok = await auth.checkSession()
+      if (ok) return { name: 'admin' }
+    }
+    return true
+  }
+
+  if (!auth.isAuthenticated) {
+    return { name: 'admin-login', query: { next: to.fullPath } }
+  }
+
+  // Validate token once when entering admin area.
+  if (!auth.role) {
+    const ok = await auth.checkSession()
+    if (!ok) return { name: 'admin-login', query: { next: to.fullPath } }
+  }
+
+  return true
+})
+
 // Устанавливаем заголовок страницы по meta.title, если задан
 router.afterEach((to) => {
   const baseTitle = 'Открытые Перспективы'
   const pageTitle = (to.meta as any)?.title
   document.title = pageTitle ? `${pageTitle} — ${baseTitle}` : baseTitle
+
+  // Lightweight telemetry (best-effort, no secrets)
+  const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
+  try {
+    fetch(`${apiBase}/telemetry/pageview`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: to.fullPath, referrer: document.referrer || '' }),
+      keepalive: true
+    }).catch(() => {})
+  } catch {
+    // ignore
+  }
 })
 
 export default router

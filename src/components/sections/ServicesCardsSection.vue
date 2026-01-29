@@ -5,11 +5,11 @@
         class="service-card"
         v-for="(card, index) in serviceCards"
         :key="index"
-        :class="{ 'visible': isVisible, 'clickable': index === 2 }"
+        :class="{ 'visible': isVisible, 'clickable': isCardClickable(card) }"
         :style="{ '--animation-delay': index * 0.2 + 's' }"
         @mouseenter="onCardHover(index)"
         @mouseleave="onCardLeave"
-        @click="onCardClick(index)"
+        @click="onCardClick(card)"
       >
         <div class="service-info">
           <span class="service-category">{{ card.category }}</span>
@@ -18,13 +18,13 @@
         <div class="service-image-container">
           <img
             class="service-image"
-            :src="card.image"
+            :src="getCardImage(card.image)"
             :alt="card.title"
             :class="{ 'hovered': hoveredCard === index }"
           />
-          <div v-if="index === 2" class="image-overlay">
+          <div v-if="isCardClickable(card)" class="image-overlay">
             <div class="overlay-content">
-              <span class="overlay-text">Узнать больше</span>
+              <span class="overlay-text">{{ card.overlayText || 'Узнать больше' }}</span>
             </div>
           </div>
         </div>
@@ -41,6 +41,8 @@
  */
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { http, trackApiError } from '../../services/api/http'
+import { resolveApiAssetUrl } from '../../utils/apiAssets'
 // @ts-ignore
 import image1 from '@/assets/png/SpecialCards/Product image-3.png'
 // @ts-ignore
@@ -58,28 +60,35 @@ export default {
     const isVisible = ref(false)
     const hoveredCard = ref<number | null>(null)
 
-    const serviceCards = [
+    const fallbackCards = [
       {
         category: 'Компаниям',
         title: 'Мастер-классы',
-        image: image1
+        image: image1,
+        routeName: ''
       },
       {
         category: 'Разработчикам',
         title: 'Проект Адаптатион',
-        image: image2
+        image: image2,
+        routeName: ''
       },
       {
         category: 'Глухим инженерам',
         title: 'База знаний',
-        image: image3
+        image: image3,
+        routeName: 'knowledge',
+        overlayText: 'Узнать больше'
       },
       {
         category: 'Трудоустройство',
         title: 'Список вакансий',
-        image: image4
+        image: image4,
+        routeName: ''
       }
     ]
+
+    const serviceCards = ref<any[]>(fallbackCards)
 
     const checkVisibility = () => {
       if (!sectionRef.value) return
@@ -114,11 +123,22 @@ export default {
       hoveredCard.value = null
     }
 
-    const onCardClick = (index: number) => {
-      // Индекс 2 - это карточка "База знаний"
-      if (index === 2) {
-        router.push({ name: 'knowledge' })
+    const isCardClickable = (card: any) => Boolean(card?.routeName || card?.href)
+
+    const onCardClick = (card: any) => {
+      if (!card) return
+      if (card.href) {
+        window.open(String(card.href), '_blank', 'noopener')
+        return
       }
+      if (card.routeName) {
+        router.push({ name: String(card.routeName) })
+      }
+    }
+
+    const getCardImage = (img: any) => {
+      if (typeof img === 'string') return resolveApiAssetUrl(img)
+      return img
     }
 
     onMounted(() => {
@@ -132,6 +152,17 @@ export default {
       }, 1000)
     })
 
+    onMounted(async () => {
+      try {
+        const value = await http.get<any>('/site-content/siteContent.servicesCardsSection')
+        const cards = Array.isArray(value?.cards) ? value.cards : []
+        serviceCards.value = cards.length ? cards : fallbackCards
+      } catch (error) {
+        trackApiError(error, 'ServicesCardsSection.fetchSiteContent')
+        serviceCards.value = fallbackCards
+      }
+    })
+
     onUnmounted(() => {
       window.removeEventListener('scroll', checkVisibility)
     })
@@ -143,7 +174,9 @@ export default {
       serviceCards,
       onCardHover,
       onCardLeave,
-      onCardClick
+      onCardClick,
+      isCardClickable,
+      getCardImage
     }
   }
 }

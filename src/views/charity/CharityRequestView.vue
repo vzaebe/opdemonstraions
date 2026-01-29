@@ -75,7 +75,7 @@ import CharityRequestForm from '@/components/charity/RequestForm.vue'
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@use '@/assets/styles/variables.scss' as *;
 
 .charity-view {
   min-height: 80vh;
